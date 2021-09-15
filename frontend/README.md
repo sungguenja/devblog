@@ -44,3 +44,8 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+# 개요
+
+atomic 디자인 따윈 없어. 근데 contain 디자인은 조금 고민중. 어렵지 않게 진행해보자. [디자인은 흐음 어떤걸 쓰지](https://velog.io/@kimdohee/11-Best-React-UI-Libraries-in-2021) 여기서 고민해볼듯 근데 아마 마테리얼찍먹할 가능성이 제일 높음.
+
