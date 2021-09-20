@@ -1,0 +1,17 @@
+.navbar {
+  background: #01A860;
+  width: 100%;
+  top: 0;
+  position: fixed;
+  transition: all .4s;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar > div {
+  display: flex;
+}
+
+.navbarnone {
+  top: -73px;
+}
