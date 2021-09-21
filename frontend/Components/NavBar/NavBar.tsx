@@ -27,7 +27,6 @@ const NavBar = ({ navBarState, setNavBarState }: NavBarProps) => {
       setNavStyleClassName([styles.navbar,styles.navbarnone]);
     }
 
-    console.log(navStyleClassName)
   },[navBarState]);
 
   return (

@@ -32,7 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <NavBar navBarState={navBarState} setNavBarState={setNavBarState}/>
-      <Component {...pageProps} />
+      <div id="page">
+        <Component {...pageProps} />
+      </div>
     </>
   );
 }
