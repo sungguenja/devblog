@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # My app
-
+    'users',
     # third party app
 ]
 
