@@ -3,5 +3,6 @@ from . import views
 
 app_name = 'users'
 urlpatterns = [
-    path('oauth/<str:code>',views.oauth,name="oauth")
+    path('csrftoken/<str:protectcode>',views.getCsrf,name='getCsrf'),
+    path('oauth/<str:code>',views.oauth,name="oauth"),
 ]
