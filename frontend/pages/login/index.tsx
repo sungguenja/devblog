@@ -2,16 +2,32 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+// custom hook
+import useGetCookie from '../../hooks/useGetCookie';
+
 // component
 import Login from '../../Components/LoginComponent/Login';
+import useGetCSRF from '../../hooks/useGetCSRF';
 
-const secret = null;
-const client_id = null;
+const secret = '';
+const client_id = '';
 
-const getAccessToken = (code:string) => {
+const getAccessToken = async (code:string) => {
+  const csrfToken = await useGetCSRF();
+  let token = 'z';
+  console.log(csrfToken)
+  if (csrfToken.data.csrf_token === 'success') {
+    token = useGetCookie('csrftoken');
+  }
+  console.log(token)
   axios({
     url: `http://localhost:8000/users/oauth/${code}`,
     method: 'POST',
+    headers:{
+      "X-CSRFToken": token,
+      "Content-Type": "application/json"
+    },
+    withCredentials: true,
     data: {
       client_id:client_id,
       client_secret: secret,
