@@ -9,17 +9,16 @@ import useGetCookie from '../../hooks/useGetCookie';
 import Login from '../../Components/LoginComponent/Login';
 import useGetCSRF from '../../hooks/useGetCSRF';
 
-const secret = '';
-const client_id = '';
+const client_id = process.env.NEXT_PUBLIC_CLIENT_ID;
 
 const getAccessToken = async (code:string) => {
   const csrfToken = await useGetCSRF();
   let token = 'z';
-  console.log(csrfToken)
+  
   if (csrfToken.data.csrf_token === 'success') {
     token = useGetCookie('csrftoken');
   }
-  console.log(token)
+  
   axios({
     url: `http://localhost:8000/users/oauth/${code}`,
     method: 'POST',
@@ -29,8 +28,6 @@ const getAccessToken = async (code:string) => {
     },
     withCredentials: true,
     data: {
-      client_id:client_id,
-      client_secret: secret,
       code: code,
     }
   })
@@ -54,7 +51,6 @@ const index = () => {
     }
 
     const code = router.asPath.split('=')[1];
-    console.log(code.split('&')[0])
     getAccessToken(code.split('&')[0]);
   },[]);
 
