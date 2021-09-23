@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.conf import settings
 import requests
 
 # needed function
 def getAccessToken(code):
     data = {
-        'client_id': '',
-        'client_secret': '',
+        'client_id': settings.OAUTH_CLIENT_ID,
+        'client_secret': settings.OAUTH_CLIENT_SECRET,
         'code': code
     }
     res = requests.post('https://github.com/login/oauth/access_token',data)
@@ -23,20 +23,16 @@ def oauthAuthentication(access_token):
     return res
 
 # Create your views here.
-@ensure_csrf_cookie
 def getCsrf(request,protectcode):
     if protectcode != 'asdf' or request.method != 'GET':
         return JsonResponse({'csrf_token':'reject'})
     response = JsonResponse({'csrf_token':'success'})
     csrf_token = get_token(request)
     response.set_cookie('csrftoken',csrf_token)
-
     return response
 
 def oauth(request,code):
     access_token = getAccessToken(code)
-    print(access_token)
     oauthToken = oauthAuthentication(access_token)
-    print(oauthToken)
     print(oauthToken.json())
     return JsonResponse({'success':'yes'})
