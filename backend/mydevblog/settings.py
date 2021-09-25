@@ -199,6 +199,9 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# user model
+AUTH_USER_MODEL = 'users.User'
+
 # environment variable
 OAUTH_CLIENT_ID = getSecret("CLIENT_ID")
 OAUTH_CLIENT_SECRET = getSecret("CLIENT_SECRET")
