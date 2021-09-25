@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 
 // custom hook
 import useGetCookie from '../../hooks/useGetCookie';
@@ -31,7 +31,20 @@ const getAccessToken = async (code:string) => {
       code: code,
     }
   })
-  .then(res => {console.log(res)})
+  .then(res => {
+    if (res.data.success) {
+      // context api를 통해서 전역변수로 유저 정보 가져야할듯
+      if (res.data.is_login) {
+        // 로그인 성공
+        router.push("/");
+      } else {
+        // 회원가입
+        router.push("/signup");
+      }
+    } else {
+      alert('알 수 없는 이유로 로그인이 실패했습니다! 다시 시도해주세요!')
+    }
+  })
   .catch(e => {console.log(e)})
 };
 
