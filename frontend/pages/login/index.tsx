@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import router, { useRouter } from 'next/router';
+import router from 'next/router';
 
 // custom hook
 import useGetCookie from '../../hooks/useGetCookie';
@@ -20,7 +20,7 @@ const getAccessToken = async (code:string) => {
   }
   
   axios({
-    url: `http://localhost:8000/users/oauth/${code}`,
+    url: `http://localhost:8000/users/oauth/`,
     method: 'POST',
     headers:{
       "X-CSRFToken": token,
@@ -36,10 +36,11 @@ const getAccessToken = async (code:string) => {
       // context api를 통해서 전역변수로 유저 정보 가져야할듯
       if (res.data.is_login) {
         // 로그인 성공
+        console.log(res.data)
         router.push("/");
       } else {
         // 회원가입
-        router.push("/signup");
+        router.push("/changename");
       }
     } else {
       alert('알 수 없는 이유로 로그인이 실패했습니다! 다시 시도해주세요!')
@@ -49,7 +50,6 @@ const getAccessToken = async (code:string) => {
 };
 
 const index = () => {
-  const router = useRouter();
   
   const [ loginPropsList, setLoginPropsList ] = useState<Array<LoginProps>>([{
     oauthSite: 'github',
