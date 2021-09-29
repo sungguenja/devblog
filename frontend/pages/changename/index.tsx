@@ -8,7 +8,6 @@ const index = () => {
   // 밑에 회원정보 수정을 위한 상태 정보 제공
   const [ nickname,setNickname ] = useState<string>("");
   const csrf_token = useRef<string>("");
-  const session_token = useRef<string>("");
   
   const submitNickname = () => {
     axios({

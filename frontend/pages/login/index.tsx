@@ -49,14 +49,14 @@ const getAccessToken = async (code:string) => {
   .catch(e => {console.log(e)})
 };
 
+const loginPropsList = [{
+  oauthSite: 'github',
+  loginFunction: () => {
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${client_id}`;
+  }
+}]
+
 const index = () => {
-  
-  const [ loginPropsList, setLoginPropsList ] = useState<Array<LoginProps>>([{
-    oauthSite: 'github',
-    loginFunction: () => {
-      window.location.href = `https://github.com/login/oauth/authorize?client_id=${client_id}`;
-    }
-  }]);
   
   useEffect(()=>{
     if (router.asPath === "/login") {
