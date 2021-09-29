@@ -4,5 +4,6 @@ from . import views
 app_name = 'users'
 urlpatterns = [
     path('csrftoken/<str:protectcode>',views.getCsrf,name='getCsrf'),
-    path('oauth/<str:code>',views.oauth,name="oauth"),
+    path('oauth/',views.oauth,name="oauth"),
+    path('changename/',views.changeName,name="changeName"),
 ]

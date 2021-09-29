@@ -6,8 +6,12 @@ from django.contrib.auth import get_user_model,authenticate,login,logout
 
 # needed package
 import requests
+import json
 
 # needed function
+def parseData(data):
+    return json.loads(data.decode('utf-8'))
+
 def getAccessToken(code):
     data = {
         'client_id': settings.OAUTH_CLIENT_ID,
@@ -34,7 +38,14 @@ def getCsrf(request,protectcode):
     response.set_cookie('csrftoken',csrf_token)
     return response
 
-def oauth(request,code):
+def oauth(request):
+    if request.method != 'POST':
+        return JsonResponse({
+            'success':False,
+            'detail':'method {} is not allowed'.format(request.method)
+        },status=400)
+    body_data = parseData(request.body)
+    code = body_data['code']
     access_token = getAccessToken(code)
     oauthToken = oauthAuthentication(access_token)
     user_dict = oauthToken.json()
@@ -70,3 +81,23 @@ def oauth(request,code):
         })
         
     return JsonResponse({'success':False})
+
+def changeName(request):
+    if request.method != 'PUT':
+        return JsonResponse({
+            'success':False,
+            'detail':'method {} is not allowed'.format(request.method)
+        },status=400)
+    
+    user = request.user
+    if user.is_anonymous:
+        return JsonResponse({
+            'success':False,
+            'detail':'can`t access anonymous'
+        },status=500)
+    
+    parse_data = parseData(request.body)
+    user.nickname = parse_data['nickname']
+    user.save()
+
+    return JsonResponse({'seuccess':True})
