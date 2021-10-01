@@ -1,36 +1,37 @@
 // css
-import { useEffect, useState } from 'react';
-import styles from './NavBar.module.css';
+import { useEffect, useState } from "react";
+import styles from "./NavBar.module.css";
 
 interface NavBarProps {
-  navBarState: boolean,
-  setNavBarState: (a:boolean) => void
+  navBarState: boolean;
+  setNavBarState: (a: boolean) => void;
 }
 
 const NavBar = ({ navBarState, setNavBarState }: NavBarProps) => {
-  const [ navStyleClassName, setNavStyleClassName ] = useState<Array<string>>([styles.navbar]);
+  const [navStyleClassName, setNavStyleClassName] = useState<Array<string>>([
+    styles.navbar,
+  ]);
 
   const btnClick = () => {
     setNavBarState(!navBarState);
   };
 
-  useEffect(()=>{
-    const element = document.getElementById('navbar');
+  useEffect(() => {
+    const element = document.getElementById("navbar");
 
     if (element === null) {
-      return
+      return;
     }
 
     if (navBarState) {
       setNavStyleClassName([styles.navbar]);
     } else {
-      setNavStyleClassName([styles.navbar,styles.navbarnone]);
+      setNavStyleClassName([styles.navbar, styles.navbarnone]);
     }
-
-  },[navBarState]);
+  }, [navBarState]);
 
   return (
-    <nav className={navStyleClassName.join(' ')} id="navbar">
+    <nav className={navStyleClassName.join(" ")} id="navbar">
       <div>
         <h2>img </h2>
         <h2> site name</h2>

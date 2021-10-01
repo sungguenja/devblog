@@ -1,4 +1,4 @@
 interface LoginProps {
-  oauthSite: string,
-  loginFunction: () => void
+  oauthSite: string;
+  loginFunction: () => void;
 }

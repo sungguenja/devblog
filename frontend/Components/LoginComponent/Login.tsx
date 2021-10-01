@@ -1,17 +1,27 @@
-import styles from './Login.module.css';
-import Image from 'next/image';
+import styles from "./Login.module.css";
+import Image from "next/image";
 
 interface props {
-  loginPropsList: Array<LoginProps>
+  loginPropsList: Array<LoginProps>;
 }
 
-const Login = ({loginPropsList}:props) => {
-  
+const Login = ({ loginPropsList }: props) => {
   return (
     <article className={styles.container}>
-      {loginPropsList.map((item,index) => {
+      {loginPropsList.map((item, index) => {
         return (
-          <button onClick={item.loginFunction} className={styles[item.oauthSite]} key={item.oauthSite + index.toString()}><Image src={`/image/${item.oauthSite}.png`} width={32} height={32} /> Sign in with {item.oauthSite}</button>
+          <button
+            onClick={item.loginFunction}
+            className={styles[item.oauthSite]}
+            key={item.oauthSite + index.toString()}
+          >
+            <Image
+              src={`/image/${item.oauthSite}.png`}
+              width={32}
+              height={32}
+            />{" "}
+            Sign in with {item.oauthSite}
+          </button>
         );
       })}
     </article>

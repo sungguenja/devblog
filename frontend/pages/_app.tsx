@@ -1,21 +1,21 @@
-import '../styles/globals.css';
-import type { AppProps } from 'next/app';
-import { useEffect, useRef, useState } from 'react';
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import { useEffect, useRef, useState } from "react";
 
 // component
-import NavBar from '../Components/NavBar/NavBar';
+import NavBar from "../Components/NavBar/NavBar";
 
 const DELTA = 15;
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [ navBarState, setNavBarState ] = useState<boolean>(true);
-  
-  const lastScroll = useRef<number>(0)
+  const [navBarState, setNavBarState] = useState<boolean>(true);
+
+  const lastScroll = useRef<number>(0);
 
   const scrollEvent = () => {
     const nowScrollTop = document.documentElement.scrollTop;
-    
-    if (Math.abs(nowScrollTop-lastScroll.current) < DELTA) return;
+
+    if (Math.abs(nowScrollTop - lastScroll.current) < DELTA) return;
 
     if (nowScrollTop > lastScroll.current) {
       setNavBarState(false);
@@ -23,19 +23,19 @@ function MyApp({ Component, pageProps }: AppProps) {
       setNavBarState(true);
     }
     lastScroll.current = nowScrollTop;
-  }
+  };
 
-  useEffect(()=>{
-    window.addEventListener("scroll",scrollEvent);
-  },[])
+  useEffect(() => {
+    window.addEventListener("scroll", scrollEvent);
+  }, []);
 
   return (
     <>
-      <NavBar navBarState={navBarState} setNavBarState={setNavBarState}/>
+      <NavBar navBarState={navBarState} setNavBarState={setNavBarState} />
       <div id="page">
         <Component {...pageProps} />
       </div>
     </>
   );
 }
-export default MyApp
+export default MyApp;
