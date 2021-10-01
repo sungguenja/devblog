@@ -79,6 +79,8 @@ def oauth(request):
             'is_login':False,
             'success':True
         })
+    except KeyError:
+        return JsonResponse({'success':False})
         
     return JsonResponse({'success':False})
 
