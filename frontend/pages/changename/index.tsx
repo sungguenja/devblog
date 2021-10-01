@@ -1,15 +1,20 @@
-// custom hook
-import axios from 'axios';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import router from 'next/router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+
+import axios from 'axios';
+
 import useGetCookie from '../../hooks/useGetCookie';
+
+import ChangeName from '../../Components/ChangeName/ChangeName';
 
 const index = () => {
   // 밑에 회원정보 수정을 위한 상태 정보 제공
   const [ nickname,setNickname ] = useState<string>("");
   const csrf_token = useRef<string>("");
   
-  const submitNickname = () => {
+  const submitNickname = (event:FormEvent<HTMLElement>) => {
+    event.preventDefault();
+
     axios({
       url: `http://localhost:8000/users/changename/`,
       method: 'PUT',
@@ -27,7 +32,6 @@ const index = () => {
       router.push('/');
     })
     .catch((error) => {
-      console.log(error);
       alert('알 수 없는 이유로 실패했습니다. \n 다시 시도해주세요');
     })
   };
@@ -41,10 +45,7 @@ const index = () => {
   },[]);
 
   return (
-    <>
-      <input type="text" onChange={(event) => {setNickname(event.target.value)}}/>
-      <button onClick={submitNickname}/>
-    </>
+    <ChangeName name={nickname} changeNameFunction={setNickname} submitNameFunction={submitNickname}/>
   )
 };
 

@@ -36,7 +36,6 @@ const getAccessToken = async (code:string) => {
       // context api를 통해서 전역변수로 유저 정보 가져야할듯
       if (res.data.is_login) {
         // 로그인 성공
-        console.log(res.data)
         router.push("/");
       } else {
         // 회원가입
