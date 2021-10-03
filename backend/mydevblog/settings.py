@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
     # My app
     'users',
+    'writing',
 
     # third party app
     'corsheaders',
