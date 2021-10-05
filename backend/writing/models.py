@@ -18,3 +18,16 @@ class HashTag(models.Model):
 class ArticleHashTag(models.Model):
     article_pk = models.ForeignKey(Article,on_delete=models.CASCADE)
     hashtag_pk = models.ForeignKey(HashTag,on_delete=models.CASCADE)
+
+class Comment(models.Model):
+    article_pk = models.ForeignKey(Article,on_delete=models.CASCADE)
+    user_pk = models.ForeignKey('users.User',on_delete=models.SET_NULL,null=True)
+    content = models.TextField()
+
+class Bookmark(models.Model):
+    article_pk = models.ForeignKey(Article,on_delete=models.CASCADE)
+    user_pk = models.ForeignKey('users.User',on_delete=models.CASCADE)
+
+class Like(models.Model):
+    article_pk = models.ForeignKey(Article,on_delete=models.CASCADE)
+    user_pk = models.ForeignKey('users.User',on_delete=models.CASCADE)
