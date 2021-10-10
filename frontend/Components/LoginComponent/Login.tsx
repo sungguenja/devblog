@@ -1,7 +1,7 @@
 import styles from "./Login.module.css";
 import Image from "next/image";
 
-interface props {
+export interface props {
   loginPropsList: Array<LoginProps>;
 }
 

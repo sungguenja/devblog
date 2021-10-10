@@ -1,8 +1,9 @@
-// css
 import { useEffect, useState } from "react";
+
+// css
 import styles from "./NavBar.module.css";
 
-interface NavBarProps {
+export interface NavBarProps {
   navBarState: boolean;
   setNavBarState: (a: boolean) => void;
 }
@@ -15,7 +16,7 @@ const NavBar = ({ navBarState, setNavBarState }: NavBarProps) => {
   const btnClick = () => {
     setNavBarState(!navBarState);
   };
-
+  console.log(styles);
   useEffect(() => {
     const element = document.getElementById("navbar");
 
