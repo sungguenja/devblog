@@ -4,11 +4,13 @@ import { useEffect, useRef, useState } from "react";
 
 // component
 import NavBar from "../Components/NavBar/NavBar";
+import MenuBar from "Components/MenuBar/MenuBar";
 
 const DELTA = 15;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [navBarState, setNavBarState] = useState<boolean>(true);
+  const [menuBarState, setMenuBarState] = useState<boolean>(false);
 
   const lastScroll = useRef<number>(0);
 
@@ -33,6 +35,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <NavBar navBarState={navBarState} setNavBarState={setNavBarState} />
       <div id="page">
+        <MenuBar
+          menuBarState={menuBarState}
+          setMenuBarState={setMenuBarState}
+          menuList={[]}
+        />
         <Component {...pageProps} />
       </div>
     </>
