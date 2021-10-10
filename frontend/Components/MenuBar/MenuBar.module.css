@@ -1,0 +1,18 @@
+.menubar {
+  width: 15%;
+  position: fixed;
+  transition: all 0.4s;
+  left: 0%;
+  text-align: center;
+  margin-top: 32px;
+}
+
+.menubarnone {
+  left: -15%;
+}
+
+.menubtn {
+  position: fixed;
+  z-index: 3;
+  margin-top: 16px;
+}
