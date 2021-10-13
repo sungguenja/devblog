@@ -16,7 +16,7 @@
     "typeRoots": ["@types", "global.d.ts", "./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
+      "@/components/*": ["components/*"],
       "@pages/*": ["pages/*"],
       "@api/*": ["src/lib/api/*"],
       "@assets/*": ["src/assets/*"]
