@@ -16,7 +16,7 @@ const NavBar = ({ navBarState, setNavBarState }: NavBarProps) => {
   const btnClick = () => {
     setNavBarState(!navBarState);
   };
-  console.log(styles);
+
   useEffect(() => {
     const element = document.getElementById("navbar");
 
