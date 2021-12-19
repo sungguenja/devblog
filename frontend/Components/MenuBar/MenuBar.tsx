@@ -19,8 +19,12 @@ const MenuBar = ({ menuBarState, setMenuBarState, menuList }: MenuBarProps) => {
     styles.menubar,
   ]);
 
-  const btnClick = () => {
-    setMenuBarState(!menuBarState);
+  const onMouseOver = () => {
+    setMenuBarState(true);
+  };
+
+  const onMouseOut = () => {
+    setMenuBarState(false);
   };
 
   useEffect(() => {
@@ -38,10 +42,11 @@ const MenuBar = ({ menuBarState, setMenuBarState, menuList }: MenuBarProps) => {
   }, [menuBarState]);
 
   return (
-    <div className={styles.menubarcontainer}>
-      <button onClick={btnClick} className={styles.menubtn}>
-        {menuBarState ? "메뉴바 숨기기" : "메뉴바 보이기"}
-      </button>
+    <div
+      className={styles.menubarcontainer}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+    >
       <nav className={menuBarClassName.join(" ")} id="menubar">
         <h2>Guru's DevBlog</h2>
         <ul>

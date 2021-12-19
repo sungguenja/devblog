@@ -1,10 +1,20 @@
+/* todo: 색 지워버리기 (컨셉생기지 않는이상) */
+.menubarcontainer {
+  background-color: black;
+  width: 15vw;
+  height: 100vh;
+  position: fixed;
+}
+
 .menubar {
-  width: 15%;
+  width: 15vw;
   position: fixed;
   transition: all 0.4s;
   left: 0%;
   text-align: center;
   margin-top: 32px;
+  background-color: red;
+  z-index: 2;
 }
 
 .menubarnone {
