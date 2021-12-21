@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { useEffect, useRef, useState } from "react";
 
 // component
-import NavBar from "../Components/NavBar/NavBar";
+import NavBar from "@components/NavBar/NavBar";
 import MenuBar from "@components/MenuBar/MenuBar";
 
 const DELTA = 15;
