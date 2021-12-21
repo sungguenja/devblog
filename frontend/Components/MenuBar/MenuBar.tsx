@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { MENU_BAR_WRAPPER_ID, MENU_BAR_NAV_ID } from "@constants/MenuBar";
 
 // css
 import styles from "./MenuBar.module.css";
@@ -19,16 +20,16 @@ const MenuBar = ({ menuBarState, setMenuBarState, menuList }: MenuBarProps) => {
     styles.menubar,
   ]);
 
-  const onMouseOver = () => {
+  const onMouseEnter = useCallback(() => {
     setMenuBarState(true);
-  };
+  }, [setMenuBarState]);
 
-  const onMouseOut = () => {
+  const onMouseLeave = useCallback(() => {
     setMenuBarState(false);
-  };
+  }, [setMenuBarState]);
 
   useEffect(() => {
-    const element = document.getElementById("menubar");
+    const element = document.getElementById(MENU_BAR_NAV_ID);
 
     if (element == null) {
       return;
@@ -43,12 +44,13 @@ const MenuBar = ({ menuBarState, setMenuBarState, menuList }: MenuBarProps) => {
 
   return (
     <div
+      id={MENU_BAR_WRAPPER_ID}
       className={styles.menubarcontainer}
-      onMouseOver={onMouseOver}
-      onMouseOut={onMouseOut}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      <nav className={menuBarClassName.join(" ")} id="menubar">
-        <h2>Guru's DevBlog</h2>
+      <nav className={menuBarClassName.join(" ")} id={MENU_BAR_NAV_ID}>
+        <h2>DevBlog</h2>
         <ul>
           <li>test1</li>
           <li>test2</li>

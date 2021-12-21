@@ -7,7 +7,7 @@
 }
 
 .menubar {
-  width: 15vw;
+  width: 10vw;
   position: fixed;
   transition: all 0.4s;
   left: 0%;
@@ -18,7 +18,7 @@
 }
 
 .menubarnone {
-  left: -15%;
+  left: -10%;
 }
 
 .menubtn {
