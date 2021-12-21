@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 // component
 import NavBar from "../Components/NavBar/NavBar";
-import MenuBar from "Components/MenuBar/MenuBar";
+import MenuBar from "@components/MenuBar/MenuBar";
 
 const DELTA = 15;
 
@@ -40,7 +40,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           setMenuBarState={setMenuBarState}
           menuList={[]}
         />
-        <Component {...pageProps} />
+        <div className="flex justify-center">
+          <Component {...pageProps} />
+        </div>
       </div>
     </>
   );
