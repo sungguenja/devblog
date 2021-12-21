@@ -16,12 +16,12 @@ const articleListWithMenuPk = () => {
     console.log(result);
     // todo: 가라데이터 넣고 데이터 형태 제대로 따져서 상태 변경
     // setArticleList(result)
-  }, []);
+  }, [pk]);
 
   useEffect(() => {
-    getArticleData();
     setIsLoading(false);
-  }, []);
+    !pk ? null : getArticleData();
+  }, [pk]);
 
   if (isLoading) {
     // todo: 디자인....
