@@ -16,13 +16,21 @@
     "typeRoots": ["@types", "global.d.ts", "./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
+      "@components/*": ["Components/*"],
       "@pages/*": ["pages/*"],
       "@api/*": ["src/lib/api/*"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": ["src/assets/*"],
+      "@constants/*": ["Constants/*"]
     }
   },
   "files": ["global.d.ts"],
-  "include": ["global.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "global.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "__tests__/snapshot.js",
+    "__tests__/snapshot.js"
+  ],
   "exclude": ["node_modules"]
 }
