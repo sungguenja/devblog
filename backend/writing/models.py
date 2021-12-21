@@ -1,8 +1,12 @@
 from django.db import models
 
 # Create your models here.
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
 class Menu(models.Model):
     title = models.CharField(max_length=255)
+    category_id = models.IntegerField(default=0)
 
 class Article(models.Model):
     menu_pk = models.ForeignKey(Menu,on_delete=models.CASCADE)
