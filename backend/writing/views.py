@@ -11,12 +11,16 @@ def getMenu(request):
 def getArticlesWithMenu(request,menu_pk):
     article_list = Article.objects.filter(menu_pk=menu_pk)
     article_serialized = serializers.serialize('json',article_list)
-    return HttpResponse(article_serialized,content_type="text/json-comment-filtered")
+    article_serialized = json.loads(article_serialized)
+    return JsonResponse(article_serialized,safe=False,json_dumps_params={'ensure_ascii':False})
 
 def getArticleDetail(request,article_pk):
-    article = Article.objects.get(id=article_pk)
+    article = Article.objects.get(pk=article_pk)
     hash_tag_nn_list = ArticleHashTag.objects.filter(article_pk=article_pk)
     hash_tag_list = []
     for hash_tag in hash_tag_nn_list:
-        hash_tag_list.append(HashTag.objects.get(id=hash_tag.hashtag_pk))
-    return JsonResponse({'article':article,'hash_tag_list':list(hash_tag_list)})
+        now_data = serializers.serialize('json',[hash_tag.hashtag_pk])
+        hash_tag_list.append(json.loads(now_data)[0])
+    article = serializers.serialize('json',[article])
+    article = json.loads(article)
+    return JsonResponse({'article':article[0],'hash_tag_list':hash_tag_list},safe=False,json_dumps_params={'ensure_ascii':False})
