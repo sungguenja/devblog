@@ -13,16 +13,16 @@ const articleListWithMenuPk = () => {
   const router = useRouter();
   const { pk } = router.query;
 
-  const getArticleData = useCallback(async () => {
+  const getArticleListData = useCallback(async () => {
     const result = await useGetAsync(GET_ARTICLE_LIST_OR_MENU_LIST_URL + pk);
     console.log(result);
     // todo: 가라데이터 넣고 데이터 형태 제대로 따져서 상태 변경
     setArticleList(result.data);
+    setIsLoading(false);
   }, [pk]);
 
   useEffect(() => {
-    setIsLoading(false);
-    !pk ? null : getArticleData();
+    !pk ? null : getArticleListData();
   }, [pk]);
 
   if (isLoading) {

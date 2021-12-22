@@ -12,7 +12,12 @@ export interface article {
   fields: articleField;
 }
 
+export interface hastagField {
+  pk: number;
+  title: string;
+}
+
 export interface hastag {
   pk: number;
-  name: string;
+  fields: hastagField;
 }
