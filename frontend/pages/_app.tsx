@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           setMenuBarState={setMenuBarState}
           menuList={[]}
         />
-        <div className="flex justify-center">
+        <div className="bg-amber-400 mx-[16vw]">
           <Component {...pageProps} />
         </div>
       </div>
