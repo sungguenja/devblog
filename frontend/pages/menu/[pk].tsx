@@ -21,6 +21,10 @@ const articleListWithMenuPk = () => {
     setIsLoading(false);
   }, [pk]);
 
+  const onClick = (pk: number) => {
+    router.push({ pathname: "/article/[pk]", query: { pk } });
+  };
+
   useEffect(() => {
     !pk ? null : getArticleListData();
   }, [pk]);
@@ -33,7 +37,7 @@ const articleListWithMenuPk = () => {
   return (
     <>
       {articleList.map((article) => {
-        console.log(article.fields.createdAt);
+        const goArticleDetail = () => onClick(article.pk);
         return (
           <ArticleCell
             key={article.fields.title + article.pk.toString()}
@@ -44,6 +48,7 @@ const articleListWithMenuPk = () => {
             menuPk={article.fields.menuPk}
             createdAt={article.fields.createdAt}
             updatedAt={article.fields.updatedAt}
+            onClick={goArticleDetail}
           />
         );
       })}

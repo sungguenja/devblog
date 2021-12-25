@@ -6,6 +6,7 @@ interface ArticleCellProps {
   githubUrl: string;
   createdAt: Date;
   updatedAt: Date;
+  onClick: VoidFunction;
 }
 
 const ArticleCell = ({
@@ -16,14 +17,15 @@ const ArticleCell = ({
   githubUrl,
   createdAt,
   updatedAt,
+  onClick,
 }: ArticleCellProps) => {
   return (
-    <>
+    <div onClick={onClick}>
       <h1>{title}</h1>
       <p>{content}</p>
       <p>{createdAt}</p>
       <p>{updatedAt}</p>
-    </>
+    </div>
   );
 };
 
