@@ -5,6 +5,8 @@ import { useGetAsync } from "hooks/useAsync";
 import { GET_ARTICLE_DETAIL_URL } from "@constants/Url";
 import { article, hastag } from "Interfaces/writing";
 
+import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
+
 interface response {
   data: {
     article: article;
@@ -12,7 +14,7 @@ interface response {
   };
 }
 
-const articleListWithMenuPk = () => {
+const articleDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [nowArticle, setNowArticle] = useState<article>();
   const [hashTagList, setHashTagList] = useState<hastag[]>([]);
@@ -38,13 +40,11 @@ const articleListWithMenuPk = () => {
   }
 
   return nowArticle ? (
-    <article>
-      <h1>{nowArticle.fields.title}</h1>
-      <h1>{hashTagList[0].fields.title}</h1>
-    </article>
+    <ArticleDetail nowArticle={nowArticle} hashTagList={hashTagList} />
   ) : (
     <h1>null</h1>
   );
 };
 
-export default articleListWithMenuPk;
+// todo static
+export default articleDetail;
