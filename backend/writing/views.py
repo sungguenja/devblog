@@ -20,7 +20,7 @@ def getHashTagListWithArticlePk(article_pk):
     for hash_tag in hash_tag_nn_list:
         now_data = serializers.serialize('json',[hash_tag.hashtag_pk])
         hash_tag_list.append(json.loads(now_data)[0])
-    return hash_tag_nn_list
+    return hash_tag_list
 
 def getCommentListWithArticlePk(article_pk):
     comment_list_json = []
@@ -34,10 +34,10 @@ def getArticleDetailWithArticlePk(article_pk):
     article = Article.objects.get(pk=article_pk)
     article = serializers.serialize('json',[article])
     article = json.loads(article)
-    return article
+    return article[0]
 
 def getArticleDetail(request,article_pk):
     article = getArticleDetailWithArticlePk(article_pk)
     hash_tag_list = getHashTagListWithArticlePk(article_pk)
     comment_list = getCommentListWithArticlePk(article_pk)
-    return JsonResponse({'article':article[0],'hash_tag_list':hash_tag_list,'comment_list':comment_list},safe=False,json_dumps_params={'ensure_ascii':False})
+    return JsonResponse({'article':article,'hash_tag_list':hash_tag_list,'comment_list':comment_list},safe=False,json_dumps_params={'ensure_ascii':False})
