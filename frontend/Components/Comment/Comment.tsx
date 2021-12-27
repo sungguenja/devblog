@@ -5,7 +5,6 @@ interface CommentProps {
 }
 
 const Comment = ({ comment }: CommentProps) => {
-  console.log(comment);
   return <h1>{comment.fields.content}</h1>;
 };
 
