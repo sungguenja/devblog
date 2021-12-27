@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse, JsonResponse
 from django.core import serializers
 import json
-from writing.models import Article, ArticleHashTag, HashTag, Menu
+from writing.models import Article, ArticleHashTag, Comment, HashTag, Menu
 
 # Create your views here.
 def getMenu(request):
@@ -23,4 +23,9 @@ def getArticleDetail(request,article_pk):
         hash_tag_list.append(json.loads(now_data)[0])
     article = serializers.serialize('json',[article])
     article = json.loads(article)
-    return JsonResponse({'article':article[0],'hash_tag_list':hash_tag_list},safe=False,json_dumps_params={'ensure_ascii':False})
+    comment_list_json = []
+    comment_list = Comment.objects.filter(article_pk=article_pk)
+    for comm in comment_list:
+        now_data = serializers.serialize('json',[comm])
+        comment_list_json.append(json.loads(now_data)[0])
+    return JsonResponse({'article':article[0],'hash_tag_list':hash_tag_list,'comment_list':comment_list_json},safe=False,json_dumps_params={'ensure_ascii':False})
