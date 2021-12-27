@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import { useGetAsync } from "hooks/useAsync";
 import { GET_ARTICLE_DETAIL_URL } from "@constants/Url";
-import { article, hastag } from "Interfaces/writing";
+import { article, hastag, comment } from "Interfaces/writing";
 
 import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
 
@@ -11,6 +11,7 @@ interface response {
   data: {
     article: article;
     hashTagList: hastag[];
+    commentList: comment[];
   };
 }
 
@@ -18,6 +19,7 @@ const articleDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [nowArticle, setNowArticle] = useState<article>();
   const [hashTagList, setHashTagList] = useState<hastag[]>([]);
+  const [commentList, setCommentList] = useState<comment[]>([]);
   const router = useRouter();
   const { pk } = router.query;
 
@@ -27,6 +29,7 @@ const articleDetail = () => {
     // todo: 가라데이터 넣고 데이터 형태 제대로 따져서 상태 변경
     setNowArticle(result.data.article);
     setHashTagList(result.data.hashTagList);
+    setCommentList(result.data.commentList);
     setIsLoading(false);
   }, [pk]);
 
@@ -52,6 +55,7 @@ const articleDetail = () => {
     <ArticleDetail
       nowArticle={nowArticle}
       hashTagList={hashTagList}
+      commentList={commentList}
       copyClipBoard={copyClipBoard}
     />
   ) : (
