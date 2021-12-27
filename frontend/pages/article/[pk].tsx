@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
 import { useGetAsync } from "hooks/useAsync";
@@ -30,6 +30,15 @@ const articleDetail = () => {
     setIsLoading(false);
   }, [pk]);
 
+  const copyClipBoard = useCallback(() => {
+    const textarea = document.createElement("textarea");
+    textarea.textContent = window.location.href;
+    document.body.append(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+  }, [pk]);
+
   useEffect(() => {
     !pk ? null : getArticleListData();
   }, [pk]);
@@ -40,7 +49,11 @@ const articleDetail = () => {
   }
 
   return nowArticle ? (
-    <ArticleDetail nowArticle={nowArticle} hashTagList={hashTagList} />
+    <ArticleDetail
+      nowArticle={nowArticle}
+      hashTagList={hashTagList}
+      copyClipBoard={copyClipBoard}
+    />
   ) : (
     <h1>null</h1>
   );
