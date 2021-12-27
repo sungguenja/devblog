@@ -14,18 +14,30 @@ def getArticlesWithMenu(request,menu_pk):
     article_serialized = json.loads(article_serialized)
     return JsonResponse(article_serialized,safe=False,json_dumps_params={'ensure_ascii':False})
 
-def getArticleDetail(request,article_pk):
-    article = Article.objects.get(pk=article_pk)
+def getHashTagListWithArticlePk(article_pk):
     hash_tag_nn_list = ArticleHashTag.objects.filter(article_pk=article_pk)
     hash_tag_list = []
     for hash_tag in hash_tag_nn_list:
         now_data = serializers.serialize('json',[hash_tag.hashtag_pk])
         hash_tag_list.append(json.loads(now_data)[0])
-    article = serializers.serialize('json',[article])
-    article = json.loads(article)
+    return hash_tag_nn_list
+
+def getCommentListWithArticlePk(article_pk):
     comment_list_json = []
     comment_list = Comment.objects.filter(article_pk=article_pk)
     for comm in comment_list:
         now_data = serializers.serialize('json',[comm])
         comment_list_json.append(json.loads(now_data)[0])
-    return JsonResponse({'article':article[0],'hash_tag_list':hash_tag_list,'comment_list':comment_list_json},safe=False,json_dumps_params={'ensure_ascii':False})
+    return comment_list_json
+
+def getArticleDetailWithArticlePk(article_pk):
+    article = Article.objects.get(pk=article_pk)
+    article = serializers.serialize('json',[article])
+    article = json.loads(article)
+    return article
+
+def getArticleDetail(request,article_pk):
+    article = getArticleDetailWithArticlePk(article_pk)
+    hash_tag_list = getHashTagListWithArticlePk(article_pk)
+    comment_list = getCommentListWithArticlePk(article_pk)
+    return JsonResponse({'article':article[0],'hash_tag_list':hash_tag_list,'comment_list':comment_list},safe=False,json_dumps_params={'ensure_ascii':False})
