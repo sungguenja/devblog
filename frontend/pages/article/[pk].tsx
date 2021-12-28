@@ -72,6 +72,7 @@ const articleDetail = () => {
   }
 
   return nowArticle ? (
+    // todo: 상태와 해당 댓글 작성자일 경우 댓글 삭제 로직
     <ArticleDetail
       nowArticle={nowArticle}
       hashTagList={hashTagList}
