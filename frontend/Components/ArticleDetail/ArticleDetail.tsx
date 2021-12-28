@@ -2,6 +2,7 @@ import { article, hastag, comment } from "Interfaces/writing";
 import ArticleMain from "Components/ArticleMain/ArticleMain";
 import HashTag from "Components/HashTag/HashTag";
 import Comment from "Components/Comment/Comment";
+import CopyClipBoardBtn from "Components/CopyClipBoardBtn/CopyClipBoardBtn";
 
 interface articleDetailProps {
   nowArticle: article;
@@ -31,7 +32,7 @@ const articleDetail = ({
           key={item.pk.toString() + item.fields.content}
         />
       ))}
-      <button onClick={copyClipBoard}>click</button>
+      <CopyClipBoardBtn copyClipBoard={copyClipBoard} />
     </article>
   );
 };
