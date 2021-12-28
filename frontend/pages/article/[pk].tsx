@@ -23,14 +23,17 @@ const articleDetail = () => {
   const router = useRouter();
   const { pk } = router.query;
 
+  const setArticleData = (result: response) => {
+    setNowArticle(result.data.article);
+    setHashTagList(result.data.hashTagList);
+    setCommentList(result.data.commentList);
+  };
+
   const getArticleListData = useCallback(async () => {
     const result: response = await useGetAsync(GET_ARTICLE_DETAIL_URL + pk);
     console.log(result);
     // todo: 가라데이터 넣고 데이터 형태 제대로 따져서 상태 변경
-    setNowArticle(result.data.article);
-    setHashTagList(result.data.hashTagList);
-    setCommentList(result.data.commentList);
-    setIsLoading(false);
+    setArticleData(result);
   }, [pk]);
 
   const copyClipBoard = useCallback(() => {
@@ -43,7 +46,11 @@ const articleDetail = () => {
   }, [pk]);
 
   useEffect(() => {
-    !pk ? null : getArticleListData();
+    !pk
+      ? null
+      : getArticleListData().finally(() => {
+          setIsLoading(false);
+        });
   }, [pk]);
 
   if (isLoading) {
