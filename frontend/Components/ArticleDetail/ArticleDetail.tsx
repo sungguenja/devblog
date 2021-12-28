@@ -16,7 +16,6 @@ const articleDetail = ({
   commentList,
   copyClipBoard,
 }: articleDetailProps) => {
-  console.log(commentList);
   return (
     <article>
       <ArticleMain nowArticle={nowArticle} />
