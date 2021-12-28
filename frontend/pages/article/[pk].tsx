@@ -1,9 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
 
 import { useGetAsync } from "hooks/useAsync";
 import { GET_ARTICLE_DETAIL_URL } from "@constants/Url";
-import { article, hastag, comment } from "Interfaces/writing";
+import { article, hastag, comment, writtenComment } from "Interfaces/writing";
 
 import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
 
@@ -31,7 +37,6 @@ const articleDetail = () => {
 
   const getArticleListData = useCallback(async () => {
     const result: response = await useGetAsync(GET_ARTICLE_DETAIL_URL + pk);
-    console.log(result);
     // todo: 가라데이터 넣고 데이터 형태 제대로 따져서 상태 변경
     setArticleData(result);
   }, [pk]);
@@ -44,6 +49,14 @@ const articleDetail = () => {
     document.execCommand("copy");
     textarea.remove();
   }, [pk]);
+
+  const postCommentWithValue = (event: SyntheticEvent) => {
+    event.preventDefault();
+    const target = event.target as typeof event.target & writtenComment;
+    // todo: 상태관리를 통한 로그인 유저만 푸쉬할 수 있음
+    console.log(target.comment.value);
+    console.log("????");
+  };
 
   useEffect(() => {
     !pk
@@ -64,6 +77,7 @@ const articleDetail = () => {
       hashTagList={hashTagList}
       commentList={commentList}
       copyClipBoard={copyClipBoard}
+      postCommentWithValue={postCommentWithValue}
     />
   ) : (
     <h1>null</h1>

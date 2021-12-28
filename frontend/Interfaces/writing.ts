@@ -31,3 +31,7 @@ export interface comment {
   pk: number;
   fields: commentField;
 }
+
+export interface writtenComment {
+  comment: { value: string };
+}
