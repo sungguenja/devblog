@@ -1,10 +1,12 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
 import { useEffect, useRef, useState } from "react";
+import type { AppProps } from "next/app";
+import { RecoilRoot } from "recoil";
 
 // component
 import NavBar from "@components/NavBar/NavBar";
 import MenuBar from "@components/MenuBar/MenuBar";
+
+import "../styles/globals.css";
 
 const DELTA = 15;
 
@@ -32,7 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <>
+    <RecoilRoot>
       <NavBar navBarState={navBarState} setNavBarState={setNavBarState} />
       <div id="page">
         <MenuBar
@@ -44,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </div>
       </div>
-    </>
+    </RecoilRoot>
   );
 }
 export default MyApp;
