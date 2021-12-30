@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { AppProps } from "next/app";
 
+// store
+import UserStoreWrapper from "context/userStore";
+
 // component
 import NavBar from "@components/NavBar/NavBar";
 import MenuBar from "@components/MenuBar/MenuBar";
@@ -33,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <>
+    <UserStoreWrapper>
       <NavBar navBarState={navBarState} setNavBarState={setNavBarState} />
       <div id="page">
         <MenuBar
@@ -45,7 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </div>
       </div>
-    </>
+    </UserStoreWrapper>
   );
 }
 export default MyApp;

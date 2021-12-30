@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+// store
+import { useUserStateContext } from "context/userStore";
+
 // css
 import styles from "./NavBar.module.css";
 
@@ -12,10 +15,7 @@ const NavBar = ({ navBarState, setNavBarState }: NavBarProps) => {
   const [navStyleClassName, setNavStyleClassName] = useState<Array<string>>([
     styles.navbar,
   ]);
-
-  const btnClick = () => {
-    setNavBarState(!navBarState);
-  };
+  const { isLogin } = useUserStateContext();
 
   useEffect(() => {
     const element = document.getElementById("navbar");
@@ -39,7 +39,7 @@ const NavBar = ({ navBarState, setNavBarState }: NavBarProps) => {
       </div>
       <div>
         <h2>search component</h2>
-        <h2>login or logout</h2>
+        <h2>{isLogin ? "logout" : "login"}</h2>
       </div>
     </nav>
   );
