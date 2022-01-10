@@ -5,7 +5,12 @@ interface articleMainProps {
 }
 
 const articleMain = ({ nowArticle }: articleMainProps) => {
-  return <h1>{nowArticle.fields.title}</h1>;
+  return (
+    <>
+      <h1>{nowArticle.fields.title}</h1>
+      <h1>{nowArticle.fields.content}</h1>
+    </>
+  );
 };
 
 export default articleMain;

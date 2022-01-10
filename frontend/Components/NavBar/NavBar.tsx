@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // store
-import { useUserStateContext } from "context/userStore";
+import { IState } from "store/slices";
 
 // css
 import styles from "./NavBar.module.css";
@@ -15,7 +16,10 @@ const NavBar = ({ navBarState, setNavBarState }: NavBarProps) => {
   const [navStyleClassName, setNavStyleClassName] = useState<Array<string>>([
     styles.navbar,
   ]);
-  const { isLogin } = useUserStateContext();
+
+  const userData = useSelector((state: IState) => state.user);
+  console.log(userData, "?");
+  const { isLogin } = userData;
 
   useEffect(() => {
     const element = document.getElementById("navbar");
