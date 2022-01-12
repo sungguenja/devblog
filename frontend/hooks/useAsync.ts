@@ -1,39 +1,26 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import camelcaseKeys from "camelcase-keys";
 
 interface LooseObject {
   [key: string]: any;
 }
 
-export const changeCamelCase = (response: any) => {
-  if (typeof response === "object") {
-    if (Array.isArray(response)) {
-      let returnObject: any[] = [];
-      for (var i = 0; i < response.length; i++) {
-        returnObject[i] = changeCamelCase(response[i]);
-      }
-      return returnObject;
-    } else {
-      let returnObject: LooseObject = {};
-      for (var key in response) {
-        const keyList = key.split("_");
-        let camelizedKey = keyList[0];
-        for (var i = 1; i < keyList.length; i++) {
-          camelizedKey += keyList[i][0].toUpperCase() + keyList[i].slice(1);
-        }
-
-        returnObject[camelizedKey] = changeCamelCase(response[key]);
-      }
-      return returnObject;
-    }
-  } else {
-    return response;
+export const changeCamelCase = (response: AxiosResponse) => {
+  let data: LooseObject = {};
+  try {
+    data = camelcaseKeys(response.data, { deep: true });
+  } catch (err) {
+    console.log(err);
+    data = response.data;
   }
+  return {
+    ...response,
+    data,
+  };
 };
 
 const axiosInstance = axios.create();
-axiosInstance.interceptors.response.use((response: object) => {
-  return changeCamelCase(response);
-});
+axiosInstance.interceptors.response.use(changeCamelCase);
 
 export const useGetAsync = async (url: string) => {
   const response = await axiosInstance({ url: url, method: "GET" })
