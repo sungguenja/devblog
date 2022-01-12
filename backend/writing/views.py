@@ -2,6 +2,7 @@ from django.http.response import HttpResponse, JsonResponse
 from django.core import serializers
 import json
 from writing.models import Article, ArticleHashTag, Comment, HashTag, Menu
+from users.models import User
 
 # Create your views here.
 def getMenu(request):
@@ -22,13 +23,16 @@ def getHashTagListWithArticlePk(article_pk):
         hash_tag_list.append(json.loads(now_data)[0])
     return hash_tag_list
 
-def getCommentListWithArticlePk(article_pk):
+def getCommentListWithArticlePk(request,article_pk):
     comment_list_json = []
     comment_list = Comment.objects.filter(article_pk=article_pk)
     for comm in comment_list:
         now_data = serializers.serialize('json',[comm])
-        comment_list_json.append(json.loads(now_data)[0])
-    return comment_list_json
+        node_string = comm.user_pk.node_id
+        comment_cell_data = json.loads(now_data)[0]
+        comment_cell_data['node'] = node_string
+        comment_list_json.append(comment_cell_data)
+    return JsonResponse({'comment_list_json':comment_list_json},safe=False,json_dumps_params={'ensure_ascii':False})
 
 def getArticleDetailWithArticlePk(article_pk):
     article = Article.objects.get(pk=article_pk)
@@ -37,7 +41,10 @@ def getArticleDetailWithArticlePk(article_pk):
     return article[0]
 
 def getArticleDetail(request,article_pk):
-    article = getArticleDetailWithArticlePk(article_pk)
+    now_article = getArticleDetailWithArticlePk(article_pk)
     hash_tag_list = getHashTagListWithArticlePk(article_pk)
-    comment_list = getCommentListWithArticlePk(article_pk)
-    return JsonResponse({'article':article,'hash_tag_list':hash_tag_list,'comment_list':comment_list},safe=False,json_dumps_params={'ensure_ascii':False})
+    return JsonResponse({'now_article':now_article,'hash_tag_list':hash_tag_list,},safe=False,json_dumps_params={'ensure_ascii':False})
+
+def getAllArticlePk(request):
+    article_list = list(Article.objects.all().values('id'))
+    return JsonResponse({'article_list':article_list})
