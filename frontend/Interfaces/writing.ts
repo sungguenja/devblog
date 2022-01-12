@@ -30,8 +30,40 @@ export interface commentField {
 export interface comment {
   pk: number;
   fields: commentField;
+  node: string;
 }
 
 export interface writtenComment {
   comment: { value: string };
+}
+
+export interface ArticlePageProps {
+  nowArticle: article;
+  hashTagList: hastag[];
+}
+
+export interface response {
+  data: ArticlePageProps;
+}
+
+export interface commentListResponse {
+  data: {
+    commentListJson: comment[];
+  };
+}
+
+export interface articlePkList {
+  data: {
+    articleList: articlePk[];
+  };
+}
+
+export interface articlePk {
+  id: number;
+}
+
+export interface pathParams {
+  params: {
+    pk: number;
+  };
 }

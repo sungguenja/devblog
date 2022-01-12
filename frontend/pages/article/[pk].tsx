@@ -5,40 +5,43 @@ import {
   useRef,
   useState,
 } from "react";
-import { useRouter } from "next/router";
 
 import { useGetAsync } from "hooks/useAsync";
-import { GET_ARTICLE_DETAIL_URL } from "@constants/Url";
-import { article, hastag, comment, writtenComment } from "Interfaces/writing";
+import {
+  GET_ARTICLE_DETAIL_URL,
+  GET_ARTICLE_PK_LIST,
+  GET_COMMENT_LIST,
+} from "@constants/Url";
+import {
+  comment,
+  writtenComment,
+  ArticlePageProps,
+  commentListResponse,
+  articlePkList,
+  pathParams,
+  response,
+} from "Interfaces/writing";
 
 import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
 
-interface response {
-  data: {
-    article: article;
-    hashTagList: hastag[];
-    commentList: comment[];
-  };
-}
-
-const articleDetail = () => {
+const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [nowArticle, setNowArticle] = useState<article>();
-  const [hashTagList, setHashTagList] = useState<hastag[]>([]);
   const [commentList, setCommentList] = useState<comment[]>([]);
-  const router = useRouter();
-  const { pk } = router.query;
+  const isAlreadyCallCommentList = useRef<boolean>(false);
+  const pk = nowArticle.pk;
 
-  const setArticleData = (result: response) => {
-    setNowArticle(result.data.article);
-    setHashTagList(result.data.hashTagList);
-    setCommentList(result.data.commentList);
-  };
-
-  const getArticleListData = useCallback(async () => {
-    const result: response = await useGetAsync(GET_ARTICLE_DETAIL_URL + pk);
-    // todo: 가라데이터 넣고 데이터 형태 제대로 따져서 상태 변경
-    setArticleData(result);
+  const getCommentListWithArticlePkWhenScrollMiddle = useCallback(async () => {
+    const isMiddle =
+      ((window.scrollY + window.innerHeight) / document.body.scrollHeight) *
+        100 >
+      50;
+    if (isMiddle && !isAlreadyCallCommentList.current) {
+      isAlreadyCallCommentList.current = true;
+      const result: commentListResponse = await useGetAsync(
+        GET_COMMENT_LIST + pk,
+      );
+      setCommentList(result.data.commentListJson);
+    }
   }, [pk]);
 
   const copyClipBoard = useCallback(() => {
@@ -59,11 +62,17 @@ const articleDetail = () => {
   };
 
   useEffect(() => {
-    !pk
-      ? null
-      : getArticleListData().finally(() => {
-          setIsLoading(false);
-        });
+    !pk ? null : setIsLoading(false);
+
+    document.addEventListener(
+      "scroll",
+      getCommentListWithArticlePkWhenScrollMiddle,
+    );
+    return () =>
+      document.removeEventListener(
+        "scroll",
+        getCommentListWithArticlePkWhenScrollMiddle,
+      );
   }, [pk]);
 
   if (isLoading) {
@@ -85,5 +94,28 @@ const articleDetail = () => {
   );
 };
 
-// todo static
+export async function getStaticPaths() {
+  const response: articlePkList = await useGetAsync(GET_ARTICLE_PK_LIST);
+  const paths = response.data.articleList.map((item) => ({
+    params: { pk: item.id.toString() },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }: pathParams) {
+  const result: response = await useGetAsync(
+    GET_ARTICLE_DETAIL_URL + params.pk,
+  );
+  const nowArticle = result.data.nowArticle;
+  const hashTagList = result.data.hashTagList;
+
+  return {
+    props: {
+      nowArticle,
+      hashTagList,
+    },
+  };
+}
+
 export default articleDetail;
