@@ -60,6 +60,7 @@ def oauth(request):
                 'nickname':login_user.nickname,
                 'github_url':login_user.github_url,
                 'is_login':True,
+                'is_admin':login_user.github_url == 'https://github.com/sungguenja',
                 'success':True
             })
 
@@ -77,6 +78,7 @@ def oauth(request):
             'nickname':user_dict['login'],
             'github_url':user_dict['html_url'],
             'is_login':False,
+            'is_admin':False,
             'success':True
         })
     except KeyError:
