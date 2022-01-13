@@ -1,11 +1,11 @@
 export interface IUser {
   isLogin: boolean;
   isAdmin: boolean;
-  nodeState: string;
+  nodeId: string;
 }
 
 export const initialUser: IUser = {
   isLogin: false,
   isAdmin: false,
-  nodeState: "",
+  nodeId: "",
 };

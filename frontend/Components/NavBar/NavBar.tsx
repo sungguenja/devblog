@@ -16,9 +16,7 @@ const NavBar = ({ navBarState, setNavBarState }: NavBarProps) => {
   const [navStyleClassName, setNavStyleClassName] = useState<Array<string>>([
     styles.navbar,
   ]);
-
   const userData = useSelector((state: IState) => state.user);
-  console.log(userData, "?");
 
   useEffect(() => {
     const element = document.getElementById("navbar");
