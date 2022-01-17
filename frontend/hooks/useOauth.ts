@@ -1,12 +1,29 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import camelcaseKeys from "camelcase-keys";
-
-// slices
-import userSlice from "store/slices/User";
 
 import { BACKEND_URL } from "@constants/Url";
 
-const { actions } = userSlice;
+interface LooseObject {
+  [key: string]: any;
+}
+
+export const changeCamelCase = (response: AxiosResponse) => {
+  let data: LooseObject = {};
+  try {
+    data = camelcaseKeys(response.data, { deep: true });
+  } catch (err) {
+    console.log(err);
+    data = response.data;
+  }
+  return {
+    ...response,
+    data,
+  };
+};
+
+const oauthAxios = axios.create();
+oauthAxios.defaults.withCredentials = true;
+oauthAxios.interceptors.response.use(changeCamelCase);
 
 export const useGetCookie = (name: string) => {
   var cookieValue = "test";
@@ -24,11 +41,11 @@ export const useGetCookie = (name: string) => {
   return cookieValue;
 };
 
+// todo protectcode 환경변수화 시키기
 export const useGetCSRF = async () => {
-  const csrfToken = await axios({
-    url: `${BACKEND_URL}/users/csrftoken/asdf`,
+  const csrfToken = await oauthAxios({
+    url: `${BACKEND_URL}/users/csrftoken/asdf`, // asdf 가 protectcode
     method: "GET",
-    withCredentials: true,
   })
     .then((res) => res)
     .catch((e) => e);
@@ -40,29 +57,45 @@ const useGetAccessToken = async (code: string) => {
   const csrfToken = await useGetCSRF();
   let token = "z";
 
-  if (csrfToken.data.csrf_token === "success") {
+  if (csrfToken.data.csrfToken === "success") {
     token = useGetCookie("csrftoken");
   }
 
-  return await axios({
+  return await oauthAxios({
     url: `${BACKEND_URL}/users/oauth/`,
     method: "POST",
     headers: {
       "X-CSRFToken": token,
       "Content-Type": "application/json",
     },
-    withCredentials: true,
     data: {
       code: code,
     },
   })
+    .then((res) => res)
+    .catch((e) => e);
+};
+
+export const useLogout = async () => {
+  const csrfToken = await useGetCSRF();
+  let token = "z";
+
+  if (csrfToken.data.csrfToken === "success") {
+    token = useGetCookie("csrftoken");
+  }
+
+  return await oauthAxios({
+    url: `${BACKEND_URL}/users/logout`,
+    headers: {
+      "X-CSRFToken": token,
+      "Content-Type": "application/json",
+    },
+  })
     .then((res) => {
       console.log(res);
-      return camelcaseKeys(res.data);
+      return res;
     })
-    .catch((e) => {
-      console.log(e);
-    });
+    .catch((e) => e);
 };
 
 export default useGetAccessToken;
