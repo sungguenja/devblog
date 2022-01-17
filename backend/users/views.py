@@ -30,6 +30,7 @@ def oauthAuthentication(access_token):
     return res
 
 # Create your views here.
+# todo protectcode 환경변수화 시키기
 def getCsrf(request,protectcode):
     if protectcode != 'asdf' or request.method != 'GET':
         return JsonResponse({'csrf_token':'reject'})
@@ -104,4 +105,13 @@ def changeName(request):
     user.nickname = parse_data['nickname']
     user.save()
 
-    return JsonResponse({'seuccess':True})
+    return JsonResponse({'success':True})
+
+def logout(request):
+    try:
+        logout(request)
+        response = JsonResponse({'success':True})
+        response.delete_cookie('csrftoken')
+        return response
+    except:
+        return JsonResponse({'success':False})
