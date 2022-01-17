@@ -1,6 +1,3 @@
-// css
-import styles from "./MenuBar.module.css";
-
 interface MenuBarProps {
   menuBarWrapperId: string;
   menuBarWrapperClassName: string;
