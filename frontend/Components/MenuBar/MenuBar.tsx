@@ -1,52 +1,31 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { MENU_BAR_WRAPPER_ID, MENU_BAR_NAV_ID } from "@constants/MenuBar";
-
 // css
 import styles from "./MenuBar.module.css";
 
-interface MenuBarProps {}
-
-interface MenuItem {
-  title: string;
-  id: number;
+interface MenuBarProps {
+  menuBarWrapperId: string;
+  menuBarWrapperClassName: string;
+  onMouseEnter: VoidFunction;
+  onMouseLeave: VoidFunction;
+  menuBarNavClassName: string;
+  menuBarNavId: string;
 }
 
-const MenuBar = ({}: MenuBarProps) => {
-  const [menuBarState, setMenuBarState] = useState<boolean>(false);
-  const [menuBarClassName, setMenuBarClassName] = useState<Array<string>>([
-    styles.menubar,
-  ]);
-
-  const onMouseEnter = useCallback(() => {
-    setMenuBarState(true);
-  }, [setMenuBarState]);
-
-  const onMouseLeave = useCallback(() => {
-    setMenuBarState(false);
-  }, [setMenuBarState]);
-
-  useEffect(() => {
-    const element = document.getElementById(MENU_BAR_NAV_ID);
-
-    if (element == null) {
-      return;
-    }
-
-    if (menuBarState) {
-      setMenuBarClassName([styles.menubar]);
-    } else {
-      setMenuBarClassName([styles.menubar, styles.menubarnone]);
-    }
-  }, [menuBarState]);
-
+const MenuBar = ({
+  menuBarWrapperId,
+  menuBarWrapperClassName,
+  onMouseEnter,
+  onMouseLeave,
+  menuBarNavClassName,
+  menuBarNavId,
+}: MenuBarProps) => {
   return (
     <div
-      id={MENU_BAR_WRAPPER_ID}
-      className={styles.menubarcontainer}
+      id={menuBarWrapperId}
+      className={menuBarWrapperClassName}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <nav className={menuBarClassName.join(" ")} id={MENU_BAR_NAV_ID}>
+      <nav className={menuBarNavClassName} id={menuBarNavId}>
         <h2>DevBlog</h2>
         <ul>
           <li>test1</li>
