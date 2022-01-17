@@ -5,9 +5,11 @@ import { useDispatch } from "react-redux";
 // custom hook
 import useGetAccessToken from "hooks/useOauth";
 
+// store
+import userSlice from "store/slices/User";
+
 // component
 import Login from "../../Components/LoginComponent/Login";
-import userSlice from "store/slices/User";
 
 const client_id = process.env.NEXT_PUBLIC_CLIENT_ID;
 const { actions } = userSlice;
@@ -31,9 +33,9 @@ const index = () => {
     const code = router.asPath.split("=")[1];
     const loginWithParam = async () => {
       try {
-        const { nodeId, isLogin, isAdmin } = await useGetAccessToken(
-          code.split("&")[0],
-        );
+        const {
+          data: { nodeId, isLogin, isAdmin },
+        } = await useGetAccessToken(code.split("&")[0]);
         dispatch(actions.changeUserState({ nodeId, isLogin, isAdmin }));
         router.push("/");
       } catch (err) {
