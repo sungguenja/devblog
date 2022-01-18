@@ -52,7 +52,7 @@ export interface commentListResponse {
   };
 }
 
-export interface articlePkList {
+export interface articlePkTitleList {
   data: {
     articleList: articlePk[];
   };
@@ -60,10 +60,11 @@ export interface articlePkList {
 
 export interface articlePk {
   id: number;
+  title: string;
 }
 
 export interface pathParams {
   params: {
-    pk: number;
+    pk: string;
   };
 }

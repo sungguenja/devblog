@@ -17,7 +17,7 @@ import {
   writtenComment,
   ArticlePageProps,
   commentListResponse,
-  articlePkList,
+  articlePkTitleList,
   pathParams,
   response,
 } from "Interfaces/writing";
@@ -95,18 +95,17 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
 };
 
 export async function getStaticPaths() {
-  const response: articlePkList = await useGetAsync(GET_ARTICLE_PK_LIST);
+  const response: articlePkTitleList = await useGetAsync(GET_ARTICLE_PK_LIST);
   const paths = response.data.articleList.map((item) => ({
-    params: { pk: item.id.toString() },
+    params: { pk: `${item.id}^${item.title}` },
   }));
 
   return { paths, fallback: false };
 }
 
 export async function getStaticProps({ params }: pathParams) {
-  const result: response = await useGetAsync(
-    GET_ARTICLE_DETAIL_URL + params.pk,
-  );
+  const pk = params.pk.split("^")[0];
+  const result: response = await useGetAsync(GET_ARTICLE_DETAIL_URL + pk);
   const nowArticle = result.data.nowArticle;
   const hashTagList = result.data.hashTagList;
 
