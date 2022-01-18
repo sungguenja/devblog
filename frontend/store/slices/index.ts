@@ -1,9 +1,4 @@
-import {
-  AnyAction,
-  CombinedState,
-  combineReducers,
-  Store,
-} from "@reduxjs/toolkit";
+import { AnyAction, CombinedState, combineReducers } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 
 // slices

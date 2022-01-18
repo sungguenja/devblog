@@ -46,9 +46,7 @@ export const useGetCSRF = async () => {
   const csrfToken = await oauthAxios({
     url: `${BACKEND_URL}/users/csrftoken/asdf`, // asdf 가 protectcode
     method: "GET",
-  })
-    .then((res) => res)
-    .catch((e) => e);
+  });
 
   return csrfToken;
 };
@@ -71,9 +69,7 @@ const useGetAccessToken = async (code: string) => {
     data: {
       code: code,
     },
-  })
-    .then((res) => res)
-    .catch((e) => e);
+  });
 };
 
 export const useLogout = async () => {
@@ -90,12 +86,7 @@ export const useLogout = async () => {
       "X-CSRFToken": token,
       "Content-Type": "application/json",
     },
-  })
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch((e) => e);
+  });
 };
 
 export default useGetAccessToken;
