@@ -46,5 +46,6 @@ def getArticleDetail(request,article_pk):
     return JsonResponse({'now_article':now_article,'hash_tag_list':hash_tag_list,},safe=False,json_dumps_params={'ensure_ascii':False})
 
 def getAllArticlePk(request):
-    article_list = list(Article.objects.all().values('id'))
+    article_list = list(Article.objects.all().values('id','title'))
+    print(article_list)
     return JsonResponse({'article_list':article_list})
