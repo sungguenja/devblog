@@ -1,13 +1,19 @@
 from django.http.response import HttpResponse, JsonResponse
 from django.core import serializers
 import json
-from writing.models import Article, ArticleHashTag, Comment, HashTag, Menu
+from writing.models import Article, ArticleHashTag, Comment, HashTag, Menu, Category
 from users.models import User
 
 # Create your views here.
 def getMenu(request):
     menu_list = Menu.objects.all()
-    return JsonResponse({'menu_list':list(menu_list)})
+    menu_serialized = serializers.serialize('json',menu_list)
+    menu_serialized = json.loads(menu_serialized)
+
+    category_list = Category.objects.all()
+    category_serialized = serializers.serialize('json',category_list)
+    category_serialized = json.loads(category_serialized)
+    return JsonResponse({'menu_list': menu_serialized,'category_list': category_serialized})
 
 def getArticlesWithMenu(request,menu_pk):
     article_list = Article.objects.filter(menu_pk=menu_pk)
@@ -47,5 +53,4 @@ def getArticleDetail(request,article_pk):
 
 def getAllArticlePk(request):
     article_list = list(Article.objects.all().values('id','title'))
-    print(article_list)
     return JsonResponse({'article_list':article_list})
