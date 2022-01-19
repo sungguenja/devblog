@@ -21,7 +21,7 @@ const articleListWithMenuPk = () => {
     setIsLoading(false);
   }, [pk]);
 
-  const onClick = (pk: number) => {
+  const onClick = (pk: string) => {
     router.push({ pathname: "/article/[pk]", query: { pk } });
   };
 
@@ -37,7 +37,8 @@ const articleListWithMenuPk = () => {
   return (
     <>
       {articleList.map((article) => {
-        const goArticleDetail = () => onClick(article.pk);
+        const goArticleDetail = () =>
+          onClick(`${article.pk.toString()}^${article.fields.title}`);
         return (
           <ArticleCell
             key={article.fields.title + article.pk.toString()}
