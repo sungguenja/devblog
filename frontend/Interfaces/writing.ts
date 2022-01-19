@@ -68,3 +68,35 @@ export interface pathParams {
     pk: string;
   };
 }
+
+export interface responseMenuItem {
+  pk: number;
+  fields: {
+    title: string;
+    categoryId: number;
+  };
+}
+
+export interface MenuItem {
+  title: string;
+  pk: number;
+  categoryId: number;
+}
+
+export interface responseCategoryItem {
+  pk: number;
+  fields: {
+    name: string;
+  };
+}
+
+export interface CategoryItem {
+  name: string;
+  pk: number;
+}
+
+export interface CategoryAndMenu {
+  categoryId: number;
+  name: string;
+  menu: MenuItem[];
+}

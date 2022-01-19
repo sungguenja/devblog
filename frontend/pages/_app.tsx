@@ -45,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <NavBar />
       <div id="page">
-        <MenuBar menuList={[]} />
+        <MenuBar />
         <div className="bg-amber-400 mx-[16vw]">
           <Component {...pageProps} />
         </div>

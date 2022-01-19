@@ -1,3 +1,7 @@
+import { CategoryAndMenu } from "Interfaces/writing";
+
+import MenuCell from "Components/MenuCell";
+
 interface MenuBarProps {
   menuBarWrapperId: string;
   menuBarWrapperClassName: string;
@@ -5,6 +9,7 @@ interface MenuBarProps {
   onMouseLeave: VoidFunction;
   menuBarNavClassName: string;
   menuBarNavId: string;
+  menuCellList: Array<CategoryAndMenu>;
 }
 
 const MenuBar = ({
@@ -14,6 +19,7 @@ const MenuBar = ({
   onMouseLeave,
   menuBarNavClassName,
   menuBarNavId,
+  menuCellList,
 }: MenuBarProps) => {
   return (
     <div
@@ -24,10 +30,14 @@ const MenuBar = ({
     >
       <nav className={menuBarNavClassName} id={menuBarNavId}>
         <h2>DevBlog</h2>
-        <ul>
-          <li>test1</li>
-          <li>test2</li>
-        </ul>
+        {menuCellList.map((item) => {
+          return (
+            <MenuCell
+              menuCellItem={item}
+              key={item.name + item.categoryId.toString()}
+            />
+          );
+        })}
       </nav>
     </div>
   );
