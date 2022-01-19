@@ -37,7 +37,10 @@ const index = () => {
           data: { nodeId, isLogin, isAdmin },
         } = await useGetAccessToken(code.split("&")[0]);
         dispatch(actions.changeUserState({ nodeId, isLogin, isAdmin }));
-        document.cookie = `loginData={"nodeId":"${nodeId}","isAdmin":"${isAdmin}"}`;
+        localStorage.setItem(
+          "loginData",
+          JSON.stringify({ nodeId, isLogin, isAdmin }),
+        );
         router.push("/");
       } catch (err) {
         console.log(err);

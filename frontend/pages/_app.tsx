@@ -16,6 +16,7 @@ import NavBar from "@components/NavBar";
 import MenuBar from "@components/MenuBar";
 
 import "../styles/globals.css";
+import { IUser } from "store/slices/User/type";
 
 const { actions } = userSlice;
 
@@ -25,13 +26,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const csrfToken = useGetCookie("csrftoken");
     if (csrfToken !== "test") {
-      const loginData = useGetCookie("loginData");
-      const data = JSON.parse(loginData);
+      const loginData = localStorage.getItem("loginData");
+      if (loginData === null) {
+        return;
+      }
+      const data: IUser = JSON.parse(loginData);
       dispatch(
         actions.changeUserState({
           nodeId: data.nodeId,
-          isLogin: true,
-          isAdmin: data.isAdmin === "true",
+          isLogin: data.isLogin,
+          isAdmin: data.isAdmin,
         }),
       );
     }

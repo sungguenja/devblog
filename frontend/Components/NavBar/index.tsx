@@ -2,16 +2,17 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import router from "next/router";
 
+import NavBar from "./NavBar";
+
 // hooks
 import { useLogout } from "hooks/useOauth";
 
 // store
-import { IState } from "store/slices";
 import userSlice from "store/slices/User";
+import userSelector from "store/selectors/userSelector";
 
 // css
 import styles from "./NavBar.module.css";
-import NavBar from "./NavBar";
 
 export interface NavBarProps {}
 const DELTA = 15;
@@ -25,7 +26,7 @@ const NavBarIndex = ({}: NavBarProps) => {
   ]);
   const lastScroll = useRef<number>(0);
 
-  const userData = useSelector((state: IState) => state.user);
+  const userData = useSelector(userSelector);
   console.log(userData);
 
   const scrollEvent = useCallback(() => {
