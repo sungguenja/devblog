@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, Store } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import { AnyAction, Reducer } from "@reduxjs/toolkit";
 
@@ -7,7 +7,7 @@ import rootReducer, { IState } from "./slices";
 
 const isDev = true; // todo: env파일로 데브모드 설정
 
-const createStore = () => {
+const createStore = (): Store => {
   const store = configureStore({
     reducer: rootReducer as Reducer<IState, AnyAction>,
     devTools: isDev,
