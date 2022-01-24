@@ -56,10 +56,7 @@ const NavBarIndex = ({}: NavBarProps) => {
             isLogin: false,
           }),
         );
-        let date = new Date();
-        date.setDate(date.getDate() - 100);
-        const loginCookie = `loginData=;Expires=${date.toUTCString()}`;
-        document.cookie = loginCookie;
+        localStorage.removeItem("loginData");
       }
     } catch (err) {
       console.log(err);
