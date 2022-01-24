@@ -5,7 +5,7 @@ import { useGetAsync } from "hooks/useAsync";
 import { GET_ARTICLE_LIST_OR_MENU_LIST_URL } from "@constants/Url";
 import { article } from "Interfaces/writing";
 
-import ArticleCell from "@components/ArticleCell/ArticleCell";
+import ArticleListIndex from "@components/ArticleList";
 
 const articleListWithMenuPk = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -21,10 +21,6 @@ const articleListWithMenuPk = () => {
     setIsLoading(false);
   }, [pk]);
 
-  const onClick = (pk: string) => {
-    router.push({ pathname: "/article/[pk]", query: { pk } });
-  };
-
   useEffect(() => {
     !pk ? null : getArticleListData();
   }, [pk]);
@@ -34,27 +30,7 @@ const articleListWithMenuPk = () => {
     return <h1>Loding...</h1>;
   }
 
-  return (
-    <>
-      {articleList.map((article) => {
-        const goArticleDetail = () =>
-          onClick(`${article.pk.toString()}^${article.fields.title}`);
-        return (
-          <ArticleCell
-            key={article.fields.title + article.pk.toString()}
-            pk={article.pk}
-            title={article.fields.title}
-            content={article.fields.content}
-            githubUrl={article.fields.github}
-            menuPk={article.fields.menuPk}
-            createdAt={article.fields.createdAt}
-            updatedAt={article.fields.updatedAt}
-            onClick={goArticleDetail}
-          />
-        );
-      })}
-    </>
-  );
+  return <ArticleListIndex articleList={articleList} />;
 };
 
 export default articleListWithMenuPk;
