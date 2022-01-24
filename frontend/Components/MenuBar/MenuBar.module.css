@@ -1,13 +1,13 @@
 /* todo: 색 지워버리기 (컨셉생기지 않는이상) */
 .menubarcontainer {
-  background-color: black;
-  width: 15vw;
+  width: 16vw;
   height: 100vh;
   position: fixed;
 }
 
 .menubar {
-  width: 10vw;
+  width: 16vw;
+  height: 80%;
   position: fixed;
   transition: all 0.4s;
   left: 0%;
@@ -18,7 +18,7 @@
 }
 
 .menubarnone {
-  left: -9.5%;
+  left: -16vw;
 }
 
 .menubtn {

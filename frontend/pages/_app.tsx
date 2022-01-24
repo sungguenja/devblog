@@ -44,9 +44,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <NavBar />
-      <div id="page">
+      <div>
         <MenuBar />
-        <div className="bg-amber-400 mx-[16vw]">
+        <div className="bg-amber-400 mx-auto px-4">
           <Component {...pageProps} />
         </div>
       </div>

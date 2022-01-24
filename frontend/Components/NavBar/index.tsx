@@ -17,6 +17,7 @@ import styles from "./NavBar.module.css";
 export interface NavBarProps {}
 const DELTA = 15;
 const { actions } = userSlice;
+const navbarDefaultStyle = " md:hidden block";
 
 const NavBarIndex = ({}: NavBarProps) => {
   const dispatch = useDispatch();
@@ -87,7 +88,7 @@ const NavBarIndex = ({}: NavBarProps) => {
 
   return (
     <NavBar
-      navStyleClassName={navStyleClassName.join(" ")}
+      navStyleClassName={navStyleClassName.join(" ") + navbarDefaultStyle}
       isLogin={userData.isLogin}
       logoutFunction={logoutFunction}
       goLoginPage={goLoginPage}

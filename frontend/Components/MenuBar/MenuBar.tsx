@@ -5,21 +5,23 @@ import MenuCell from "Components/MenuCell";
 interface MenuBarProps {
   menuBarWrapperId: string;
   menuBarWrapperClassName: string;
-  onMouseEnter: VoidFunction;
-  onMouseLeave: VoidFunction;
   menuBarNavClassName: string;
   menuBarNavId: string;
   menuCellList: Array<CategoryAndMenu>;
+  onMouseEnter: VoidFunction;
+  onMouseLeave: VoidFunction;
+  onClickGoToMain: VoidFunction;
 }
 
 const MenuBar = ({
   menuBarWrapperId,
   menuBarWrapperClassName,
-  onMouseEnter,
-  onMouseLeave,
   menuBarNavClassName,
   menuBarNavId,
   menuCellList,
+  onMouseEnter,
+  onMouseLeave,
+  onClickGoToMain,
 }: MenuBarProps) => {
   return (
     <div
@@ -29,15 +31,17 @@ const MenuBar = ({
       onMouseLeave={onMouseLeave}
     >
       <nav className={menuBarNavClassName} id={menuBarNavId}>
-        <h2>DevBlog</h2>
-        {menuCellList.map((item) => {
-          return (
-            <MenuCell
-              menuCellItem={item}
-              key={item.name + item.categoryId.toString()}
-            />
-          );
-        })}
+        <h2 onClick={onClickGoToMain}>DevBlog</h2>
+        <div className="h-56">
+          {menuCellList.map((item) => {
+            return (
+              <MenuCell
+                menuCellItem={item}
+                key={item.name + item.categoryId.toString()}
+              />
+            );
+          })}
+        </div>
       </nav>
     </div>
   );

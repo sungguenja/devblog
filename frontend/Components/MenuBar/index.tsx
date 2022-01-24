@@ -14,15 +14,23 @@ import { GET_MENU_LIST } from "@constants/Url";
 // css
 import styles from "./MenuBar.module.css";
 import MenuBar from "./MenuBar";
+import { useRouter } from "next/router";
 
 interface MenuBarProps {}
 
+const menubarDefaultStyle = " md:block hidden";
+
 const MenuBarIndex = ({}: MenuBarProps) => {
+  const router = useRouter();
   const [menuBarState, setMenuBarState] = useState<boolean>(false);
   const [menuCellList, setMenuCellList] = useState<Array<CategoryAndMenu>>([]);
   const [menuBarClassName, setMenuBarClassName] = useState<Array<string>>([
     styles.menubar,
   ]);
+
+  const onClickGoToMain = () => {
+    router.push("/");
+  };
 
   const onMouseEnter = useCallback(() => {
     setMenuBarState(true);
@@ -88,12 +96,13 @@ const MenuBarIndex = ({}: MenuBarProps) => {
   return (
     <MenuBar
       menuBarWrapperId={MENU_BAR_WRAPPER_ID}
-      menuBarWrapperClassName={styles.menubarcontainer}
+      menuBarWrapperClassName={styles.menubarcontainer + menubarDefaultStyle}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      menuBarNavClassName={menuBarClassName.join(" ")}
+      menuBarNavClassName={menuBarClassName.join(" ") + menubarDefaultStyle}
       menuBarNavId={MENU_BAR_NAV_ID}
       menuCellList={menuCellList}
+      onClickGoToMain={onClickGoToMain}
     />
   );
 };

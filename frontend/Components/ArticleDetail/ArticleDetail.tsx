@@ -23,7 +23,7 @@ const articleDetail = ({
   postCommentWithValue,
 }: articleDetailProps) => {
   return (
-    <article>
+    <article className="md:mx-[16vw] mx-auto">
       <ArticleMain nowArticle={nowArticle} />
       {hashTagList.map((item) => (
         <HashTag
