@@ -8,6 +8,9 @@ interface MenuBarProps {
   menuBarNavClassName: string;
   menuBarNavId: string;
   menuCellList: Array<CategoryAndMenu>;
+  isLogin: boolean;
+  logoutFunction: VoidFunction;
+  goLoginPage: VoidFunction;
   onMouseEnter: VoidFunction;
   onMouseLeave: VoidFunction;
   onClickGoToMain: VoidFunction;
@@ -19,6 +22,9 @@ const MenuBar = ({
   menuBarNavClassName,
   menuBarNavId,
   menuCellList,
+  isLogin,
+  logoutFunction,
+  goLoginPage,
   onMouseEnter,
   onMouseLeave,
   onClickGoToMain,
@@ -31,16 +37,26 @@ const MenuBar = ({
       onMouseLeave={onMouseLeave}
     >
       <nav className={menuBarNavClassName} id={menuBarNavId}>
-        <h2 onClick={onClickGoToMain}>DevBlog</h2>
-        <div className="h-56">
-          {menuCellList.map((item) => {
-            return (
-              <MenuCell
-                menuCellItem={item}
-                key={item.name + item.categoryId.toString()}
-              />
-            );
-          })}
+        <div>
+          <h2 onClick={onClickGoToMain}>DevBlog</h2>
+          <div>
+            {menuCellList.map((item) => {
+              return (
+                <MenuCell
+                  menuCellItem={item}
+                  key={item.name + item.categoryId.toString()}
+                />
+              );
+            })}
+          </div>
+        </div>
+        <div>
+          <h2>search component</h2>
+          {isLogin ? (
+            <button onClick={logoutFunction}>logout</button>
+          ) : (
+            <h2 onClick={goLoginPage}>login</h2>
+          )}
         </div>
       </nav>
     </div>

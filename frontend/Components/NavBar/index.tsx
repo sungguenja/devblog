@@ -28,7 +28,6 @@ const NavBarIndex = ({}: NavBarProps) => {
   const lastScroll = useRef<number>(0);
 
   const userData = useSelector(userSelector);
-  console.log(userData);
 
   const scrollEvent = useCallback(() => {
     const nowScrollTop = document.documentElement.scrollTop;
