@@ -1,38 +1,25 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import {
-  CategoryAndMenu,
-  CategoryItem,
-  MenuItem,
-  responseCategoryItem,
-  responseMenuItem,
-} from "Interfaces/writing";
-import { useGetAsync } from "hooks/useAsync";
+import { CategoryAndMenu } from "Interfaces/writing";
 import { MENU_BAR_WRAPPER_ID, MENU_BAR_NAV_ID } from "@constants/MenuBar";
-import { GET_MENU_LIST } from "@constants/Url";
+import useMenuFunction from "hooks/useMenuFunction";
 
 // store
-import userSlice from "store/slices/User";
 import userSelector from "store/selectors/userSelector";
 
 // css
 import styles from "./MenuBar.module.css";
 
 import MenuBar from "./MenuBar";
-import { useLogout } from "hooks/useOauth";
 
 interface MenuBarProps {
   menuCellList: Array<CategoryAndMenu>;
 }
 
-const { actions } = userSlice;
 const menubarDefaultStyle = " md:block hidden";
 
 const MenuBarIndex = ({ menuCellList }: MenuBarProps) => {
-  const router = useRouter();
-  const dispatch = useDispatch();
   const [menuBarState, setMenuBarState] = useState<boolean>(false);
   const [menuBarClassName, setMenuBarClassName] = useState<Array<string>>([
     styles.menubar,
@@ -41,34 +28,7 @@ const MenuBarIndex = ({ menuCellList }: MenuBarProps) => {
 
   const userData = useSelector(userSelector);
 
-  const goLoginPage = () => {
-    router.push("/login");
-  };
-
-  const onClickGoToMain = () => {
-    router.push("/");
-  };
-
-  const logoutFunction = async () => {
-    try {
-      const {
-        data: { success },
-      } = await useLogout();
-      console.log(success);
-      if (success) {
-        dispatch(
-          actions.changeUserState({
-            nodeId: "",
-            isAdmin: false,
-            isLogin: false,
-          }),
-        );
-        localStorage.removeItem("loginData");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { logoutFunction, goLoginPage, onClickGoToMain } = useMenuFunction();
 
   const onMouseEnter = useCallback(() => {
     setMenuBarState(true);

@@ -1,16 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import router from "next/router";
+import { useSelector } from "react-redux";
 
 import NavBar from "./NavBar";
 
 import { CategoryAndMenu } from "Interfaces/writing";
 
 // hooks
-import { useLogout } from "hooks/useOauth";
+import useMenuFunction from "hooks/useMenuFunction";
 
 // store
-import userSlice from "store/slices/User";
 import userSelector from "store/selectors/userSelector";
 
 // css
@@ -21,11 +19,9 @@ export interface NavBarProps {
 }
 
 const DELTA = 15;
-const { actions } = userSlice;
 const navbarDefaultStyle = " md:hidden block";
 
 const NavBarIndex = ({ menuCellList }: NavBarProps) => {
-  const dispatch = useDispatch();
   const [navBarState, setNavBarState] = useState<boolean>(true);
   const [menuState, setMenuState] = useState<boolean>(false);
   const [navStyleClassName, setNavStyleClassName] = useState<Array<string>>([
@@ -39,35 +35,7 @@ const NavBarIndex = ({ menuCellList }: NavBarProps) => {
 
   const userData = useSelector(userSelector);
 
-  const logoutFunction = async () => {
-    try {
-      const {
-        data: { success },
-      } = await useLogout();
-      console.log(success);
-      if (success) {
-        dispatch(
-          actions.changeUserState({
-            nodeId: "",
-            isAdmin: false,
-            isLogin: false,
-          }),
-        );
-        localStorage.removeItem("loginData");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const goLoginPage = () => {
-    router.push("/login");
-    setMenuState(false);
-  };
-
-  const onClickGoToMain = () => {
-    router.push("/");
-  };
+  const { logoutFunction, goLoginPage, onClickGoToMain } = useMenuFunction();
 
   const scrollEvent = useCallback(() => {
     const nowScrollTop = document.documentElement.scrollTop;
@@ -85,6 +53,10 @@ const NavBarIndex = ({ menuCellList }: NavBarProps) => {
 
   const onClickMenuState = useCallback(() => {
     setMenuState((state) => !state);
+  }, [setMenuState]);
+
+  const turnOffMenu = useCallback(() => {
+    setMenuState(false);
   }, [setMenuState]);
 
   useEffect(() => {
@@ -122,6 +94,7 @@ const NavBarIndex = ({ menuCellList }: NavBarProps) => {
       menuStyleClassName={menuStyleClassName.join(" ")}
       onClickMenuState={onClickMenuState}
       onClickGoToMain={onClickGoToMain}
+      turnOffMenu={turnOffMenu}
     />
   );
 };

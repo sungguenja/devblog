@@ -33,64 +33,68 @@ const { actions } = userSlice;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [menuCellList, setMenuCellList] = useState<Array<CategoryAndMenu>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const csrfToken = useGetCookie("csrftoken");
-    if (csrfToken !== "test") {
-      const loginData = localStorage.getItem("loginData");
-      if (loginData === null) {
-        return;
+    if (isLoading) {
+      const csrfToken = useGetCookie("csrftoken");
+      if (csrfToken !== "test") {
+        const loginData = localStorage.getItem("loginData");
+        if (loginData === null) {
+          return;
+        }
+        const data: IUser = JSON.parse(loginData);
+        dispatch(
+          actions.changeUserState({
+            nodeId: data.nodeId,
+            isLogin: data.isLogin,
+            isAdmin: data.isAdmin,
+          }),
+        );
       }
-      const data: IUser = JSON.parse(loginData);
-      dispatch(
-        actions.changeUserState({
-          nodeId: data.nodeId,
-          isLogin: data.isLogin,
-          isAdmin: data.isAdmin,
-        }),
-      );
-    }
 
-    useGetAsync(GET_MENU_LIST).then((res) => {
-      const menuList: MenuItem[] = res.data.menuList.map(
-        (item: responseMenuItem) => {
-          return {
-            pk: item.pk,
-            title: item.fields.title,
-            categoryId: item.fields.categoryId,
-          };
-        },
-      );
+      useGetAsync(GET_MENU_LIST).then((res) => {
+        const menuList: MenuItem[] = res.data.menuList.map(
+          (item: responseMenuItem) => {
+            return {
+              pk: item.pk,
+              title: item.fields.title,
+              categoryId: item.fields.categoryId,
+            };
+          },
+        );
 
-      const categoryList: CategoryItem[] = res.data.categoryList.map(
-        (item: responseCategoryItem) => {
-          return {
-            pk: item.pk,
-            name: item.fields.name,
-          };
-        },
-      );
+        const categoryList: CategoryItem[] = res.data.categoryList.map(
+          (item: responseCategoryItem) => {
+            return {
+              pk: item.pk,
+              name: item.fields.name,
+            };
+          },
+        );
 
-      const tmpMenuCellList: CategoryAndMenu[] = [];
-      categoryList.forEach((category) => {
-        const tmpMenuList: MenuItem[] = [];
-        menuList.forEach((menu) => {
-          if (category.pk === menu.categoryId) {
-            tmpMenuList.push(menu);
-          }
+        const tmpMenuCellList: CategoryAndMenu[] = [];
+        categoryList.forEach((category) => {
+          const tmpMenuList: MenuItem[] = [];
+          menuList.forEach((menu) => {
+            if (category.pk === menu.categoryId) {
+              tmpMenuList.push(menu);
+            }
+          });
+
+          tmpMenuCellList.push({
+            categoryId: category.pk,
+            name: category.name,
+            menu: tmpMenuList,
+          });
         });
 
-        tmpMenuCellList.push({
-          categoryId: category.pk,
-          name: category.name,
-          menu: tmpMenuList,
-        });
+        setMenuCellList(tmpMenuCellList);
       });
-
-      setMenuCellList(tmpMenuCellList);
-    });
-  }, []);
+      setIsLoading(false);
+    }
+  }, [isLoading]);
 
   return (
     <>

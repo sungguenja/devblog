@@ -11,6 +11,7 @@ export interface NavBarProps {
   goLoginPage: VoidFunction;
   onClickMenuState: VoidFunction;
   onClickGoToMain: VoidFunction;
+  turnOffMenu: VoidFunction;
 }
 
 const NavBar = ({
@@ -23,6 +24,7 @@ const NavBar = ({
   goLoginPage,
   onClickMenuState,
   onClickGoToMain,
+  turnOffMenu,
 }: NavBarProps) => {
   return (
     <nav className={navStyleClassName} id="navbar">
@@ -60,7 +62,7 @@ const NavBar = ({
           </div>
         </div>
       </div>
-      <nav className={menuStyleClassName}>
+      <nav className={menuStyleClassName} onClick={turnOffMenu}>
         {menuCellList.map((item) => {
           return (
             <MenuCell
