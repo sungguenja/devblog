@@ -1,12 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import { useDispatch } from "react-redux";
+
+// interface & contants
+import {
+  CategoryAndMenu,
+  CategoryItem,
+  MenuItem,
+  responseCategoryItem,
+  responseMenuItem,
+} from "Interfaces/writing";
+import { GET_MENU_LIST } from "@constants/Url";
 
 // wrapper
 import wrapper from "store";
 
 // hooks
 import { useGetCookie } from "hooks/useOauth";
+import { useGetAsync } from "hooks/useAsync";
 
 // store
 import userSlice from "store/slices/User";
@@ -21,6 +32,7 @@ import { IUser } from "store/slices/User/type";
 const { actions } = userSlice;
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [menuCellList, setMenuCellList] = useState<Array<CategoryAndMenu>>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,14 +51,53 @@ function MyApp({ Component, pageProps }: AppProps) {
         }),
       );
     }
+
+    useGetAsync(GET_MENU_LIST).then((res) => {
+      const menuList: MenuItem[] = res.data.menuList.map(
+        (item: responseMenuItem) => {
+          return {
+            pk: item.pk,
+            title: item.fields.title,
+            categoryId: item.fields.categoryId,
+          };
+        },
+      );
+
+      const categoryList: CategoryItem[] = res.data.categoryList.map(
+        (item: responseCategoryItem) => {
+          return {
+            pk: item.pk,
+            name: item.fields.name,
+          };
+        },
+      );
+
+      const tmpMenuCellList: CategoryAndMenu[] = [];
+      categoryList.forEach((category) => {
+        const tmpMenuList: MenuItem[] = [];
+        menuList.forEach((menu) => {
+          if (category.pk === menu.categoryId) {
+            tmpMenuList.push(menu);
+          }
+        });
+
+        tmpMenuCellList.push({
+          categoryId: category.pk,
+          name: category.name,
+          menu: tmpMenuList,
+        });
+      });
+
+      setMenuCellList(tmpMenuCellList);
+    });
   }, []);
 
   return (
     <>
-      <NavBar />
+      <NavBar menuCellList={menuCellList} />
       <div>
-        <MenuBar />
-        <div className="bg-amber-400 mx-auto px-4">
+        <MenuBar menuCellList={menuCellList} />
+        <div className="bg-amber-400 mx-auto px-4 h-[100000000px]">
           <Component {...pageProps} />
         </div>
       </div>
