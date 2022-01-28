@@ -4,6 +4,8 @@ import router from "next/router";
 
 import NavBar from "./NavBar";
 
+import { CategoryAndMenu } from "Interfaces/writing";
+
 // hooks
 import { useLogout } from "hooks/useOauth";
 
@@ -14,35 +16,30 @@ import userSelector from "store/selectors/userSelector";
 // css
 import styles from "./NavBar.module.css";
 
-export interface NavBarProps {}
+export interface NavBarProps {
+  menuCellList: Array<CategoryAndMenu>;
+}
+
 const DELTA = 15;
 const { actions } = userSlice;
 const navbarDefaultStyle = " md:hidden block";
 
-const NavBarIndex = ({}: NavBarProps) => {
+const NavBarIndex = ({ menuCellList }: NavBarProps) => {
   const dispatch = useDispatch();
   const [navBarState, setNavBarState] = useState<boolean>(true);
+  const [menuState, setMenuState] = useState<boolean>(false);
   const [navStyleClassName, setNavStyleClassName] = useState<Array<string>>([
     styles.navbar,
+  ]);
+  const [menuStyleClassName, setMenuStyleClassName] = useState<Array<string>>([
+    styles.innerMenu,
+    styles.innerMenuNone,
   ]);
   const lastScroll = useRef<number>(0);
 
   const userData = useSelector(userSelector);
 
-  const scrollEvent = useCallback(() => {
-    const nowScrollTop = document.documentElement.scrollTop;
-
-    if (Math.abs(nowScrollTop - lastScroll.current) < DELTA) return;
-
-    if (nowScrollTop > lastScroll.current) {
-      setNavBarState(false);
-    } else {
-      setNavBarState(true);
-    }
-    lastScroll.current = nowScrollTop;
-  }, [setNavBarState, lastScroll]);
-
-  const logoutFunction = useCallback(async () => {
+  const logoutFunction = async () => {
     try {
       const {
         data: { success },
@@ -61,15 +58,38 @@ const NavBarIndex = ({}: NavBarProps) => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  };
 
   const goLoginPage = () => {
     router.push("/login");
+    setMenuState(false);
   };
+
+  const onClickGoToMain = () => {
+    router.push("/");
+  };
+
+  const scrollEvent = useCallback(() => {
+    const nowScrollTop = document.documentElement.scrollTop;
+
+    if (Math.abs(nowScrollTop - lastScroll.current) < DELTA) return;
+
+    if (nowScrollTop > lastScroll.current) {
+      setNavBarState(false);
+      setMenuState(false);
+    } else {
+      setNavBarState(true);
+    }
+    lastScroll.current = nowScrollTop;
+  }, [setNavBarState, setMenuState, lastScroll]);
+
+  const onClickMenuState = useCallback(() => {
+    setMenuState((state) => !state);
+  }, [setMenuState]);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollEvent);
-  }, []);
+  }, [scrollEvent]);
 
   useEffect(() => {
     const element = document.getElementById("navbar");
@@ -83,7 +103,13 @@ const NavBarIndex = ({}: NavBarProps) => {
     } else {
       setNavStyleClassName([styles.navbar, styles.navbarnone]);
     }
-  }, [navBarState]);
+
+    if (menuState) {
+      setMenuStyleClassName([styles.innerMenu]);
+    } else {
+      setMenuStyleClassName([styles.innerMenu, styles.innerMenuNone]);
+    }
+  }, [navBarState, menuState, setNavStyleClassName, setMenuStyleClassName]);
 
   return (
     <NavBar
@@ -91,6 +117,11 @@ const NavBarIndex = ({}: NavBarProps) => {
       isLogin={userData.isLogin}
       logoutFunction={logoutFunction}
       goLoginPage={goLoginPage}
+      menuCellList={menuCellList}
+      menuState={menuState}
+      menuStyleClassName={menuStyleClassName.join(" ")}
+      onClickMenuState={onClickMenuState}
+      onClickGoToMain={onClickGoToMain}
     />
   );
 };

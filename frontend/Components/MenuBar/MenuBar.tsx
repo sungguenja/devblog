@@ -37,7 +37,7 @@ const MenuBar = ({
       onMouseLeave={onMouseLeave}
     >
       <nav className={menuBarNavClassName} id={menuBarNavId}>
-        <div>
+        <div className="h-[80%]">
           <h2 onClick={onClickGoToMain}>DevBlog</h2>
           <div>
             {menuCellList.map((item) => {

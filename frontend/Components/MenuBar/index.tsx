@@ -23,15 +23,17 @@ import styles from "./MenuBar.module.css";
 import MenuBar from "./MenuBar";
 import { useLogout } from "hooks/useOauth";
 
-interface MenuBarProps {}
+interface MenuBarProps {
+  menuCellList: Array<CategoryAndMenu>;
+}
+
 const { actions } = userSlice;
 const menubarDefaultStyle = " md:block hidden";
 
-const MenuBarIndex = ({}: MenuBarProps) => {
+const MenuBarIndex = ({ menuCellList }: MenuBarProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [menuBarState, setMenuBarState] = useState<boolean>(false);
-  const [menuCellList, setMenuCellList] = useState<Array<CategoryAndMenu>>([]);
   const [menuBarClassName, setMenuBarClassName] = useState<Array<string>>([
     styles.menubar,
     "h-[100%]",
@@ -43,7 +45,11 @@ const MenuBarIndex = ({}: MenuBarProps) => {
     router.push("/login");
   };
 
-  const logoutFunction = useCallback(async () => {
+  const onClickGoToMain = () => {
+    router.push("/");
+  };
+
+  const logoutFunction = async () => {
     try {
       const {
         data: { success },
@@ -62,10 +68,6 @@ const MenuBarIndex = ({}: MenuBarProps) => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
-
-  const onClickGoToMain = () => {
-    router.push("/");
   };
 
   const onMouseEnter = useCallback(() => {
@@ -83,51 +85,12 @@ const MenuBarIndex = ({}: MenuBarProps) => {
       return;
     }
 
-    useGetAsync(GET_MENU_LIST).then((res) => {
-      const menuList: MenuItem[] = res.data.menuList.map(
-        (item: responseMenuItem) => {
-          return {
-            pk: item.pk,
-            title: item.fields.title,
-            categoryId: item.fields.categoryId,
-          };
-        },
-      );
-
-      const categoryList: CategoryItem[] = res.data.categoryList.map(
-        (item: responseCategoryItem) => {
-          return {
-            pk: item.pk,
-            name: item.fields.name,
-          };
-        },
-      );
-
-      const tmpMenuCellList: CategoryAndMenu[] = [];
-      categoryList.forEach((category) => {
-        const tmpMenuList: MenuItem[] = [];
-        menuList.forEach((menu) => {
-          if (category.pk === menu.categoryId) {
-            tmpMenuList.push(menu);
-          }
-        });
-
-        tmpMenuCellList.push({
-          categoryId: category.pk,
-          name: category.name,
-          menu: tmpMenuList,
-        });
-      });
-
-      setMenuCellList(tmpMenuCellList);
-    });
-
     if (menuBarState) {
       setMenuBarClassName([styles.menubar]);
     } else {
-      setMenuBarClassName([styles.menubar]);
+      setMenuBarClassName([styles.menubar, styles.menubarnone]);
     }
-  }, [menuBarState]);
+  }, [menuBarState, setMenuBarClassName]);
 
   return (
     <MenuBar

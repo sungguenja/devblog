@@ -5,15 +5,33 @@
   z-index: 3;
   position: fixed;
   transition: all 0.4s;
-  display: flex;
-  justify-content: space-between;
-  height: 4.5rem;
+  height: 72px;
 }
 
 .navbar > div {
+  height: 100%;
+  z-index: 3;
   display: flex;
+  justify-content: space-around;
 }
 
 .navbarnone {
-  top: -73px;
+  top: -72px;
+}
+
+.innerMenu {
+  top: 72px;
+  width: 100%;
+  z-index: 2;
+  position: fixed;
+  transition: all 0.4s;
+}
+
+.innerMenu > ul {
+  width: 100%;
+  text-align: center;
+}
+
+.innerMenuNone {
+  top: -100px;
 }
