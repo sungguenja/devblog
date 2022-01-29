@@ -7,12 +7,12 @@ export interface props {
 
 const Login = ({ loginPropsList }: props) => {
   return (
-    <article className={styles.container}>
+    <article className="flex justify-center items-center h-[100vh] align-center">
       {loginPropsList.map((item, index) => {
         return (
           <button
             onClick={item.loginFunction}
-            className={styles[item.oauthSite]}
+            className={styles[item.oauthSite] + " my-3"}
             key={item.oauthSite + index.toString()}
           >
             <Image

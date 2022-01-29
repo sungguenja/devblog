@@ -101,7 +101,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <NavBar menuCellList={menuCellList} />
       <div>
         <MenuBar menuCellList={menuCellList} />
-        <div className="bg-amber-400 mx-auto px-4 h-[100000000px]">
+        <div className="bg-amber-400 mx-auto px-4">
           <Component {...pageProps} />
         </div>
       </div>
