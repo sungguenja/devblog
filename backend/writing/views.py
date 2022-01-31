@@ -3,8 +3,12 @@ from django.core import serializers
 import json
 from writing.models import Article, ArticleHashTag, Comment, HashTag, Menu, Category
 from users.models import User
+from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
+def parseData(data):
+    return json.loads(data.decode('utf-8'))
+
 def getMenu(request):
     menu_list = Menu.objects.all()
     menu_serialized = serializers.serialize('json',menu_list)
@@ -29,15 +33,30 @@ def getHashTagListWithArticlePk(article_pk):
         hash_tag_list.append(json.loads(now_data)[0])
     return hash_tag_list
 
+def getUserDataAndComment(comm):
+    now_data = serializers.serialize('json',[comm])
+    if comm.isAnonymous:
+        node_string = comm.anonymousPassword
+        nickname = comm.anonymousName
+        comment_cell_data = json.loads(now_data)[0]
+        comment_cell_data['isAnonymous'] = True
+        comment_cell_data['node'] = node_string
+        comment_cell_data['nickname'] = nickname
+    else:
+        node_string = comm.user_pk.node_id
+        nickname = comm.user_pk.nickname
+        comment_cell_data = json.loads(now_data)[0]
+        comment_cell_data['isAnonymous'] = False
+        comment_cell_data['node'] = node_string
+        comment_cell_data['nickname'] = nickname
+    
+    return comment_cell_data
+
 def getCommentListWithArticlePk(request,article_pk):
     comment_list_json = []
     comment_list = Comment.objects.filter(article_pk=article_pk)
     for comm in comment_list:
-        now_data = serializers.serialize('json',[comm])
-        node_string = comm.user_pk.node_id
-        comment_cell_data = json.loads(now_data)[0]
-        comment_cell_data['node'] = node_string
-        comment_list_json.append(comment_cell_data)
+        comment_list_json.append(getUserDataAndComment(comm))
     return JsonResponse({'comment_list_json':comment_list_json},safe=False,json_dumps_params={'ensure_ascii':False})
 
 def getArticleDetailWithArticlePk(article_pk):
@@ -54,3 +73,17 @@ def getArticleDetail(request,article_pk):
 def getAllArticlePk(request):
     article_list = list(Article.objects.all().values('id','title'))
     return JsonResponse({'article_list':article_list})
+
+@csrf_protect
+def createComment(request):
+    body_data = parseData(request.body)
+    print(body_data)
+    if request.method == 'POST':
+        print(request.user.is_authenticated)
+        if request.user.is_authenticated and body_data['isLogin']:
+            pass
+        else:
+            pass
+        return JsonResponse({'success':True,'message':'good'})
+    
+    return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
