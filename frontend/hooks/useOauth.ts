@@ -89,4 +89,18 @@ export const useLogout = async () => {
   });
 };
 
+// 인증관련이 필요한 요청들
+export const usePostAsync = async (
+  url: string,
+  data: object,
+  headers?: object,
+) => {
+  return await oauthAxios({
+    url: url,
+    data: data,
+    headers: headers,
+    method: "POST",
+  });
+};
+
 export default useGetAccessToken;

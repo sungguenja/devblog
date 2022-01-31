@@ -30,24 +30,37 @@ export const useGetAsync = async (url: string) => {
   return response;
 };
 
-export const usePostAsync = async (url: string, data: object) => {
-  const response = await axiosInstance({ url: url, data: data, method: "POST" })
+export const usePostAsync = async (
+  url: string,
+  data: object,
+  headers?: object,
+) => {
+  const response = await axiosInstance({
+    url: url,
+    data: data,
+    headers: headers,
+    method: "POST",
+  })
     .then((res) => res)
     .catch((e) => e);
 
   return response;
 };
 
-export const useDeleteAsync = async (url: string) => {
-  const response = await axiosInstance({ url: url, method: "DELETE" })
+export const useDeleteAsync = async (url: string, headers?: object) => {
+  const response = await axiosInstance({ url, headers, method: "DELETE" })
     .then((res) => res)
     .catch((e) => e);
 
   return response;
 };
 
-export const usePutAsync = async (url: string, data: object) => {
-  const response = await axiosInstance({ url: url, data: data, method: "PUT" })
+export const usePutAsync = async (
+  url: string,
+  data: object,
+  headers?: object,
+) => {
+  const response = await axiosInstance({ url, data, headers, method: "PUT" })
     .then((res) => res)
     .catch((e) => e);
 
