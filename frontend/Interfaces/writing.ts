@@ -35,6 +35,8 @@ export interface comment {
 
 export interface writtenComment {
   comment: { value: string };
+  nickname: { value: string };
+  password: { value: string };
 }
 
 export interface ArticlePageProps {

@@ -14,7 +14,6 @@ import {
 } from "@constants/Url";
 import {
   comment,
-  writtenComment,
   ArticlePageProps,
   commentListResponse,
   articlePkTitleList,
@@ -42,24 +41,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
       );
       setCommentList(result.data.commentListJson);
     }
-  }, [pk]);
-
-  const copyClipBoard = useCallback(() => {
-    const textarea = document.createElement("textarea");
-    textarea.textContent = window.location.href;
-    document.body.append(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    textarea.remove();
-  }, [pk]);
-
-  const postCommentWithValue = (event: SyntheticEvent) => {
-    event.preventDefault();
-    const target = event.target as typeof event.target & writtenComment;
-    // todo: 상태관리를 통한 로그인 유저만 푸쉬할 수 있음
-    console.log(target.comment.value);
-    console.log("????");
-  };
+  }, [pk, setCommentList]);
 
   useEffect(() => {
     !pk ? null : setIsLoading(false);
@@ -73,7 +55,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
         "scroll",
         getCommentListWithArticlePkWhenScrollMiddle,
       );
-  }, [pk]);
+  }, [pk, setIsLoading, getCommentListWithArticlePkWhenScrollMiddle]);
 
   if (isLoading) {
     // todo: 디자인....
@@ -86,8 +68,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
       nowArticle={nowArticle}
       hashTagList={hashTagList}
       commentList={commentList}
-      copyClipBoard={copyClipBoard}
-      postCommentWithValue={postCommentWithValue}
+      pk={pk}
     />
   ) : (
     <h1>null</h1>

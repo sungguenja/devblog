@@ -1,26 +1,22 @@
-import { SyntheticEvent } from "react";
-
 import { article, hastag, comment } from "Interfaces/writing";
 import ArticleMain from "Components/ArticleMain/ArticleMain";
 import HashTag from "Components/HashTag/HashTag";
 import Comment from "Components/Comment/Comment";
-import CopyClipBoardBtn from "Components/CopyClipBoardBtn/CopyClipBoardBtn";
-import CommentForm from "Components/CommentForm/CommentForm";
+import CopyClipBoardBtn from "Components/CopyClipBoardBtn";
+import CommentForm from "Components/CommentForm";
 
 interface articleDetailProps {
   nowArticle: article;
   hashTagList: hastag[];
   commentList: comment[];
-  copyClipBoard: VoidFunction;
-  postCommentWithValue: (event: SyntheticEvent) => void;
+  pk: number;
 }
 
 const articleDetail = ({
   nowArticle,
   hashTagList,
   commentList,
-  copyClipBoard,
-  postCommentWithValue,
+  pk,
 }: articleDetailProps) => {
   return (
     <article className="md:mx-[16vw] mx-auto">
@@ -37,8 +33,8 @@ const articleDetail = ({
           key={item.pk.toString() + item.fields.content}
         />
       ))}
-      <CommentForm postCommentWithValue={postCommentWithValue} />
-      <CopyClipBoardBtn copyClipBoard={copyClipBoard} />
+      <CommentForm pk={pk} />
+      <CopyClipBoardBtn />
     </article>
   );
 };
