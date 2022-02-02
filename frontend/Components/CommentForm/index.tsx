@@ -1,21 +1,17 @@
 import { SyntheticEvent } from "react";
-import { useSelector } from "react-redux";
 
 import { writtenComment } from "Interfaces/writing";
-import userSelector from "store/selectors/userSelector";
 import { useCreateComment } from "hooks/useArticleUserActions";
 
 import CommentForm from "./CommentForm";
 
 interface CommentFormProps {
   pk: number;
+  isLogin: boolean;
 }
 
-const CommentFormIndex = ({ pk }: CommentFormProps) => {
-  const userData = useSelector(userSelector);
-  console.log(userData);
-
-  const postCommentWithValue = async (event: SyntheticEvent) => {
+const CommentFormIndex = ({ pk, isLogin }: CommentFormProps) => {
+  const postCommentWithValue = (event: SyntheticEvent) => {
     event.preventDefault();
     const target = event.target as typeof event.target & writtenComment;
     // todo: 상태관리를 통한 로그인 유저만 푸쉬할 수 있음
@@ -25,19 +21,26 @@ const CommentFormIndex = ({ pk }: CommentFormProps) => {
       target.password.value,
     );
 
-    const response = await useCreateComment({
+    useCreateComment({
       comment: target.comment.value,
       nickname: target.nickname.value,
       password: target.password.value,
       pk: pk,
-      isLogin: userData.isLogin,
-    });
+      isLogin: isLogin,
+    })
+      .then((res) => {
+        console.log(res);
+        alert("댓글이 입력되었습니다.");
+      })
+      .catch((err) => {
+        alert(err.response.data.message);
+      });
   };
 
   return (
     <CommentForm
       postCommentWithValue={postCommentWithValue}
-      isLogin={userData.isLogin}
+      isLogin={isLogin}
     />
   );
 };

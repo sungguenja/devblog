@@ -1,6 +1,6 @@
 import { POST_COMMENT } from "@constants/Url";
 
-import { usePostAsync } from "./useOauth";
+import { useDeleteAsync, usePostAsync } from "./useOauth";
 import { useGetCookie, useGetCSRF } from "./useOauth";
 
 interface ICreateCommentData {
@@ -9,6 +9,11 @@ interface ICreateCommentData {
   password: string;
   pk: number;
   isLogin: boolean;
+}
+
+interface IDeleteCommentData {
+  pk: number;
+  password: string;
 }
 
 export const useCreateComment = async ({
@@ -25,7 +30,7 @@ export const useCreateComment = async ({
     token = useGetCookie("csrftoken");
   }
 
-  const response = await usePostAsync(
+  return await usePostAsync(
     POST_COMMENT,
     {
       comment,
@@ -38,9 +43,26 @@ export const useCreateComment = async ({
       "X-CSRFToken": token,
       "Content-Type": "application/json",
     },
-  )
-    .then((res) => res)
-    .catch((err) => err);
+  );
+};
 
-  console.log(response);
+export const useDeleteComment = async ({
+  pk,
+  password,
+}: IDeleteCommentData) => {
+  const csrfToken = await useGetCSRF();
+  let token = "";
+
+  if (csrfToken.data.csrfToken === "success") {
+    token = useGetCookie("csrftoken");
+  }
+
+  return await useDeleteAsync(
+    POST_COMMENT,
+    {
+      pk,
+      password,
+    },
+    { "X-CSRFToken": token, "Content-Type": "application/json" },
+  );
 };

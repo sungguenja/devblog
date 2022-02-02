@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useSelector } from "react-redux";
 
 import { useGetAsync } from "hooks/useAsync";
 import {
@@ -21,12 +22,15 @@ import {
   response,
 } from "Interfaces/writing";
 
+import userSelector from "store/selectors/userSelector";
+
 import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
 
 const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [commentList, setCommentList] = useState<comment[]>([]);
   const isAlreadyCallCommentList = useRef<boolean>(false);
+  const userData = useSelector(userSelector);
   const pk = nowArticle.pk;
 
   const getCommentListWithArticlePkWhenScrollMiddle = useCallback(async () => {
@@ -69,6 +73,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
       hashTagList={hashTagList}
       commentList={commentList}
       pk={pk}
+      userData={userData}
     />
   ) : (
     <h1>null</h1>

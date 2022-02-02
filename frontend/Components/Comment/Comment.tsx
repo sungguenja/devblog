@@ -1,11 +1,9 @@
-import { comment } from "Interfaces/writing";
-
 interface CommentProps {
-  comment: comment;
+  comment: string;
 }
 
 const Comment = ({ comment }: CommentProps) => {
-  return <h1>{comment.content}</h1>;
+  return <h1>{comment}</h1>;
 };
 
 export default Comment;

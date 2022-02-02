@@ -103,4 +103,17 @@ export const usePostAsync = async (
   });
 };
 
+export const useDeleteAsync = async (
+  url: string,
+  data: object,
+  headers?: object,
+) => {
+  return await oauthAxios({
+    url: url,
+    data: data,
+    headers: headers,
+    method: "DELETE",
+  });
+};
+
 export default useGetAccessToken;

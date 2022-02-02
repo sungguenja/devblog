@@ -1,7 +1,9 @@
 import { article, hastag, comment } from "Interfaces/writing";
+import { IUser } from "store/slices/User/type";
+
 import ArticleMain from "Components/ArticleMain/ArticleMain";
 import HashTag from "Components/HashTag/HashTag";
-import Comment from "Components/Comment/Comment";
+import Comment from "Components/Comment";
 import CopyClipBoardBtn from "Components/CopyClipBoardBtn";
 import CommentForm from "Components/CommentForm";
 
@@ -10,6 +12,7 @@ interface articleDetailProps {
   hashTagList: hastag[];
   commentList: comment[];
   pk: number;
+  userData: IUser;
 }
 
 const articleDetail = ({
@@ -17,6 +20,7 @@ const articleDetail = ({
   hashTagList,
   commentList,
   pk,
+  userData,
 }: articleDetailProps) => {
   return (
     <article className="md:mx-[16vw] mx-auto">
@@ -28,9 +32,14 @@ const articleDetail = ({
         />
       ))}
       {commentList.map((item) => (
-        <Comment comment={item} key={item.pk.toString() + item.content} />
+        <Comment
+          comment={item}
+          key={item.pk.toString() + item.content}
+          isLogin={userData.isLogin}
+          nodeId={userData.nodeId}
+        />
       ))}
-      <CommentForm pk={pk} />
+      <CommentForm pk={pk} isLogin={userData.isLogin} />
       <CopyClipBoardBtn />
     </article>
   );

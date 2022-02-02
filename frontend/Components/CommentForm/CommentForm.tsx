@@ -1,7 +1,7 @@
 import { SyntheticEvent } from "react";
 
 interface CommentFormProps {
-  postCommentWithValue: (event: SyntheticEvent) => Promise<void>;
+  postCommentWithValue: (event: SyntheticEvent) => void;
   isLogin: boolean;
 }
 
