@@ -42,6 +42,8 @@ def getUserDataAndComment(comm):
         comment_cell_data['isAnonymous'] = True
         comment_cell_data['node'] = node_string
         comment_cell_data['nickname'] = nickname
+        comment_cell_data['pk'] = comm.pk
+        comment_cell_data['content'] = comm.content
     else:
         node_string = comm.user_pk.node_id
         nickname = comm.user_pk.nickname
@@ -49,6 +51,10 @@ def getUserDataAndComment(comm):
         comment_cell_data['isAnonymous'] = False
         comment_cell_data['node'] = node_string
         comment_cell_data['nickname'] = nickname
+        comment_cell_data['pk'] = comm.pk
+        comment_cell_data['content'] = comm.content
+
+    del comment_cell_data['fields']
     
     return comment_cell_data
 
