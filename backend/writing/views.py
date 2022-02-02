@@ -1,3 +1,4 @@
+from email import message
 from django.http.response import HttpResponse, JsonResponse
 from django.core import serializers
 import json
@@ -35,10 +36,10 @@ def getHashTagListWithArticlePk(article_pk):
 
 def getUserDataAndComment(comm):
     now_data = serializers.serialize('json',[comm])
-    if comm.isAnonymous:
-        nickname = comm.anonymousName
+    if comm.is_anonymous:
+        nickname = comm.anonymous_name
         comment_cell_data = json.loads(now_data)[0]
-        comment_cell_data['isAnonymous'] = True
+        comment_cell_data['is_anonymous'] = True
         comment_cell_data['node'] = ''
         comment_cell_data['nickname'] = nickname
         comment_cell_data['pk'] = comm.pk
@@ -47,7 +48,7 @@ def getUserDataAndComment(comm):
         node_string = comm.user_pk.node_id
         nickname = comm.user_pk.nickname
         comment_cell_data = json.loads(now_data)[0]
-        comment_cell_data['isAnonymous'] = False
+        comment_cell_data['is_anonymous'] = False
         comment_cell_data['node'] = node_string
         comment_cell_data['nickname'] = nickname
         comment_cell_data['pk'] = comm.pk
@@ -79,30 +80,57 @@ def getAllArticlePk(request):
     article_list = list(Article.objects.all().values('id','title'))
     return JsonResponse({'article_list':article_list})
 
-@csrf_protect
-def createComment(request):
+def deleteComment(request):
     body_data = parseData(request.body)
-    print(body_data)
-    if request.method == 'POST':
-        print(request.user.is_authenticated)
-        comment_model = Comment()
-        if request.user.is_authenticated and body_data['isLogin']:
-            if len(body_data['comment']) == 0:
-                return JsonResponse({'success':False,'message':'값 입력 확인을 부탁드립니다'},status=400)
-            comment_model.content = body_data['comment']
-            comment_model.isAnonymous = False
-            comment_model.user_pk = request.user
-            comment_model.article_pk = Article.objects.get(pk=body_data['pk'])
-            comment_model.save()
+    if request.method == 'DELETE':
+        target_comment = Comment.objects.get(pk=body_data['pk'])
+        if target_comment.is_anonymous:
+            if target_comment.anonymous_password == body_data['password']:
+                target_comment.delete()
+                return JsonResponse({'success':True,'message':'성공적으로 제거 했습니다'})
+            else:
+                return JsonResponse({'success':False,'message':'옳지 않은 비밀번호입니다'},status=403)
         else:
-            if len(body_data['comment']) == 0 or len(body_data['nickname']) == 0 or len(body_data['password']) == 0:
-                return JsonResponse({'success':False,'message':'값 입력 확인을 부탁드립니다'},status=400)
-            comment_model.content = body_data['comment']
-            comment_model.isAnonymous = True
-            comment_model.anonymousName = body_data['nickname']
-            comment_model.anonymousPassword = body_data['password']
-            comment_model.article_pk = Article.objects.get(pk=body_data['pk'])
-            comment_model.save()
-        return JsonResponse({'success':True,'message':'good'})
+            if request.user.is_authenticated:
+                comment_user = target_comment.user_pk
+                request_user = request.user
+                if comment_user.node_id == request_user.node_id:
+                    target_comment.delete()
+                    return JsonResponse({'success':True,'message':'성공적으로 제거 했습니다'})
+                else:
+                    return JsonResponse({'success':False,'message':'다른 이의 댓글을 제거하는 것은 불가능 합니다'}, status=403)
+            else:
+                return JsonResponse({'success':False,'message':'로그인을 해주시길 바랍니다'},status=403)
+
+    return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
+
+def postComment(request):
+    body_data = parseData(request.body)
+    comment_model = Comment()
+    if request.user.is_authenticated and body_data['isLogin']:
+        if len(body_data['comment']) == 0:
+            return JsonResponse({'success':False,'message':'값 입력 확인을 부탁드립니다'},status=400)
+        comment_model.content = body_data['comment']
+        comment_model.is_anonymous = False
+        comment_model.user_pk = request.user
+        comment_model.article_pk = Article.objects.get(pk=body_data['pk'])
+        comment_model.save()
+    else:
+        if len(body_data['comment']) == 0 or len(body_data['nickname']) == 0 or len(body_data['password']) == 0:
+            return JsonResponse({'success':False,'message':'값 입력 확인을 부탁드립니다'},status=400)
+        comment_model.content = body_data['comment']
+        comment_model.is_anonymous = True
+        comment_model.anonymous_name = body_data['nickname']
+        comment_model.anonymous_password = body_data['password']
+        comment_model.article_pk = Article.objects.get(pk=body_data['pk'])
+        comment_model.save()
+    return JsonResponse({'success':True,'message':'good'})
+
+@csrf_protect
+def commentCUD(request):
+    if request.method == 'POST':
+        return postComment(request)
+    elif request.method == 'DELETE':
+        return deleteComment(request)
     
     return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)

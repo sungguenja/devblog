@@ -27,9 +27,9 @@ class Comment(models.Model):
     article_pk = models.ForeignKey(Article,on_delete=models.CASCADE)
     user_pk = models.ForeignKey('users.User',on_delete=models.SET_NULL,null=True)
     content = models.TextField()
-    isAnonymous = models.BooleanField(default=False)
-    anonymousName = models.CharField(default='', blank=True, max_length=255)
-    anonymousPassword = models.CharField(default='', blank=True, max_length=255)
+    is_anonymous = models.BooleanField(default=False)
+    anonymous_name = models.CharField(default='', blank=True, max_length=255)
+    anonymous_password = models.CharField(default='', blank=True, max_length=255)
 
 class Bookmark(models.Model):
     article_pk = models.ForeignKey(Article,on_delete=models.CASCADE)
