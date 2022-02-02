@@ -28,10 +28,7 @@ const articleDetail = ({
         />
       ))}
       {commentList.map((item) => (
-        <Comment
-          comment={item}
-          key={item.pk.toString() + item.fields.content}
-        />
+        <Comment comment={item} key={item.pk.toString() + item.content} />
       ))}
       <CommentForm pk={pk} />
       <CopyClipBoardBtn />

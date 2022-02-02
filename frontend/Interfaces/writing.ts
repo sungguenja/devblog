@@ -22,15 +22,12 @@ export interface hastag {
   fields: hastagField;
 }
 
-export interface commentField {
-  pk: number;
-  content: string;
-}
-
 export interface comment {
   pk: number;
-  fields: commentField;
+  content: string;
   node: string;
+  isAnonymous: boolean;
+  nickname: string;
 }
 
 export interface writtenComment {

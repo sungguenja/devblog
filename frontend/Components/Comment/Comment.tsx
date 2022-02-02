@@ -5,7 +5,7 @@ interface CommentProps {
 }
 
 const Comment = ({ comment }: CommentProps) => {
-  return <h1>{comment.fields.content}</h1>;
+  return <h1>{comment.content}</h1>;
 };
 
 export default Comment;
