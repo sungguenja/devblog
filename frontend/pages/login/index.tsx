@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import router from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom hook
 import useGetAccessToken from "hooks/useOauth";
 
 // store
 import userSlice from "store/slices/User";
+import userSelector from "store/selectors/userSelector";
 
 // component
 import Login from "../../Components/LoginComponent/Login";
@@ -24,7 +25,9 @@ const loginPropsList = [
 ];
 
 const index = () => {
+  const userData = useSelector(userSelector);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (router.asPath === "/login") {
       return;
@@ -48,7 +51,15 @@ const index = () => {
       }
     };
     loginWithParam();
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (router.asPath === "/login" && userData.isLogin) {
+      alert("이미 로그인 하셨네요!");
+      router.push("/");
+      return;
+    }
+  }, [userData]);
 
   return <Login loginPropsList={loginPropsList} />;
 };
