@@ -36,11 +36,10 @@ def getHashTagListWithArticlePk(article_pk):
 def getUserDataAndComment(comm):
     now_data = serializers.serialize('json',[comm])
     if comm.isAnonymous:
-        node_string = comm.anonymousPassword
         nickname = comm.anonymousName
         comment_cell_data = json.loads(now_data)[0]
         comment_cell_data['isAnonymous'] = True
-        comment_cell_data['node'] = node_string
+        comment_cell_data['node'] = ''
         comment_cell_data['nickname'] = nickname
         comment_cell_data['pk'] = comm.pk
         comment_cell_data['content'] = comm.content
@@ -86,10 +85,24 @@ def createComment(request):
     print(body_data)
     if request.method == 'POST':
         print(request.user.is_authenticated)
+        comment_model = Comment()
         if request.user.is_authenticated and body_data['isLogin']:
-            pass
+            if len(body_data['comment']) == 0:
+                return JsonResponse({'success':False,'message':'값 입력 확인을 부탁드립니다'},status=400)
+            comment_model.content = body_data['comment']
+            comment_model.isAnonymous = False
+            comment_model.user_pk = request.user
+            comment_model.article_pk = Article.objects.get(pk=body_data['pk'])
+            comment_model.save()
         else:
-            pass
+            if len(body_data['comment']) == 0 or len(body_data['nickname']) == 0 or len(body_data['password']) == 0:
+                return JsonResponse({'success':False,'message':'값 입력 확인을 부탁드립니다'},status=400)
+            comment_model.content = body_data['comment']
+            comment_model.isAnonymous = True
+            comment_model.anonymousName = body_data['nickname']
+            comment_model.anonymousPassword = body_data['password']
+            comment_model.article_pk = Article.objects.get(pk=body_data['pk'])
+            comment_model.save()
         return JsonResponse({'success':True,'message':'good'})
     
     return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
