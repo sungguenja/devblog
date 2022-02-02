@@ -6,5 +6,5 @@ urlpatterns = [
     path('csrftoken/<str:protectcode>',views.getCsrf,name='getCsrf'),
     path('oauth/',views.oauth,name="oauth"),
     path('changename/',views.changeName,name="changeName"),
-    path('logout/',views.logout,name="userLogout")
+    path('logout/',views.backendLogout,name="userLogout")
 ]

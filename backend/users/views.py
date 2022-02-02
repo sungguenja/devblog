@@ -107,7 +107,7 @@ def changeName(request):
 
     return JsonResponse({'success':True})
 
-def logout(request):
+def backendLogout(request):
     try:
         logout(request)
         response = JsonResponse({'success':True})
