@@ -28,7 +28,7 @@ import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
 
 const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [commentList, setCommentList] = useState<comment[]>([]);
+  const [commentList, setCommentList] = useState<Comment[]>([]);
   const isAlreadyCallCommentList = useRef<boolean>(false);
   const userData = useSelector(userSelector);
   const pk = nowArticle.pk;
