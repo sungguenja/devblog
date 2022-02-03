@@ -3,13 +3,13 @@ import { useRouter } from "next/router";
 
 import { useGetAsync } from "hooks/useAsync";
 import { GET_ARTICLE_LIST_OR_MENU_LIST_URL } from "@constants/Url";
-import { article } from "Interfaces/writing";
+import { Article } from "Interfaces/writing";
 
 import ArticleListIndex from "@components/ArticleList";
 
 const articleListWithMenuPk = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [articleList, setArticleList] = useState<article[]>([]);
+  const [articleList, setArticleList] = useState<Article[]>([]);
   const router = useRouter();
   const { pk } = router.query;
 

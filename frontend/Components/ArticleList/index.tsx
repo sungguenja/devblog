@@ -1,9 +1,9 @@
-import { article } from "Interfaces/writing";
+import { Article } from "Interfaces/writing";
 import { useRouter } from "next/router";
 import ArticleListView from "./ArticleList";
 
 interface ArticleListIndexProps {
-  articleList: article[];
+  articleList: Article[];
 }
 
 const ArticleListIndex = ({ articleList }: ArticleListIndexProps) => {

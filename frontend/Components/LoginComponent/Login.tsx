@@ -1,11 +1,11 @@
 import styles from "./Login.module.css";
 import Image from "next/image";
 
-export interface props {
+export interface Props {
   loginPropsList: Array<LoginProps>;
 }
 
-const Login = ({ loginPropsList }: props) => {
+const Login = ({ loginPropsList }: Props) => {
   return (
     <article className="flex justify-center items-center h-[100vh] align-center">
       {loginPropsList.map((item, index) => {

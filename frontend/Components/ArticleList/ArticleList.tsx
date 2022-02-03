@@ -1,8 +1,8 @@
 import ArticleCell from "@components/ArticleCell/ArticleCell";
-import { article } from "Interfaces/writing";
+import { Article } from "Interfaces/writing";
 
 interface ArticleListViewProps {
-  articleList: article[];
+  articleList: Article[];
   onClick: (pk: string) => void;
 }
 

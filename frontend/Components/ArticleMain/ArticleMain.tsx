@@ -1,10 +1,10 @@
-import { article } from "Interfaces/writing";
+import { Article } from "Interfaces/writing";
 
-interface articleMainProps {
-  nowArticle: article;
+interface ArticleMainProps {
+  nowArticle: Article;
 }
 
-const articleMain = ({ nowArticle }: articleMainProps) => {
+const articleMain = ({ nowArticle }: ArticleMainProps) => {
   return (
     <>
       <h1>{nowArticle.fields.title}</h1>

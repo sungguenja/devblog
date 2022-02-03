@@ -1,6 +1,6 @@
 import { SyntheticEvent } from "react";
 
-import { writtenComment } from "Interfaces/writing";
+import { WrittenComment } from "Interfaces/writing";
 import { useCreateComment } from "hooks/useArticleUserActions";
 
 import CommentForm from "./CommentForm";
@@ -13,7 +13,7 @@ interface CommentFormProps {
 const CommentFormIndex = ({ pk, isLogin }: CommentFormProps) => {
   const postCommentWithValue = (event: SyntheticEvent) => {
     event.preventDefault();
-    const target = event.target as typeof event.target & writtenComment;
+    const target = event.target as typeof event.target & WrittenComment;
     // todo: 상태관리를 통한 로그인 유저만 푸쉬할 수 있음
     console.log(
       target.comment.value,

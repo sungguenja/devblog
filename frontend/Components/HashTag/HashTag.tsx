@@ -1,7 +1,7 @@
-import { hastag } from "Interfaces/writing";
+import { Hastag } from "Interfaces/writing";
 
 interface hashTagProps {
-  hashTagObj: hastag;
+  hashTagObj: Hastag;
 }
 
 const hashTag = ({ hashTagObj }: hashTagProps) => {

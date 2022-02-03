@@ -1,16 +1,16 @@
-import { article, hastag, comment } from "Interfaces/writing";
+import { Article, Hastag, Comment } from "Interfaces/writing";
 import { IUser } from "store/slices/User/type";
 
 import ArticleMain from "Components/ArticleMain/ArticleMain";
 import HashTag from "Components/HashTag/HashTag";
-import Comment from "Components/Comment";
+import CommentComponent from "Components/Comment";
 import CopyClipBoardBtn from "Components/CopyClipBoardBtn";
 import CommentForm from "Components/CommentForm";
 
-interface articleDetailProps {
-  nowArticle: article;
-  hashTagList: hastag[];
-  commentList: comment[];
+interface ArticleDetailProps {
+  nowArticle: Article;
+  hashTagList: Hastag[];
+  commentList: Comment[];
   pk: number;
   userData: IUser;
 }
@@ -21,7 +21,7 @@ const articleDetail = ({
   commentList,
   pk,
   userData,
-}: articleDetailProps) => {
+}: ArticleDetailProps) => {
   return (
     <article className="md:mx-[16vw] mx-auto">
       <ArticleMain nowArticle={nowArticle} />
@@ -32,7 +32,7 @@ const articleDetail = ({
         />
       ))}
       {commentList.map((item) => (
-        <Comment
+        <CommentComponent
           comment={item}
           key={item.pk.toString() + item.content}
           isLogin={userData.isLogin}

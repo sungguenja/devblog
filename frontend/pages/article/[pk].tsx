@@ -14,12 +14,12 @@ import {
   GET_COMMENT_LIST,
 } from "@constants/Url";
 import {
-  comment,
+  Comment,
   ArticlePageProps,
-  commentListResponse,
-  articlePkTitleList,
-  pathParams,
-  response,
+  CommentListResponse,
+  ArticlePkTitleList,
+  PathParams,
+  Response,
 } from "Interfaces/writing";
 
 import userSelector from "store/selectors/userSelector";
@@ -40,7 +40,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
       50;
     if (isMiddle && !isAlreadyCallCommentList.current) {
       isAlreadyCallCommentList.current = true;
-      const result: commentListResponse = await useGetAsync(
+      const result: CommentListResponse = await useGetAsync(
         GET_COMMENT_LIST + pk,
       );
       setCommentList(result.data.commentListJson);
@@ -81,7 +81,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
 };
 
 export async function getStaticPaths() {
-  const response: articlePkTitleList = await useGetAsync(GET_ARTICLE_PK_LIST);
+  const response: ArticlePkTitleList = await useGetAsync(GET_ARTICLE_PK_LIST);
   const paths = response.data.articleList.map((item) => ({
     params: { pk: `${item.id}^${item.title}` },
   }));
@@ -89,9 +89,9 @@ export async function getStaticPaths() {
   return { paths, fallback: false };
 }
 
-export async function getStaticProps({ params }: pathParams) {
+export async function getStaticProps({ params }: PathParams) {
   const pk = params.pk.split("^")[0];
-  const result: response = await useGetAsync(GET_ARTICLE_DETAIL_URL + pk);
+  const result: Response = await useGetAsync(GET_ARTICLE_DETAIL_URL + pk);
   const nowArticle = result.data.nowArticle;
   const hashTagList = result.data.hashTagList;
 

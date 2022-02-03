@@ -1,7 +1,7 @@
 import { FormEvent } from "react";
 import Style from "./ChangeName.module.css";
 
-interface changeNameProps {
+interface ChangeNameProps {
   name: string;
   changeNameFunction: (targetValue: string) => void;
   submitNameFunction: (targetEvent: FormEvent<HTMLFormElement>) => void;
@@ -11,7 +11,7 @@ const changeName = ({
   name,
   changeNameFunction,
   submitNameFunction,
-}: changeNameProps) => {
+}: ChangeNameProps) => {
   return (
     <form
       className={Style.form}

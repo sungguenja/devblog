@@ -7,8 +7,8 @@ import {
   CategoryAndMenu,
   CategoryItem,
   MenuItem,
-  responseCategoryItem,
-  responseMenuItem,
+  ResponseCategoryItem,
+  ResponseMenuItem,
 } from "Interfaces/writing";
 import { GET_MENU_LIST } from "@constants/Url";
 
@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       useGetAsync(GET_MENU_LIST).then((res) => {
         const menuList: MenuItem[] = res.data.menuList.map(
-          (item: responseMenuItem) => {
+          (item: ResponseMenuItem) => {
             return {
               pk: item.pk,
               title: item.fields.title,
@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         );
 
         const categoryList: CategoryItem[] = res.data.categoryList.map(
-          (item: responseCategoryItem) => {
+          (item: ResponseCategoryItem) => {
             return {
               pk: item.pk,
               name: item.fields.name,

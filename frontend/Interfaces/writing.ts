@@ -1,4 +1,4 @@
-export interface articleField {
+export interface ArticleField {
   menuPk: number;
   title: string;
   content: string;
@@ -7,22 +7,22 @@ export interface articleField {
   github: string;
 }
 
-export interface article {
+export interface Article {
   pk: number;
-  fields: articleField;
+  fields: ArticleField;
 }
 
-export interface hastagField {
+export interface HastagField {
   pk: number;
   title: string;
 }
 
-export interface hastag {
+export interface Hastag {
   pk: number;
-  fields: hastagField;
+  fields: HastagField;
 }
 
-export interface comment {
+export interface Comment {
   pk: number;
   content: string;
   node: string;
@@ -30,45 +30,45 @@ export interface comment {
   nickname: string;
 }
 
-export interface writtenComment {
+export interface WrittenComment {
   comment: { value: string };
   nickname: { value: string };
   password: { value: string };
 }
 
 export interface ArticlePageProps {
-  nowArticle: article;
-  hashTagList: hastag[];
+  nowArticle: Article;
+  hashTagList: Hastag[];
 }
 
-export interface response {
+export interface Response {
   data: ArticlePageProps;
 }
 
-export interface commentListResponse {
+export interface CommentListResponse {
   data: {
-    commentListJson: comment[];
+    commentListJson: Comment[];
   };
 }
 
-export interface articlePkTitleList {
+export interface ArticlePkTitleList {
   data: {
-    articleList: articlePk[];
+    articleList: ArticlePk[];
   };
 }
 
-export interface articlePk {
+export interface ArticlePk {
   id: number;
   title: string;
 }
 
-export interface pathParams {
+export interface PathParams {
   params: {
     pk: string;
   };
 }
 
-export interface responseMenuItem {
+export interface ResponseMenuItem {
   pk: number;
   fields: {
     title: string;
@@ -82,7 +82,7 @@ export interface MenuItem {
   categoryId: number;
 }
 
-export interface responseCategoryItem {
+export interface ResponseCategoryItem {
   pk: number;
   fields: {
     name: string;

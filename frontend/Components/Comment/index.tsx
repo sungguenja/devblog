@@ -1,15 +1,11 @@
-import { comment } from "Interfaces/writing";
+import { Comment } from "Interfaces/writing";
 
-import { POST_COMMENT } from "@constants/Url";
-
-import { useDeleteAsync } from "hooks/useOauth";
-
-import Comment from "./Comment";
+import NotContactableComment from "./Comment";
 import Contactable from "./ContactableComment";
 import { useDeleteComment } from "hooks/useArticleUserActions";
 
 interface CommentProps {
-  comment: comment;
+  comment: Comment;
   isLogin: boolean;
   nodeId: string;
 }
@@ -84,10 +80,10 @@ const CommentIndex = ({ comment, isLogin, nodeId }: CommentProps) => {
           modifyFunction={modifyFunction}
         />
       ) : (
-        <Comment comment={comment.content} />
+        <NotContactableComment comment={comment.content} />
       );
     } else {
-      return <Comment comment={comment.content} />;
+      return <NotContactableComment comment={comment.content} />;
     }
   }
 };
