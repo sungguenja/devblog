@@ -116,4 +116,30 @@ export const useDeleteAsync = async (
   });
 };
 
+export const usePutAsync = async (
+  url: string,
+  data: object,
+  headers?: object,
+) => {
+  return await oauthAxios({
+    url: url,
+    data: data,
+    headers: headers,
+    method: "PUT",
+  });
+};
+
+export const useGetAsync = async (
+  url: string,
+  params: object,
+  headers?: object,
+) => {
+  return await oauthAxios({
+    url: url,
+    params: params,
+    headers: headers,
+    method: "GET",
+  });
+};
+
 export default useGetAccessToken;

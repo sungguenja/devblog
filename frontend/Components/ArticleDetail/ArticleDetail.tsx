@@ -11,6 +11,7 @@ interface ArticleDetailProps {
   nowArticle: Article;
   hashTagList: Hastag[];
   commentList: Comment[];
+  putCommentFunctionList: VoidFunction[];
   pk: number;
   userData: IUser;
 }
@@ -19,6 +20,7 @@ const articleDetail = ({
   nowArticle,
   hashTagList,
   commentList,
+  putCommentFunctionList,
   pk,
   userData,
 }: ArticleDetailProps) => {
@@ -31,12 +33,13 @@ const articleDetail = ({
           key={item.pk.toString() + item.fields.title}
         />
       ))}
-      {commentList.map((item) => (
+      {commentList.map((item, index) => (
         <CommentComponent
           comment={item}
           key={item.pk.toString() + item.content}
           isLogin={userData.isLogin}
           nodeId={userData.nodeId}
+          putCommentFunction={putCommentFunctionList[index]}
         />
       ))}
       <CommentForm pk={pk} isLogin={userData.isLogin} />

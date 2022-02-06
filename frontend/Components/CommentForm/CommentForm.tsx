@@ -1,17 +1,32 @@
-import { SyntheticEvent } from "react";
+import { ChangeEvent, SyntheticEvent } from "react";
+
+import { Comment } from "Interfaces/writing";
 
 interface CommentFormProps {
   postCommentWithValue: (event: SyntheticEvent) => void;
   isLogin: boolean;
+  defaultContent?: string;
+  defaultNickname?: string;
+  handleChangeNickname?: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleChangeContent?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const CommentForm = ({ postCommentWithValue, isLogin }: CommentFormProps) => {
+const CommentForm = ({
+  postCommentWithValue,
+  isLogin,
+  defaultContent,
+  defaultNickname,
+  handleChangeNickname,
+  handleChangeContent,
+}: CommentFormProps) => {
   return (
     <form onSubmit={postCommentWithValue}>
       <input
         type="text"
         name="nickname"
         id="nickname"
+        value={defaultNickname}
+        onChange={handleChangeNickname}
         className={isLogin ? "hidden" : ""}
       />
       <input
@@ -21,7 +36,13 @@ const CommentForm = ({ postCommentWithValue, isLogin }: CommentFormProps) => {
         className={isLogin ? "hidden" : ""}
       />
       <br className={isLogin ? "hidden" : ""} />
-      <input name="comment" id="comment" />
+      <textarea
+        cols={30}
+        name="comment"
+        id="comment"
+        value={defaultContent}
+        onChange={handleChangeContent}
+      />
       <button type="submit">submit</button>
     </form>
   );

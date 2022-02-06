@@ -1,11 +1,6 @@
-import {
-  SyntheticEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 import { useGetAsync } from "hooks/useAsync";
 import {
@@ -29,7 +24,11 @@ import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
 const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [commentList, setCommentList] = useState<Comment[]>([]);
+  const [putCommentFunctionList, setPutCommentFunctionList] = useState<
+    VoidFunction[]
+  >([]);
   const isAlreadyCallCommentList = useRef<boolean>(false);
+  const router = useRouter();
   const userData = useSelector(userSelector);
   const pk = nowArticle.pk;
 
@@ -44,6 +43,11 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
         GET_COMMENT_LIST + pk,
       );
       setCommentList(result.data.commentListJson);
+      setPutCommentFunctionList(
+        result.data.commentListJson.map((item) => {
+          return () => router.push(`/comment/${item.pk}`);
+        }),
+      );
     }
   }, [pk, setCommentList]);
 
@@ -74,6 +78,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
       commentList={commentList}
       pk={pk}
       userData={userData}
+      putCommentFunctionList={putCommentFunctionList}
     />
   ) : (
     <h1>null</h1>

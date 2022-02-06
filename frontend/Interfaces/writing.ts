@@ -28,6 +28,7 @@ export interface Comment {
   node: string;
   isAnonymous: boolean;
   nickname: string;
+  articlePk: string;
 }
 
 export interface WrittenComment {
