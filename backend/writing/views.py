@@ -44,6 +44,7 @@ def getUserDataAndComment(comm):
         comment_cell_data['nickname'] = nickname
         comment_cell_data['pk'] = comm.pk
         comment_cell_data['content'] = comm.content
+        comment_cell_data['article_pk'] = '{0}^{1}'.format(comm.article_pk.pk,comm.article_pk.title)
     else:
         node_string = comm.user_pk.node_id
         nickname = comm.user_pk.nickname
@@ -53,6 +54,7 @@ def getUserDataAndComment(comm):
         comment_cell_data['nickname'] = nickname
         comment_cell_data['pk'] = comm.pk
         comment_cell_data['content'] = comm.content
+        comment_cell_data['article_pk'] ='{0}^{1}'.format(comm.article_pk.pk,comm.article_pk.title)
 
     del comment_cell_data['fields']
     
@@ -126,11 +128,45 @@ def postComment(request):
         comment_model.save()
     return JsonResponse({'success':True,'message':'good'})
 
+def putComment(request):
+    body_data = parseData(request.body)
+    target_comment = Comment.objects.get(pk=body_data['pk'])
+    if body_data.get('isChecker') == True:
+        input_password = body_data.get('password')
+        if target_comment.is_anonymous and target_comment.anonymous_password == input_password:
+            return JsonResponse({'success':True,'message':'옳은 비밀번호 입니다'})
+        elif not target_comment.is_anonymous and request.user.is_authenticated and target_comment.user_pk.node_id == request.user.node_id:
+            return JsonResponse({'success':True,'message':'해당 글의 유저가 맞습니다.'})
+        else:
+            return JsonResponse({'success':False,'message':'잘못된 비밀번호입니다'},status=403)
+    elif body_data.get('isChecker') == False:
+        input_comment = body_data.get('comment')
+        if len(input_comment) == 0:
+            return JsonResponse({'success':False,'message':'입력을 확인해주시길 바라겠습니다'},status=500)
+        else:
+            target_comment.content = input_comment
+            if target_comment.is_anonymous and len(body_data['nickname']):
+                target_comment.anonymous_name = body_data['nickname'] 
+            target_comment.save()
+            return JsonResponse({'success':True,'message':'성공적으로 바뀌었습니다.'})
+
+    return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
+
+def getComment(request):
+    pk = request.GET.get('pk',None)
+    target_comment = Comment.objects.get(pk=pk)
+    target_comment = getUserDataAndComment(target_comment)
+    return JsonResponse({'success':True,'now_comment':target_comment})
+
 @csrf_protect
 def commentCUD(request):
     if request.method == 'POST':
         return postComment(request)
     elif request.method == 'DELETE':
         return deleteComment(request)
+    elif request.method == 'PUT':
+        return putComment(request)
+    elif request.method == 'GET':
+        return getComment(request)
     
     return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
