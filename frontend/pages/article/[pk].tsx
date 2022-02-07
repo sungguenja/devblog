@@ -54,6 +54,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   useEffect(() => {
     !pk ? null : setIsLoading(false);
 
+    // todo: scroll => intersection observer
     document.addEventListener(
       "scroll",
       getCommentListWithArticlePkWhenScrollMiddle,
