@@ -1,8 +1,9 @@
 from email import message
+from urllib import request
 from django.http.response import HttpResponse, JsonResponse
 from django.core import serializers
 import json
-from writing.models import Article, ArticleHashTag, Comment, HashTag, Menu, Category
+from writing.models import Article, ArticleHashTag, Comment, HashTag, Like, Menu, Category
 from users.models import User
 from django.views.decorators.csrf import csrf_protect
 
@@ -170,3 +171,63 @@ def commentCUD(request):
         return getComment(request)
     
     return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
+
+def postLike(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'success':False,'message':'비로그인 유저는 여기로 요청이 불가능합니다. (어떻게 하셨어요?)'},status=403)
+    
+    body_data = parseData(request.body)
+    like_model = Like()
+    like_model.article_pk = Article.objects.get(pk=body_data['pk'])
+    like_model.user_pk = request.user
+    like_model.save()
+    return JsonResponse({'success':True,'message':'성공적으로 좋아요를 저장했습니다'})
+
+def delLike(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'success':False,'message':'비로그인 유저는 여기로 요청이 불가능합니다. (어떻게 하셨어요?)'},status=403)
+    
+    body_data = parseData(request.body)
+    target_like = Like.objects.get(pk=body_data['pk'])
+    target_like.delete()
+    return JsonResponse({'success':True,'message':'성공적으로 좋아요를 삭제했습니다'})
+
+def getArticleWithLike(like):
+    target_article = like.article_pk
+    return {'title':target_article.title,'pk':target_article.pk,'content':target_article.content}
+
+def getLike(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'success':False,'message':'비로그인 유저는 여기로 요청이 불가능합니다. (어떻게 하셨어요?)'},status=403)
+    
+    like_list = Like.objects.filter(user_pk=request.user.pk)
+    article_list = []
+    for one_like in like_list:
+        target_article = one_like.article_pk
+        article_list.append({'title':target_article.title,'pk':target_article.pk,'content':target_article.content})
+    
+    return JsonResponse({'success':True,'article_list':article_list})
+
+@csrf_protect
+def likeCRUD(request):
+    if request.method == 'GET':
+        return getLike(request)
+    elif request.method == 'POST':
+        return postLike(request)
+    elif request.method == 'DELETE':
+        return delLike(request)
+    elif request.method == 'PUT':
+        return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
+
+    return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
+
+def checkUserLike(request,article_pk):
+    if not request.user.is_authenticated:
+        return JsonResponse({'success':False,'message':'비로그인 유저는 여기로 요청이 불가능합니다.'},status=403)
+    
+    like_list = Like.objects.filter(user_pk=request.user.pk)
+    for like in like_list:
+        if like.article_pk.pk == article_pk:
+            return JsonResponse({'success':True,'is_like':True})
+    
+    return JsonResponse({'success':True,'is_like':False})
