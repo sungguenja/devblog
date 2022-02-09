@@ -1,4 +1,4 @@
-import { POST_COMMENT } from "@constants/Url";
+import { LIKE_CRUD_URL, POST_COMMENT } from "@constants/Url";
 
 import {
   useDeleteAsync,
@@ -122,5 +122,40 @@ export const usePutComment = async ({
       nickname: nickname,
     },
     { "X-CSRFToken": token, "Content-Type": "application/json" },
+  );
+};
+
+export const useGetIsLikeArticle = async (pk: number) => {
+  const token = await getToken();
+
+  return await useGetAsync(LIKE_CRUD_URL + pk.toString(), undefined, {
+    "X-CSRFToken": token,
+    "Content-Type": "application/json",
+  });
+};
+
+export const usePostLikeArticle = async (pk: number) => {
+  const token = await getToken();
+
+  return await usePostAsync(
+    LIKE_CRUD_URL,
+    { pk },
+    {
+      "X-CSRFToken": token,
+      "Content-Type": "application/json",
+    },
+  );
+};
+
+export const useDeleteLikeArticle = async (pk: number) => {
+  const token = await getToken();
+
+  return await useDeleteAsync(
+    LIKE_CRUD_URL,
+    { pk },
+    {
+      "X-CSRFToken": token,
+      "Content-Type": "application/json",
+    },
   );
 };

@@ -92,7 +92,7 @@ export const useLogout = async () => {
 // 인증관련이 필요한 요청들
 export const usePostAsync = async (
   url: string,
-  data: object,
+  data?: object,
   headers?: object,
 ) => {
   return await oauthAxios({
@@ -105,7 +105,7 @@ export const usePostAsync = async (
 
 export const useDeleteAsync = async (
   url: string,
-  data: object,
+  data?: object,
   headers?: object,
 ) => {
   return await oauthAxios({
@@ -118,7 +118,7 @@ export const useDeleteAsync = async (
 
 export const usePutAsync = async (
   url: string,
-  data: object,
+  data?: object,
   headers?: object,
 ) => {
   return await oauthAxios({
@@ -131,7 +131,7 @@ export const usePutAsync = async (
 
 export const useGetAsync = async (
   url: string,
-  params: object,
+  params?: object,
   headers?: object,
 ) => {
   return await oauthAxios({
