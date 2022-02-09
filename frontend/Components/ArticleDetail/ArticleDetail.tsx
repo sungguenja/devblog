@@ -6,6 +6,7 @@ import HashTag from "Components/HashTag/HashTag";
 import CommentComponent from "Components/Comment";
 import CopyClipBoardBtn from "Components/CopyClipBoardBtn";
 import CommentForm from "Components/CommentForm";
+import LikeButton from "@components/LikeButton/LikeButton";
 
 interface ArticleDetailProps {
   nowArticle: Article;
@@ -14,6 +15,8 @@ interface ArticleDetailProps {
   putCommentFunctionList: VoidFunction[];
   pk: number;
   userData: IUser;
+  isLike: boolean;
+  likeFunction: VoidFunction;
 }
 
 const articleDetail = ({
@@ -23,6 +26,8 @@ const articleDetail = ({
   putCommentFunctionList,
   pk,
   userData,
+  isLike,
+  likeFunction,
 }: ArticleDetailProps) => {
   return (
     <article className="md:mx-[16vw] mx-auto">
@@ -43,6 +48,7 @@ const articleDetail = ({
         />
       ))}
       <CommentForm pk={pk} isLogin={userData.isLogin} />
+      <LikeButton isLike={isLike} likeFunction={likeFunction} />
       <CopyClipBoardBtn />
     </article>
   );

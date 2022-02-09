@@ -20,9 +20,15 @@ import {
 import userSelector from "store/selectors/userSelector";
 
 import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
+import {
+  useDeleteLikeArticle,
+  useGetIsLikeArticle,
+  usePostLikeArticle,
+} from "hooks/useArticleUserActions";
 
 const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLike, setIsLike] = useState<boolean>(false);
   const [commentList, setCommentList] = useState<Comment[]>([]);
   const [putCommentFunctionList, setPutCommentFunctionList] = useState<
     VoidFunction[]
@@ -31,6 +37,36 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   const router = useRouter();
   const userData = useSelector(userSelector);
   const pk = nowArticle.pk;
+
+  const likeFunction = useCallback(async () => {
+    if (userData.isLogin) {
+      if (isLike) {
+        const result = await useDeleteLikeArticle(pk);
+        if (result.data.success) {
+          setIsLike(false);
+        }
+      } else {
+        const result = await usePostLikeArticle(pk);
+        if (result.data.success) {
+          setIsLike(true);
+        }
+      }
+    } else {
+      const likeList: Array<string> = JSON.parse(
+        localStorage.getItem("articleLike") ?? "[]",
+      );
+      if (isLike) {
+        const pkString = pk.toString();
+        const result = likeList.filter((item) => item !== pkString);
+        localStorage.setItem("articleLike", JSON.stringify(result));
+        setIsLike(false);
+      } else {
+        likeList.push(pk.toString());
+        localStorage.setItem("articleLike", JSON.stringify(likeList));
+        setIsLike(true);
+      }
+    }
+  }, [isLike, setIsLike, userData]);
 
   const getCommentListWithArticlePkWhenScrollMiddle = useCallback(async () => {
     const isMiddle =
@@ -51,9 +87,33 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
     }
   }, [pk, setCommentList]);
 
+  const checkUserLikeArticle = useCallback(async () => {
+    if (userData.isLogin) {
+      const result = await useGetIsLikeArticle(pk);
+      console.log(result.data);
+      if (result.data.success && result.data.isLike) {
+        setIsLike(true);
+      }
+    } else {
+      const likeList: Array<string> = JSON.parse(
+        localStorage.getItem("articleLike") ?? "[]",
+      );
+      if (likeList.length == 0) {
+        return;
+      }
+      const pkString = pk.toString();
+      likeList.forEach((item) => {
+        if (item === pkString) {
+          setIsLike(true);
+        }
+      });
+    }
+  }, [pk]);
+
   useEffect(() => {
     !pk ? null : setIsLoading(false);
 
+    checkUserLikeArticle();
     // todo: scroll => intersection observer
     document.addEventListener(
       "scroll",
@@ -80,6 +140,8 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
       pk={pk}
       userData={userData}
       putCommentFunctionList={putCommentFunctionList}
+      isLike={isLike}
+      likeFunction={likeFunction}
     />
   ) : (
     <h1>null</h1>
