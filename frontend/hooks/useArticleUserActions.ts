@@ -1,4 +1,9 @@
-import { LIKE_CRUD_URL, POST_COMMENT } from "@constants/Url";
+import {
+  BOOKMARK_CRUD_URL,
+  CHECK_LIKE_AND_BOOKMARK,
+  LIKE_CRUD_URL,
+  POST_COMMENT,
+} from "@constants/Url";
 
 import {
   useDeleteAsync,
@@ -128,7 +133,7 @@ export const usePutComment = async ({
 export const useGetIsLikeArticle = async (pk: number) => {
   const token = await getToken();
 
-  return await useGetAsync(LIKE_CRUD_URL + pk.toString(), undefined, {
+  return await useGetAsync(CHECK_LIKE_AND_BOOKMARK + pk.toString(), undefined, {
     "X-CSRFToken": token,
     "Content-Type": "application/json",
   });
@@ -152,6 +157,32 @@ export const useDeleteLikeArticle = async (pk: number) => {
 
   return await useDeleteAsync(
     LIKE_CRUD_URL,
+    { pk },
+    {
+      "X-CSRFToken": token,
+      "Content-Type": "application/json",
+    },
+  );
+};
+
+export const usePostBookmarkArticle = async (pk: number) => {
+  const token = await getToken();
+
+  return await usePostAsync(
+    BOOKMARK_CRUD_URL,
+    { pk },
+    {
+      "X-CSRFToken": token,
+      "Content-Type": "application/json",
+    },
+  );
+};
+
+export const useDeleteBookmarkArticle = async (pk: number) => {
+  const token = await getToken();
+
+  return await useDeleteAsync(
+    BOOKMARK_CRUD_URL,
     { pk },
     {
       "X-CSRFToken": token,

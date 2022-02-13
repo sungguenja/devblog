@@ -4,7 +4,6 @@ interface LikeButtonProps {
 }
 
 const LikeButton = ({ likeFunction, isLike }: LikeButtonProps) => {
-  console.log(isLike);
   return <button onClick={likeFunction}>{String(isLike)}</button>;
 };
 

@@ -7,6 +7,7 @@ import CommentComponent from "Components/Comment";
 import CopyClipBoardBtn from "Components/CopyClipBoardBtn";
 import CommentForm from "Components/CommentForm";
 import LikeButton from "@components/LikeButton/LikeButton";
+import BookmarkButton from "@components/BookmarkButton/Bookmark";
 
 interface ArticleDetailProps {
   nowArticle: Article;
@@ -17,6 +18,8 @@ interface ArticleDetailProps {
   userData: IUser;
   isLike: boolean;
   likeFunction: VoidFunction;
+  isBookmark: boolean;
+  bookmarkFunction: VoidFunction;
 }
 
 const articleDetail = ({
@@ -28,6 +31,8 @@ const articleDetail = ({
   userData,
   isLike,
   likeFunction,
+  isBookmark,
+  bookmarkFunction,
 }: ArticleDetailProps) => {
   return (
     <article className="md:mx-[16vw] mx-auto">
@@ -49,6 +54,10 @@ const articleDetail = ({
       ))}
       <CommentForm pk={pk} isLogin={userData.isLogin} />
       <LikeButton isLike={isLike} likeFunction={likeFunction} />
+      <BookmarkButton
+        isBookmark={isBookmark}
+        bookmarkFunction={bookmarkFunction}
+      />
       <CopyClipBoardBtn />
     </article>
   );

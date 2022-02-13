@@ -21,14 +21,17 @@ import userSelector from "store/selectors/userSelector";
 
 import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
 import {
+  useDeleteBookmarkArticle,
   useDeleteLikeArticle,
   useGetIsLikeArticle,
+  usePostBookmarkArticle,
   usePostLikeArticle,
 } from "hooks/useArticleUserActions";
 
 const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLike, setIsLike] = useState<boolean>(false);
+  const [isBookmark, setIsBookmark] = useState<boolean>(false);
   const [commentList, setCommentList] = useState<Comment[]>([]);
   const [putCommentFunctionList, setPutCommentFunctionList] = useState<
     VoidFunction[]
@@ -68,6 +71,25 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
     }
   }, [isLike, setIsLike, userData]);
 
+  const bookmarkFunction = useCallback(async () => {
+    if (!userData.isLogin) {
+      alert("로그인 시에 북마크 기능 이용 가능합니다");
+      return;
+    }
+
+    if (isBookmark) {
+      const result = await useDeleteBookmarkArticle(pk);
+      if (result.data.success) {
+        setIsBookmark(false);
+      }
+    } else {
+      const result = await usePostBookmarkArticle(pk);
+      if (result.data.success) {
+        setIsBookmark(true);
+      }
+    }
+  }, [userData, isBookmark, setIsBookmark]);
+
   const getCommentListWithArticlePkWhenScrollMiddle = useCallback(async () => {
     const isMiddle =
       ((window.scrollY + window.innerHeight) / document.body.scrollHeight) *
@@ -87,12 +109,19 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
     }
   }, [pk, setCommentList]);
 
-  const checkUserLikeArticle = useCallback(async () => {
+  const checkUserLikeAndBookmarkThisArticle = useCallback(async () => {
     if (userData.isLogin) {
+      setIsLike(false);
+      setIsBookmark(false);
       const result = await useGetIsLikeArticle(pk);
       console.log(result.data);
-      if (result.data.success && result.data.isLike) {
-        setIsLike(true);
+      if (result.data.success) {
+        if (result.data.isLike) {
+          setIsLike(true);
+        }
+        if (result.data.isBookmark) {
+          setIsBookmark(true);
+        }
       }
     } else {
       const likeList: Array<string> = JSON.parse(
@@ -108,12 +137,12 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
         }
       });
     }
-  }, [pk]);
+  }, [pk, userData]);
 
   useEffect(() => {
     !pk ? null : setIsLoading(false);
 
-    checkUserLikeArticle();
+    checkUserLikeAndBookmarkThisArticle();
     // todo: scroll => intersection observer
     document.addEventListener(
       "scroll",
@@ -124,7 +153,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
         "scroll",
         getCommentListWithArticlePkWhenScrollMiddle,
       );
-  }, [pk, setIsLoading, getCommentListWithArticlePkWhenScrollMiddle]);
+  }, [pk, setIsLoading, getCommentListWithArticlePkWhenScrollMiddle, userData]);
 
   if (isLoading) {
     // todo: 디자인....
@@ -141,7 +170,9 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
       userData={userData}
       putCommentFunctionList={putCommentFunctionList}
       isLike={isLike}
+      isBookmark={isBookmark}
       likeFunction={likeFunction}
+      bookmarkFunction={bookmarkFunction}
     />
   ) : (
     <h1>null</h1>
