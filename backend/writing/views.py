@@ -3,7 +3,7 @@ from urllib import request
 from django.http.response import HttpResponse, JsonResponse
 from django.core import serializers
 import json
-from writing.models import Article, ArticleHashTag, Comment, HashTag, Like, Menu, Category
+from writing.models import Article, ArticleHashTag, Comment, HashTag, Like, Menu, Category, Bookmark
 from users.models import User
 from django.views.decorators.csrf import csrf_protect
 
@@ -188,7 +188,8 @@ def delLike(request):
         return JsonResponse({'success':False,'message':'비로그인 유저는 여기로 요청이 불가능합니다. (어떻게 하셨어요?)'},status=403)
     
     body_data = parseData(request.body)
-    target_like = Like.objects.get(pk=body_data['pk'])
+    target_article = Article.objects.get(pk=body_data['pk'])
+    target_like = Like.objects.filter(article_pk=target_article).get(user_pk=request.user)
     target_like.delete()
     return JsonResponse({'success':True,'message':'성공적으로 좋아요를 삭제했습니다'})
 
@@ -221,13 +222,72 @@ def likeCRUD(request):
 
     return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
 
-def checkUserLike(request,article_pk):
+def checkUserLikeAndBookmark(request,article_pk):
     if not request.user.is_authenticated:
         return JsonResponse({'success':False,'message':'비로그인 유저는 여기로 요청이 불가능합니다.'},status=403)
     
     like_list = Like.objects.filter(user_pk=request.user.pk)
+    is_like = False
     for like in like_list:
         if like.article_pk.pk == article_pk:
-            return JsonResponse({'success':True,'is_like':True})
+            is_like - True
+            break
     
-    return JsonResponse({'success':True,'is_like':False})
+    bookmark_list = Bookmark.objects.filter(user_pk=request.user.pk)
+    is_bookmark = False
+    for bookmark in bookmark_list:
+        if bookmark.article_pk.pk == article_pk:
+            is_bookmark = True
+            break
+    
+    return JsonResponse({'success':True,'is_like':is_like,'is_bookmark':is_bookmark})
+
+def postBookmark(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'success':False,'message':'비로그인 유저는 여기로 요청이 불가능합니다. (어떻게 하셨어요?)'},status=403)
+    
+    body_data = parseData(request.body)
+    bookmark_model = Bookmark()
+    bookmark_model.article_pk = Article.objects.get(pk=body_data['pk'])
+    bookmark_model.user_pk = request.user
+    bookmark_model.save()
+    return JsonResponse({'success':True,'message':'성공적으로 좋아요를 저장했습니다'})
+
+def delBookmark(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'success':False,'message':'비로그인 유저는 여기로 요청이 불가능합니다. (어떻게 하셨어요?)'},status=403)
+    
+    body_data = parseData(request.body)
+    target_article = Article.objects.get(pk=body_data['pk'])
+    target_bookmark = Bookmark.objects.filter(article_pk=target_article).get(user_pk=request.user)
+    target_bookmark.delete()
+    return JsonResponse({'success':True,'message':'성공적으로 좋아요를 삭제했습니다'})
+
+def getArticleWithBookmark(bookmark):
+    target_article = bookmark.article_pk
+    return {'title':target_article.title,'pk':target_article.pk,'content':target_article.content}
+
+def getBookmark(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'success':False,'message':'비로그인 유저는 여기로 요청이 불가능합니다. (어떻게 하셨어요?)'},status=403)
+    
+    bookmark_list = Bookmark.objects.filter(user_pk=request.user.pk)
+    article_list = []
+    for one_bookmark in bookmark_list:
+        target_article = one_bookmark.article_pk
+        article_list.append({'title':target_article.title,'pk':target_article.pk,'content':target_article.content})
+    
+    return JsonResponse({'success':True,'article_list':article_list})
+
+@csrf_protect
+def bookmarkCRUD(request):
+    if request.method == 'GET':
+        return getBookmark(request)
+    elif request.method == 'POST':
+        return postBookmark(request)
+    elif request.method == 'DELETE':
+        return delBookmark(request)
+    elif request.method == 'PUT':
+        return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
+
+    return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)

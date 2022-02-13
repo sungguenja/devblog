@@ -9,6 +9,7 @@ urlpatterns = [
     path('comment/',views.commentCUD,name='commentCUD'),
     path('comment/<int:article_pk>/',views.getCommentListWithArticlePk,name='getCommentListWithArticlePk'),
     path('like/',views.likeCRUD,name='likeCRUD'),
-    path('like/<int:article_pk>',views.checkUserLike,name='checkUserLike'),
+    path('bookmark/',views.bookmarkCRUD,name='bookmarkCRUD'),
+    path('likebookmark/<int:article_pk>',views.checkUserLikeAndBookmark,name='checkUserLikeAndBookmark'),
     path('all-article-pk/',views.getAllArticlePk,name='getAllArticlePk')
 ]
