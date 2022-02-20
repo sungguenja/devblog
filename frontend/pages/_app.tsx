@@ -42,16 +42,17 @@ function MyApp({ Component, pageProps }: AppProps) {
       if (csrfToken !== "test") {
         const loginData = localStorage.getItem("loginData");
         if (loginData === null) {
-          return;
+          console.log("nonlogin");
+        } else {
+          const data: IUser = JSON.parse(loginData);
+          dispatch(
+            actions.changeUserState({
+              nodeId: data.nodeId,
+              isLogin: data.isLogin,
+              isAdmin: data.isAdmin,
+            }),
+          );
         }
-        const data: IUser = JSON.parse(loginData);
-        dispatch(
-          actions.changeUserState({
-            nodeId: data.nodeId,
-            isLogin: data.isLogin,
-            isAdmin: data.isAdmin,
-          }),
-        );
       }
 
       useGetAsync(GET_MENU_LIST).then((res) => {
@@ -101,7 +102,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <NavBar menuCellList={menuCellList} />
       <div>
         <MenuBar menuCellList={menuCellList} />
-        <div className="bg-amber-400 mx-auto px-4 h-[10000px]">
+        <div className="mx-auto px-4">
           <Component {...pageProps} />
         </div>
       </div>
