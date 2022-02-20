@@ -36,7 +36,6 @@ const articleDetail = ({
 }: ArticleDetailProps) => {
   return (
     <article className="md:mx-[16vw] mx-auto">
-      <h1>{nowArticle.fields.title}</h1>
       <ArticleMain nowArticle={nowArticle} />
       {hashTagList.map((item) => (
         <HashTag
@@ -44,15 +43,17 @@ const articleDetail = ({
           key={item.pk.toString() + item.fields.title}
         />
       ))}
-      {commentList.map((item, index) => (
-        <CommentComponent
-          comment={item}
-          key={item.pk.toString() + item.content}
-          isLogin={userData.isLogin}
-          nodeId={userData.nodeId}
-          putCommentFunction={putCommentFunctionList[index]}
-        />
-      ))}
+      <div className="my-1">
+        {commentList.map((item, index) => (
+          <CommentComponent
+            comment={item}
+            key={item.pk.toString() + item.content}
+            isLogin={userData.isLogin}
+            nodeId={userData.nodeId}
+            putCommentFunction={putCommentFunctionList[index]}
+          />
+        ))}
+      </div>
       <CommentForm pk={pk} isLogin={userData.isLogin} />
       <LikeButton isLike={isLike} likeFunction={likeFunction} />
       <BookmarkButton
