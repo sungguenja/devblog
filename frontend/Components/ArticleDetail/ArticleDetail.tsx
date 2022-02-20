@@ -36,6 +36,7 @@ const articleDetail = ({
 }: ArticleDetailProps) => {
   return (
     <article className="md:mx-[16vw] mx-auto">
+      <h1>{nowArticle.fields.title}</h1>
       <ArticleMain nowArticle={nowArticle} />
       {hashTagList.map((item) => (
         <HashTag
