@@ -49,6 +49,7 @@ const CommentIndex = ({
   if (comment.isAnonymous) {
     return (
       <Contactable
+        nickname={comment.nickname}
         comment={comment.content}
         deleteFunction={deleteFunction}
         modifyFunction={putCommentFunction}
@@ -58,15 +59,24 @@ const CommentIndex = ({
     if (isLogin) {
       return comment.node === nodeId ? (
         <Contactable
+          nickname={comment.nickname}
           comment={comment.content}
           deleteFunction={deleteFunction}
           modifyFunction={putCommentFunction}
         />
       ) : (
-        <NotContactableComment comment={comment.content} />
+        <NotContactableComment
+          comment={comment.content}
+          nickname={comment.nickname}
+        />
       );
     } else {
-      return <NotContactableComment comment={comment.content} />;
+      return (
+        <NotContactableComment
+          comment={comment.content}
+          nickname={comment.nickname}
+        />
+      );
     }
   }
 };

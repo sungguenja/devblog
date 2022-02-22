@@ -22,7 +22,7 @@ const CommentForm = ({
   return (
     <form onSubmit={postCommentWithValue}>
       <div className="grid grid-cols-4 gap-4">
-        <div className="form-group mb-6">
+        <div className="form-group mb-3">
           <input
             type="text"
             className={`form-control 
@@ -50,7 +50,7 @@ const CommentForm = ({
             placeholder="닉네임"
           />
         </div>
-        <div className="form-group mb-6">
+        <div className="form-group mb-3">
           <input
             className={`form-control
           block
@@ -77,7 +77,7 @@ const CommentForm = ({
           />
         </div>
       </div>
-      <div className="form-group mb-6">
+      <div className="form-group mb-3">
         <textarea
           className="form-control block
         w-full
