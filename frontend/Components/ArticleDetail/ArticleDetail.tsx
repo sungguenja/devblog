@@ -37,12 +37,22 @@ const articleDetail = ({
   return (
     <article className="md:mx-[16vw] mx-auto">
       <ArticleMain nowArticle={nowArticle} />
-      {hashTagList.map((item) => (
-        <HashTag
-          hashTagObj={item}
-          key={item.pk.toString() + item.fields.title}
+      <div className="my-2 grid grid-cols-8">
+        <div className="col-span-5">
+          {hashTagList.map((item) => (
+            <HashTag
+              hashTagObj={item}
+              key={item.pk.toString() + item.fields.title}
+            />
+          ))}
+        </div>
+        <LikeButton isLike={isLike} likeFunction={likeFunction} />
+        <BookmarkButton
+          isBookmark={isBookmark}
+          bookmarkFunction={bookmarkFunction}
         />
-      ))}
+        <CopyClipBoardBtn />
+      </div>
       <div className="my-1">
         {commentList.map((item, index) => (
           <CommentComponent
@@ -55,12 +65,6 @@ const articleDetail = ({
         ))}
       </div>
       <CommentForm pk={pk} isLogin={userData.isLogin} />
-      <LikeButton isLike={isLike} likeFunction={likeFunction} />
-      <BookmarkButton
-        isBookmark={isBookmark}
-        bookmarkFunction={bookmarkFunction}
-      />
-      <CopyClipBoardBtn />
     </article>
   );
 };
