@@ -5,11 +5,13 @@ export interface ArticleField {
   createdAt: Date;
   updatedAt: Date;
   github: string;
+  thumbnail?: string;
 }
 
 export interface Article {
   pk: number;
   fields: ArticleField;
+  hashtag: Hastag[];
 }
 
 export interface HastagField {

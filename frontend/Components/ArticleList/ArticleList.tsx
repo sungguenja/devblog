@@ -8,7 +8,7 @@ interface ArticleListViewProps {
 
 const ArticleListView = ({ articleList, onClick }: ArticleListViewProps) => {
   return (
-    <div className="md:mx-[16vw] mx-auto">
+    <div className="md:mx-[16vw] mx-auto grid grid-cols-3 my-10">
       {articleList.map((article) => {
         const goArticleDetail = () =>
           onClick(`${article.pk.toString()}^${article.fields.title}`);
@@ -22,6 +22,8 @@ const ArticleListView = ({ articleList, onClick }: ArticleListViewProps) => {
             menuPk={article.fields.menuPk}
             createdAt={article.fields.createdAt}
             updatedAt={article.fields.updatedAt}
+            thumbnail={article.fields.thumbnail}
+            hashtag={article.hashtag}
             onClick={goArticleDetail}
           />
         );
