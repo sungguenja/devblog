@@ -25,6 +25,8 @@ def getArticlesWithMenu(request,menu_pk):
     article_list = Article.objects.filter(menu_pk=menu_pk)
     article_serialized = serializers.serialize('json',article_list)
     article_serialized = json.loads(article_serialized)
+    for article in article_serialized:
+        article['hashtag'] = getHashTagListWithArticlePk(article['pk'])
     return JsonResponse(article_serialized,safe=False,json_dumps_params={'ensure_ascii':False})
 
 def getHashTagListWithArticlePk(article_pk):
