@@ -51,7 +51,6 @@ const MenuBar = ({
           </div>
         </div>
         <div>
-          <h2>search component</h2>
           {isLogin ? (
             <button onClick={logoutFunction}>logout</button>
           ) : (
