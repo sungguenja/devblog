@@ -27,7 +27,7 @@ const ArticleCell = ({
 }: ArticleCellProps) => {
   return (
     <div
-      className="max-w-sm rounded overflow-hidden shadow-lg duration-300 cursor-pointer hover:scale-110"
+      className="max-w-sm mx-2 rounded overflow-hidden shadow-lg duration-300 cursor-pointer hover:scale-110"
       onClick={onClick}
     >
       <img

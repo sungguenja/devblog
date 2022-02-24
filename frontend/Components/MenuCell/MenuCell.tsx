@@ -15,6 +15,7 @@ const MenuCell = ({ name, menu, clickFunctionList }: MenuCellProps) => {
           <li
             onClick={clickFunctionList[index]}
             key={`li${name}${item.pk}${item.title}`}
+            className="cursor-pointer"
           >
             {item.title}
           </li>

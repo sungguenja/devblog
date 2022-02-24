@@ -38,7 +38,9 @@ const MenuBar = ({
     >
       <nav className={menuBarNavClassName} id={menuBarNavId}>
         <div className="h-[80%]">
-          <h2 onClick={onClickGoToMain}>DevBlog</h2>
+          <h2 className="cursor-pointer" onClick={onClickGoToMain}>
+            DevBlog
+          </h2>
           <div>
             {menuCellList.map((item) => {
               return (
@@ -52,9 +54,13 @@ const MenuBar = ({
         </div>
         <div>
           {isLogin ? (
-            <button onClick={logoutFunction}>logout</button>
+            <button onClick={logoutFunction} className="cursor-pointer">
+              logout
+            </button>
           ) : (
-            <h2 onClick={goLoginPage}>login</h2>
+            <h2 onClick={goLoginPage} className="cursor-pointer">
+              login
+            </h2>
           )}
         </div>
       </nav>
