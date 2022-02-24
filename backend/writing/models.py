@@ -12,7 +12,7 @@ class Article(models.Model):
     menu_pk = models.ForeignKey(Menu,on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     content = models.TextField()
-    thumbnail = models.CharField(max_length=255,default=None,null=True)
+    thumbnail = models.CharField(max_length=255,default=None,null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     github_url = models.TextField(default='No')
