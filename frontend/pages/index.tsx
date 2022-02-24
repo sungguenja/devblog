@@ -13,42 +13,39 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1 className={styles.title}>블로그에 와주셔서 감사합니다</h1>
 
         <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
+          편하게 구경하고 가세요
+          <code className={styles.code}>good</code>
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
+          <a className={styles.card}>
+            <h2>데스크톱이시면 &larr;</h2>
+            <p>왼쪽에 마우스를 옮겨보시면 메뉴가 나옵니다</p>
           </a>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
+          <a className={styles.card}>
+            <h2>모바일이시면 &uarr;</h2>
+            <p>스크롤을 아래로 하시면 메뉴가 뜰 겁니다</p>
           </a>
 
           <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="https://github.com/sungguenja"
+            target={"_blank"}
             className={styles.card}
           >
-            <h2>Deploy &rarr;</h2>
+            <h2>이 사람의 깃허브 &rarr;</h2>
             <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
+              그간 공부한 것과 만들어 본 것들이 모여있습니다 (포트폴리오 페이지
+              추후 제공 예정)
             </p>
+          </a>
+
+          <a className={styles.card}>
+            <h2>아무쪼록</h2>
+            <p>와주셔서 정말 감사합니다</p>
           </a>
         </div>
       </main>
