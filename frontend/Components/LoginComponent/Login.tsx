@@ -1,5 +1,6 @@
 import styles from "./Login.module.css";
 import Image from "next/image";
+import Head from "next/head";
 
 export interface Props {
   loginPropsList: Array<LoginProps>;
@@ -8,6 +9,10 @@ export interface Props {
 const Login = ({ loginPropsList }: Props) => {
   return (
     <article className="flex justify-center items-center h-[100vh] align-center">
+      <Head>
+        <title>로그인</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {loginPropsList.map((item, index) => {
         return (
           <button

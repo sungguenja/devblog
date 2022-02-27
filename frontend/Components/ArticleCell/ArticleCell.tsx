@@ -1,5 +1,7 @@
 import { Hastag } from "Interfaces/writing";
 
+import style from "./ArticleCell.module.css";
+
 interface ArticleCellProps {
   pk: number;
   title: string;
@@ -27,7 +29,7 @@ const ArticleCell = ({
 }: ArticleCellProps) => {
   return (
     <div
-      className="max-w-sm mx-2 rounded overflow-hidden shadow-lg duration-300 cursor-pointer hover:scale-110"
+      className="max-w-sm mx-2 my-3 rounded overflow-hidden shadow-lg duration-300 cursor-pointer hover:scale-110"
       onClick={onClick}
     >
       <img
@@ -37,11 +39,13 @@ const ArticleCell = ({
       />
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{title}</div>
-        <p className="text-gray-700 text-base">
+        <a
+          className={`text-gray-700 ${style.linkUnderline} ${style.linkUnderlineBlack} text-black`}
+        >
           {content.length >= 50
             ? "... " + content.substring(50, 100) + " ..."
             : content}
-        </p>
+        </a>
       </div>
       <div className="px-6 pt-4 pb-2">
         {hashtag.map((tag) => (

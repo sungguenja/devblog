@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import { Article, Hastag, Comment } from "Interfaces/writing";
 import { IUser } from "store/slices/User/type";
 
@@ -36,6 +38,10 @@ const articleDetail = ({
 }: ArticleDetailProps) => {
   return (
     <article className="md:mx-[16vw] mx-auto">
+      <Head>
+        <title>{nowArticle.fields.title}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <ArticleMain nowArticle={nowArticle} />
       <div className="my-2 grid grid-cols-8">
         <div className="col-span-5">

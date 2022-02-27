@@ -13,3 +13,4 @@ export const POST_COMMENT = `${BACKEND_URL}/writing/comment/`;
 export const LIKE_CRUD_URL = `${BACKEND_URL}/writing/like/`;
 export const BOOKMARK_CRUD_URL = `${BACKEND_URL}/writing/bookmark/`;
 export const CHECK_LIKE_AND_BOOKMARK = `${BACKEND_URL}/writing/likebookmark/`;
+export const GET_MAINMENU_PROPS = `${BACKEND_URL}/writing/mainmenu/`;
