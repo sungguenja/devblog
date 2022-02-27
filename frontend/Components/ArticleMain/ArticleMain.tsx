@@ -23,7 +23,7 @@ const articleMain = ({ nowArticle }: ArticleMainProps) => {
       children={nowArticle.fields.content}
       components={{
         p: ({ node, children }) => {
-          if (node.children[0].tagName === "img") {
+          if ((node.children[0] as unknown as Element).tagName === "img") {
             const image: any = node.children[0];
             console.log(image);
             return (
