@@ -22,7 +22,7 @@ def getMenu(request):
     return JsonResponse({'menu_list': menu_serialized,'category_list': category_serialized})
 
 def getArticlesWithMenu(request,menu_pk):
-    article_list = Article.objects.filter(menu_pk=menu_pk)
+    article_list = Article.objects.filter(menu_pk=menu_pk).order_by('-pk')
     article_serialized = serializers.serialize('json',article_list)
     article_serialized = json.loads(article_serialized)
     for article in article_serialized:
@@ -30,7 +30,7 @@ def getArticlesWithMenu(request,menu_pk):
     return JsonResponse(article_serialized,safe=False,json_dumps_params={'ensure_ascii':False})
 
 def getHashTagListWithArticlePk(article_pk):
-    hash_tag_nn_list = ArticleHashTag.objects.filter(article_pk=article_pk)
+    hash_tag_nn_list = ArticleHashTag.objects.filter(article_pk=article_pk).order_by('-pk')
     hash_tag_list = []
     for hash_tag in hash_tag_nn_list:
         now_data = serializers.serialize('json',[hash_tag.hashtag_pk])
@@ -293,3 +293,11 @@ def bookmarkCRUD(request):
         return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
 
     return JsonResponse({'success':False,'message':'잘못된 요청이 들어왔습니다.'},status=500)
+
+def getArticlesInMainMenu(request):
+    article_list = Article.objects.order_by('-pk')[:2]
+    article_serialized = serializers.serialize('json',article_list)
+    article_serialized = json.loads(article_serialized)
+    for article in article_serialized:
+        article['hashtag'] = getHashTagListWithArticlePk(article['pk'])
+    return JsonResponse(article_serialized,safe=False,json_dumps_params={'ensure_ascii':False})
