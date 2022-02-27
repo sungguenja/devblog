@@ -6,9 +6,11 @@ interface BookmarkButtonProps {
 const LikeButton = ({ bookmarkFunction, isBookmark }: BookmarkButtonProps) => {
   return (
     <button
-      className={`inline-flex items-center h-7 mx-1 px-3 text-indigo-100 transition-colors duration-150 ${
-        isBookmark ? "bg-indigo-600" : ""
-      } rounded-lg focus:shadow-outline hover:bg-indigo-400`}
+      className={
+        isBookmark
+          ? "inline-flex items-center h-7 mx-1 px-3 text-indigo-100 transition-colors duration-150 bg-indigo-600 rounded-lg focus:shadow-outline hover:bg-indigo-400"
+          : "inline-flex items-center h-7 mx-1 px-3 text-indigo-100 transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-indigo-400"
+      }
       onClick={bookmarkFunction}
     >
       <svg

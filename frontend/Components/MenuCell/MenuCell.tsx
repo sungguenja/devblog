@@ -1,4 +1,4 @@
-import { CategoryAndMenu, MenuItem } from "Interfaces/writing";
+import { MenuItem } from "Interfaces/writing";
 
 interface MenuCellProps {
   clickFunctionList: VoidFunction[];

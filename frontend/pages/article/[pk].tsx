@@ -39,7 +39,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   const isAlreadyCallCommentList = useRef<boolean>(false);
   const router = useRouter();
   const userData = useSelector(userSelector);
-  const pk = nowArticle.pk;
+  const { pk } = nowArticle;
 
   const likeFunction = useCallback(async () => {
     if (userData.isLogin) {
@@ -127,7 +127,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
       const likeList: Array<string> = JSON.parse(
         localStorage.getItem("articleLike") ?? "[]",
       );
-      if (likeList.length == 0) {
+      if (likeList.length === 0) {
         return;
       }
       const pkString = pk.toString();
@@ -191,8 +191,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: PathParams) {
   const pk = params.pk.split("^")[0];
   const result: Response = await useGetAsync(GET_ARTICLE_DETAIL_URL + pk);
-  const nowArticle = result.data.nowArticle;
-  const hashTagList = result.data.hashTagList;
+  const { nowArticle, hashTagList } = result.data;
 
   return {
     props: {

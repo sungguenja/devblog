@@ -41,9 +41,10 @@ const ArticleCell = ({
         <div className="font-bold text-xl mb-2">{title}</div>
         <a
           className={`text-gray-700 ${style.linkUnderline} ${style.linkUnderlineBlack} text-black`}
+          href="#!"
         >
           {content.length >= 50
-            ? "... " + content.substring(50, 100) + " ..."
+            ? `... ${content.substring(50, 100)} ...`
             : content}
         </a>
       </div>

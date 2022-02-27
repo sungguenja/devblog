@@ -58,9 +58,9 @@ const MenuBar = ({
               logout
             </button>
           ) : (
-            <h2 onClick={goLoginPage} className="cursor-pointer">
+            <button onClick={goLoginPage} className="cursor-pointer">
               login
-            </h2>
+            </button>
           )}
         </div>
       </nav>

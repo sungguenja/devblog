@@ -69,7 +69,7 @@ const commentModify = () => {
         });
         if (modifyResult.data.success) {
           alert(modifyResult.data.message);
-          const articlePk = commentState.articlePk;
+          const { articlePk } = commentState;
           router.push({ pathname: "/article/[pk]", query: { pk: articlePk } });
         }
       } catch (err: any) {

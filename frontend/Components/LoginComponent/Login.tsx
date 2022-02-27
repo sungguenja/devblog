@@ -1,6 +1,7 @@
-import styles from "./Login.module.css";
 import Image from "next/image";
 import Head from "next/head";
+
+import styles from "./Login.module.css";
 
 export interface Props {
   loginPropsList: Array<LoginProps>;

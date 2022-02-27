@@ -13,8 +13,12 @@ const Comment = ({
 }: CommentProps) => {
   return (
     <div className="grid grid-cols-8 my-1">
-      <a className="col-span-1">{nickname}</a>
-      <a className="col-span-6">{comment}</a>
+      <a className="col-span-1" href="#!">
+        {nickname}
+      </a>
+      <a className="col-span-6" href="#!">
+        {comment}
+      </a>
       <div className="col-span-1 flex justify-end">
         <button
           className="bg-teal-500 hover:bg-teal-700 text-white font-bold mx-1 px-1 rounded"

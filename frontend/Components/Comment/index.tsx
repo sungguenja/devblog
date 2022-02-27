@@ -1,8 +1,8 @@
 import { Comment } from "Interfaces/writing";
 
+import { useDeleteComment } from "hooks/useArticleUserActions";
 import NotContactableComment from "./Comment";
 import Contactable from "./ContactableComment";
-import { useDeleteComment } from "hooks/useArticleUserActions";
 
 interface CommentProps {
   comment: Comment;
@@ -39,7 +39,6 @@ const CommentIndex = ({
     } else {
       if (comment.node !== nodeId) {
         alert("당신의 댓글이 아닙니다!");
-        return;
       } else {
         requestDeleteComment(comment.pk, comment.node);
       }
@@ -55,30 +54,28 @@ const CommentIndex = ({
         modifyFunction={putCommentFunction}
       />
     );
-  } else {
-    if (isLogin) {
-      return comment.node === nodeId ? (
-        <Contactable
-          nickname={comment.nickname}
-          comment={comment.content}
-          deleteFunction={deleteFunction}
-          modifyFunction={putCommentFunction}
-        />
-      ) : (
-        <NotContactableComment
-          comment={comment.content}
-          nickname={comment.nickname}
-        />
-      );
-    } else {
-      return (
-        <NotContactableComment
-          comment={comment.content}
-          nickname={comment.nickname}
-        />
-      );
-    }
   }
+  if (isLogin) {
+    return comment.node === nodeId ? (
+      <Contactable
+        nickname={comment.nickname}
+        comment={comment.content}
+        deleteFunction={deleteFunction}
+        modifyFunction={putCommentFunction}
+      />
+    ) : (
+      <NotContactableComment
+        comment={comment.content}
+        nickname={comment.nickname}
+      />
+    );
+  }
+  return (
+    <NotContactableComment
+      comment={comment.content}
+      nickname={comment.nickname}
+    />
+  );
 };
 
 export default CommentIndex;

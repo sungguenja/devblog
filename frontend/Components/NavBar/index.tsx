@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-import NavBar from "./NavBar";
-
 import { CategoryAndMenu } from "Interfaces/writing";
 
 // hooks
@@ -10,6 +8,8 @@ import useMenuFunction from "hooks/useMenuFunction";
 
 // store
 import userSelector from "store/selectors/userSelector";
+
+import NavBar from "./NavBar";
 
 // css
 import styles from "./NavBar.module.css";

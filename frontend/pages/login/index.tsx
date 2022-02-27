@@ -57,7 +57,6 @@ const index = () => {
     if (router.asPath === "/login" && userData.isLogin) {
       alert("이미 로그인 하셨네요!");
       router.push("/");
-      return;
     }
   }, [userData]);
 

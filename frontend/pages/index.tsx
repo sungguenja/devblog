@@ -118,7 +118,7 @@ const Home = ({ nowArticle }: IndexPageProps) => {
               ref={listDiv}
             >
               <div
-                className={styles.slideItem + " carousel-item cursor-pointer"}
+                className={`${styles.slideItem} carousel-item cursor-pointer`}
                 onClick={goArticle}
               >
                 <img
@@ -131,7 +131,7 @@ const Home = ({ nowArticle }: IndexPageProps) => {
                 />
               </div>
               <div
-                className={styles.slideItem + " carousel-item cursor-pointer"}
+                className={`${styles.slideItem} carousel-item cursor-pointer`}
               >
                 <img
                   className="w-full"
@@ -141,7 +141,7 @@ const Home = ({ nowArticle }: IndexPageProps) => {
                 />
               </div>
               <div
-                className={styles.slideItem + " carousel-item cursor-pointer"}
+                className={`${styles.slideItem} carousel-item cursor-pointer`}
               >
                 <img
                   className="w-full"
@@ -183,16 +183,18 @@ const Home = ({ nowArticle }: IndexPageProps) => {
                 />
               </svg>
             </div>
-            <div className={styles.cardDiv}>
+            <div
+              className={styles.cardDiv}
+              onClick={
+                carouselIndex === 1
+                  ? goArticle
+                  : carouselIndex === 2
+                  ? goBlogCode
+                  : goGithub
+              }
+            >
               <h1
                 className={`text-gray-700 ${styles.linkUnderline} ${styles.linkUnderlineBlack} text-lg cursor-pointer`}
-                onClick={
-                  carouselIndex == 1
-                    ? goArticle
-                    : carouselIndex == 2
-                    ? goBlogCode
-                    : goGithub
-                }
               >
                 {carouselStringArray[carouselIndex]}
               </h1>
