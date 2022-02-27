@@ -206,3 +206,4 @@ AUTH_USER_MODEL = 'users.User'
 # environment variable
 OAUTH_CLIENT_ID = getSecret("CLIENT_ID")
 OAUTH_CLIENT_SECRET = getSecret("CLIENT_SECRET")
+PROTECT_CODE = getSecret("PROTECT_CODE")

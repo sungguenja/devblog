@@ -30,9 +30,8 @@ def oauthAuthentication(access_token):
     return res
 
 # Create your views here.
-# todo protectcode 환경변수화 시키기
 def getCsrf(request,protectcode):
-    if protectcode != 'asdf' or request.method != 'GET':
+    if protectcode != settings.PROTECT_CODE or request.method != 'GET':
         return JsonResponse({'csrf_token':'reject'})
     response = JsonResponse({'csrf_token':'success'})
     csrf_token = get_token(request)

@@ -7,6 +7,8 @@ interface LooseObject {
   [key: string]: any;
 }
 
+const protect_code = process.env.NEXT_PUBLIC_BACKEND_PROTECT_CODE;
+
 export const changeCamelCase = (response: AxiosResponse) => {
   let data: LooseObject = {};
   try {
@@ -44,7 +46,7 @@ export const useGetCookie = (name: string) => {
 // todo protectcode 환경변수화 시키기
 export const useGetCSRF = async () => {
   const csrfToken = await oauthAxios({
-    url: `${BACKEND_URL}/users/csrftoken/asdf`, // asdf 가 protectcode
+    url: `${BACKEND_URL}/users/csrftoken/${protect_code}`,
     method: "GET",
   });
 
