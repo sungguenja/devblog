@@ -29,7 +29,6 @@ import {
 } from "hooks/useArticleUserActions";
 
 const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLike, setIsLike] = useState<boolean>(false);
   const [isBookmark, setIsBookmark] = useState<boolean>(false);
   const [commentList, setCommentList] = useState<Comment[]>([]);
@@ -140,8 +139,6 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   }, [pk, userData]);
 
   useEffect(() => {
-    !pk ? null : setIsLoading(false);
-
     checkUserLikeAndBookmarkThisArticle();
     // todo: scroll => intersection observer
     document.addEventListener(
@@ -153,15 +150,9 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
         "scroll",
         getCommentListWithArticlePkWhenScrollMiddle,
       );
-  }, [pk, setIsLoading, getCommentListWithArticlePkWhenScrollMiddle, userData]);
+  }, [pk, getCommentListWithArticlePkWhenScrollMiddle, userData]);
 
-  if (isLoading) {
-    // todo: 디자인....
-    return <h1>Loding...</h1>;
-  }
-
-  return nowArticle ? (
-    // todo: 상태와 해당 댓글 작성자일 경우 댓글 삭제 로직
+  return (
     <ArticleDetail
       nowArticle={nowArticle}
       hashTagList={hashTagList}
@@ -174,8 +165,6 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
       likeFunction={likeFunction}
       bookmarkFunction={bookmarkFunction}
     />
-  ) : (
-    <h1>null</h1>
   );
 };
 

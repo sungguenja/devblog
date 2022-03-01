@@ -3,11 +3,11 @@ import Head from "next/head";
 import { Article, Hastag, Comment } from "Interfaces/writing";
 import { IUser } from "store/slices/User/type";
 
-import ArticleMain from "Components/ArticleMain/ArticleMain";
-import HashTag from "Components/HashTag/HashTag";
-import CommentComponent from "Components/Comment";
-import CopyClipBoardBtn from "Components/CopyClipBoardBtn";
-import CommentForm from "Components/CommentForm";
+import ArticleMain from "@components/ArticleMain/ArticleMain";
+import HashTag from "@components/HashTag/HashTag";
+import CommentComponent from "@components/Comment";
+import CopyClipBoardBtn from "@components/CopyClipBoardBtn";
+import CommentForm from "@components/CommentForm";
 import LikeButton from "@components/LikeButton/LikeButton";
 import BookmarkButton from "@components/BookmarkButton/Bookmark";
 

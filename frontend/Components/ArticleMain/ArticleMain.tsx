@@ -4,7 +4,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import { Article } from "Interfaces/writing";
 import styles from "styles/Markdown.module.css";
@@ -25,7 +25,6 @@ const articleMain = ({ nowArticle }: ArticleMainProps) => {
         p: ({ node, children }) => {
           if ((node.children[0] as unknown as Element).tagName === "img") {
             const image: any = node.children[0];
-            console.log(image);
             return (
               <div className="flex justify-center">
                 <div className="">
@@ -47,7 +46,7 @@ const articleMain = ({ nowArticle }: ArticleMainProps) => {
           return !inline && match ? (
             <SyntaxHighlighter
               children={String(children).replace(/\n$/, "")}
-              style={dark}
+              style={dracula}
               language={match[1]}
               PreTag="div"
               {...props}
