@@ -170,6 +170,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
 
 export async function getStaticPaths() {
   const response: ArticlePkTitleList = await useGetAsync(GET_ARTICLE_PK_LIST);
+  console.log(response.data);
   const paths = response.data.articleList.map((item) => ({
     params: { pk: `${item.id}^${item.title}` },
   }));
