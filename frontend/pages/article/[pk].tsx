@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import { useGetAsync } from "hooks/useAsync";
 import {
@@ -16,10 +17,6 @@ import {
   PathParams,
   Response,
 } from "Interfaces/writing";
-
-import userSelector from "store/selectors/userSelector";
-
-import ArticleDetail from "Components/ArticleDetail/ArticleDetail";
 import {
   useDeleteBookmarkArticle,
   useDeleteLikeArticle,
@@ -27,6 +24,11 @@ import {
   usePostBookmarkArticle,
   usePostLikeArticle,
 } from "hooks/useArticleUserActions";
+
+import userSelector from "store/selectors/userSelector";
+
+import ArticleDetail from "@components/ArticleDetail/ArticleDetail";
+import OpenGraphAndTitle from "@components/OpenGraphAndTitle";
 
 const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   const [isLike, setIsLike] = useState<boolean>(false);
@@ -153,18 +155,27 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
   }, [pk, getCommentListWithArticlePkWhenScrollMiddle, userData]);
 
   return (
-    <ArticleDetail
-      nowArticle={nowArticle}
-      hashTagList={hashTagList}
-      commentList={commentList}
-      pk={pk}
-      userData={userData}
-      putCommentFunctionList={putCommentFunctionList}
-      isLike={isLike}
-      isBookmark={isBookmark}
-      likeFunction={likeFunction}
-      bookmarkFunction={bookmarkFunction}
-    />
+    <>
+      <Head>
+        <OpenGraphAndTitle
+          title={nowArticle.fields.title}
+          imgUrl={nowArticle.fields.thumbnail}
+          url={`https://mydevblog.xyz/article/${pk}^${nowArticle.fields.title}`}
+        />
+      </Head>
+      <ArticleDetail
+        nowArticle={nowArticle}
+        hashTagList={hashTagList}
+        commentList={commentList}
+        pk={pk}
+        userData={userData}
+        putCommentFunctionList={putCommentFunctionList}
+        isLike={isLike}
+        isBookmark={isBookmark}
+        likeFunction={likeFunction}
+        bookmarkFunction={bookmarkFunction}
+      />
+    </>
   );
 };
 
