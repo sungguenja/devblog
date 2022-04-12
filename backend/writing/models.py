@@ -3,10 +3,16 @@ from django.db import models
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.name
 
 class Menu(models.Model):
     title = models.CharField(max_length=255)
     category_id = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.title
 
 class Article(models.Model):
     menu_pk = models.ForeignKey(Menu,on_delete=models.CASCADE)
@@ -17,8 +23,14 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     github_url = models.TextField(default='No')
 
+    def __str__(self):
+        return self.title
+
 class HashTag(models.Model):
     title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
 
 class ArticleHashTag(models.Model):
     article_pk = models.ForeignKey(Article,on_delete=models.CASCADE)
