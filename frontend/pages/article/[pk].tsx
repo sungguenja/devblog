@@ -161,6 +161,7 @@ const articleDetail = ({ nowArticle, hashTagList }: ArticlePageProps) => {
           title={nowArticle.fields.title}
           imgUrl={nowArticle.fields.thumbnail}
           url={`https://mydevblog.xyz/article/${pk}^${nowArticle.fields.title}`}
+          description={nowArticle.fields.description}
         />
       </Head>
       <ArticleDetail

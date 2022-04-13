@@ -12,6 +12,7 @@ interface ArticleCellProps {
   updatedAt: Date;
   thumbnail?: string;
   hashtag: Hastag[];
+  description: string;
   onClick: VoidFunction;
 }
 
@@ -25,6 +26,7 @@ const ArticleCell = ({
   updatedAt,
   thumbnail,
   hashtag,
+  description,
   onClick,
 }: ArticleCellProps) => {
   return (
@@ -45,9 +47,7 @@ const ArticleCell = ({
           className={`text-gray-700 ${style.linkUnderline} ${style.linkUnderlineBlack} text-black`}
           href="#!"
         >
-          {content.length >= 50
-            ? `... ${content.substring(50, 100)} ...`
-            : content}
+          {description}
         </a>
       </div>
       <div className="px-6 pt-4 pb-2">

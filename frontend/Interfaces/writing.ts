@@ -6,6 +6,7 @@ export interface ArticleField {
   updatedAt: Date;
   github: string;
   thumbnail?: string;
+  description: string;
 }
 
 export interface Article {

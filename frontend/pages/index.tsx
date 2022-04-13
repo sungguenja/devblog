@@ -224,6 +224,7 @@ const Home = ({ nowArticle }: IndexPageProps) => {
                   thumbnail={article.fields.thumbnail}
                   hashtag={article.hashtag}
                   onClick={goArticleDetail}
+                  description={article.fields.description}
                 />
               );
             })}

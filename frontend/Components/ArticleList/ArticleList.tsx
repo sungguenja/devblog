@@ -32,6 +32,7 @@ const ArticleListView = ({ articleList, onClick }: ArticleListViewProps) => {
             thumbnail={article.fields.thumbnail}
             hashtag={article.hashtag}
             onClick={goArticleDetail}
+            description={article.fields.description}
           />
         );
       })}

@@ -2,8 +2,14 @@ interface IOpenGraphAndTitleProps {
   url: string;
   title: string;
   imgUrl?: string;
+  description: string;
 }
-const OpenGraphAndTitle = ({ url, title, imgUrl }: IOpenGraphAndTitleProps) => {
+const OpenGraphAndTitle = ({
+  url,
+  title,
+  imgUrl,
+  description,
+}: IOpenGraphAndTitleProps) => {
   return (
     <>
       <meta property="og:type" content="website" />
@@ -16,7 +22,7 @@ const OpenGraphAndTitle = ({ url, title, imgUrl }: IOpenGraphAndTitleProps) => {
           "https://github.com/sungguenja/lumiaimg/blob/master/blog/card-default.jpg?raw=true"
         }
       />
-      <meta property="og:description" content="Description Here" />
+      <meta property="og:description" content={description} />
       <meta property="og:site_name" content="myDevBlog" />
       <meta property="og:locale" content="ko_KR" />
       <title>{title}</title>
