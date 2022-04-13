@@ -102,9 +102,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <NavBar menuCellList={menuCellList} />
       <div>
         <MenuBar menuCellList={menuCellList} />
-        <div className="mx-auto px-4">
+        <main className="mx-auto px-4">
           <Component {...pageProps} />
-        </div>
+        </main>
       </div>
     </>
   );
