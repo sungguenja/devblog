@@ -22,6 +22,7 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     github_url = models.TextField(default='No')
+    description = models.CharField(max_length=255,default="description",null=True,blank=True)
 
     def __str__(self):
         return self.title
