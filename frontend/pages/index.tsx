@@ -109,7 +109,7 @@ const Home = ({ nowArticle }: IndexPageProps) => {
               className={styles.slideList}
               style={{
                 width: "500vw",
-                height: "500px",
+                height: "100%",
                 transform: `translate3d(-${carouselIndex * 20}%,0px,0px)`,
                 transition: `${
                   isLast || isFirst ? "0ms" : `${carouselSpeed}ms`
@@ -127,7 +127,7 @@ const Home = ({ nowArticle }: IndexPageProps) => {
                     nowArticle[0].fields.thumbnail ?? "/image/card-default.jpg"
                   }
                   alt={nowArticle[0].fields.title}
-                  style={{ width: "100%", height: "500px", objectFit: "cover" }}
+                  style={{ width: "100%", height: "44vh", objectFit: "cover" }}
                 />
               </div>
               <div
@@ -137,7 +137,7 @@ const Home = ({ nowArticle }: IndexPageProps) => {
                   className="w-full"
                   src="/image/coding.jpg"
                   alt="blog code"
-                  style={{ width: "100%", height: "500px", objectFit: "cover" }}
+                  style={{ width: "100%", height: "44vh", objectFit: "cover" }}
                 />
               </div>
               <div
@@ -147,42 +147,11 @@ const Home = ({ nowArticle }: IndexPageProps) => {
                   className="w-full"
                   src="/image/github.png"
                   alt="blog code"
-                  style={{ width: "50%", height: "500px", objectFit: "cover" }}
+                  style={{ width: "50%", height: "44vh", objectFit: "cover" }}
                 />
               </div>
             </div>
-            <div className="flex">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 cursor-pointer"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                onClick={beforeButtonClick}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 cursor-pointer"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                onClick={nextButtonClick}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </div>
+
             <div
               className={styles.cardDiv}
               onClick={
@@ -199,6 +168,38 @@ const Home = ({ nowArticle }: IndexPageProps) => {
                 {carouselStringArray[carouselIndex]}
               </h1>
             </div>
+          </div>
+          <div className="flex">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 cursor-pointer"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              onClick={beforeButtonClick}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 cursor-pointer"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              onClick={nextButtonClick}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              />
+            </svg>
           </div>
         </div>
 
